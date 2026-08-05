@@ -52,42 +52,43 @@ export default function ContentEditor() {
     }
   }, [content, title]);
 
-  // AI Spellcheck Simulator
-  const handleAiSpellcheck = () => {
+  // AI Spellcheck using Gemini backend API
+  const handleAiSpellcheck = async () => {
     setIsAiScanning(true);
     setAiSuggestions([]);
 
-    setTimeout(() => {
+    try {
+      // Clean HTML tags from content for better spelling scanning
+      const cleanText = content.replace(/<[^>]*>/g, "");
+      
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/ai/spellcheck`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: cleanText })
+      });
+      
+      const data = await response.json();
+      if (data.suggestions) {
+        const mappedSuggestions = data.suggestions.map((s: any) => ({
+          original: s.original,
+          corrected: s.fixed,
+          reason: s.reason
+        }));
+        setAiSuggestions(mappedSuggestions);
+      }
+    } catch (error) {
+      console.error("AI Spellcheck failed:", error);
+    } finally {
       setIsAiScanning(false);
-      // Scan content for common Bengali spelling mistakes
-      const suggestions = [];
-      if (content.includes("নুতন")) {
-        suggestions.push({ original: "নুতন", corrected: "নতুন", index: content.indexOf("নুতন") });
-      }
-      if (content.includes("পাখী")) {
-        suggestions.push({ original: "পাখী", corrected: "পাখি", index: content.indexOf("পাখী") });
-      }
-      if (content.includes("ব্যাবহার")) {
-        suggestions.push({ original: "ব্যাবহার", corrected: "ব্যবহার", index: content.indexOf("ব্যাবহার") });
-      }
-      if (content.includes("ধন্যবাদান্তে")) {
-        suggestions.push({ original: "ধন্যবাদান্তে", corrected: "ধন্যবাদান্তে (সঠিক)", index: content.indexOf("ধন্যবাদান্তে") });
-      }
-
-      if (suggestions.length === 0 && content.length > 10) {
-        // Mock suggestion if text is written but no keyword matches
-        suggestions.push({ original: "বানানটি", corrected: "বানান", index: 0 });
-      }
-
-      setAiSuggestions(suggestions);
-    }, 1200);
+    }
   };
 
   const handleFixAllSpelling = () => {
     let correctedContent = content;
-    correctedContent = correctedContent.replace(/নুতন/g, "নতুন");
-    correctedContent = correctedContent.replace(/পাখী/g, "খি");
-    correctedContent = correctedContent.replace(/ব্যাবহার/g, "ব্যবহার");
+    aiSuggestions.forEach((s) => {
+      const regex = new RegExp(s.original, "g");
+      correctedContent = correctedContent.replace(regex, s.corrected);
+    });
     setContent(correctedContent);
     setAiSuggestions([]);
     alert("বানান সংশোধন সফল হয়েছে!");
