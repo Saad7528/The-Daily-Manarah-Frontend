@@ -329,12 +329,12 @@ export default function ContentEditor() {
                   ))}
                   {categoriesList.length === 0 && (
                     <>
-                      <option value="politics">রাজনীতি</option>
-                      <option value="sociology">সমাজবিজ্ঞান</option>
-                      <option value="sports">খেলাধুলা</option>
-                      <option value="technology">প্রযুক্তি</option>
-                      <option value="opinion">مতামত</option>
-                      <option value="international">বিশ্ব সংবাদ</option>
+                      <option value="politics">জাতীয় ও রাজনীতি</option>
+                      <option value="fact-check-research">ফ্যাক্ট-চেক ও গবেষণা</option>
+                      <option value="islamic-life">দাওয়াহ ও ইসলামিক জীবন</option>
+                      <option value="humanity-society">মানবসেবা ও সমাজ</option>
+                      <option value="opinion-editorial">মতামত ও বিশ্লেষণ</option>
+                      <option value="multimedia">মাল্টিমিডিয়া</option>
                     </>
                   )}
                 </select>

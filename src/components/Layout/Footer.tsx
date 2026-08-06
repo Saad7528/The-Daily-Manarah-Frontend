@@ -90,22 +90,22 @@ export function Footer() {
           </h4>
           <ul className="grid grid-cols-2 gap-2 text-xs">
             <li>
-              <Link href="/category/politics" className="hover:text-emerald-400 transition">রাজনীতি</Link>
+              <Link href="/category/politics" className="hover:text-emerald-400 transition">জাতীয়</Link>
             </li>
             <li>
-              <Link href="/category/sociology" className="hover:text-emerald-400 transition">সমাজবিজ্ঞান</Link>
+              <Link href="/category/fact-check-research" className="hover:text-emerald-400 transition">ফ্যাক্ট-চেক ও গবেষণা</Link>
             </li>
             <li>
-              <Link href="/category/sports" className="hover:text-emerald-400 transition">খেলাধুলা</Link>
+              <Link href="/category/islamic-life" className="hover:text-emerald-400 transition">ইসলামিক জীবন</Link>
             </li>
             <li>
-              <Link href="/category/technology" className="hover:text-emerald-400 transition">প্রযুক্তি</Link>
+              <Link href="/category/humanity-society" className="hover:text-emerald-400 transition">মানবসেবা</Link>
             </li>
             <li>
-              <Link href="/category/opinion" className="hover:text-emerald-400 transition">মতামত</Link>
+              <Link href="/category/opinion-editorial" className="hover:text-emerald-400 transition">মতামত</Link>
             </li>
             <li>
-              <Link href="/category/international" className="hover:text-emerald-400 transition">আন্তর্জাতিক</Link>
+              <Link href="/category/multimedia" className="hover:text-emerald-400 transition">মাল্টিমিডিয়া</Link>
             </li>
             <li>
               <Link href="/e-paper" className="hover:text-emerald-400 transition font-bold text-amber-500">ই-পেপার</Link>

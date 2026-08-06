@@ -38,12 +38,12 @@ const locations = {
 };
 
 const categories = [
-  { name: "রাজনীতি", slug: "politics" },
-  { name: "সমাজবিজ্ঞান", slug: "sociology" },
-  { name: "খেলাধুলা", slug: "sports" },
-  { name: "প্রযুক্তি", slug: "technology" },
-  { name: "মতামত", slug: "opinion" },
-  { name: "বিশ্ব সংবাদ", slug: "international" }
+  { name: "জাতীয়", slug: "politics" },
+  { name: "ফ্যাক্ট-চেক ও গবেষণা", slug: "fact-check-research" },
+  { name: "ইসলামিক জীবন", slug: "islamic-life" },
+  { name: "মানবসেবা", slug: "humanity-society" },
+  { name: "মতামত", slug: "opinion-editorial" },
+  { name: "মাল্টিমিডিয়া", slug: "multimedia" }
 ];
 
 export function Header() {
@@ -354,7 +354,7 @@ export function Header() {
               href="/"
               className="px-4 py-3.5 text-sm font-bold text-[var(--accent-color)] hover:bg-slate-50 dark:hover:bg-zinc-900 sepia:hover:bg-[#dfceab] border-b-2 border-[var(--accent-color)]"
             >
-              মূল পাতা
+              প্রচ্ছদ
             </Link>
             {categories.map((cat) => (
               <Link
@@ -365,6 +365,12 @@ export function Header() {
                 {cat.name}
               </Link>
             ))}
+            <Link
+              href="/about-us"
+              className="px-4 py-3.5 text-sm font-semibold text-slate-700 dark:text-slate-300 sepia:text-[#433422] hover:text-[var(--accent-color)] hover:bg-slate-50 dark:hover:bg-zinc-900 sepia:hover:bg-[#dfceab] transition"
+            >
+              মানারাহ ফাউন্ডেশন
+            </Link>
           </div>
 
           {/* Right actions: mobile menu toggle */}
@@ -387,7 +393,7 @@ export function Header() {
               onClick={() => setIsMenuOpen(false)}
               className="px-3 py-2 text-sm font-bold text-[var(--accent-color)] hover:bg-slate-100 dark:hover:bg-zinc-800 sepia:hover:bg-[#dfceab] rounded transition"
             >
-              মূল পাতা
+              প্রচ্ছদ
             </Link>
             {categories.map((cat) => (
               <Link
@@ -399,6 +405,13 @@ export function Header() {
                 {cat.name}
               </Link>
             ))}
+            <Link
+              href="/about-us"
+              onClick={() => setIsMenuOpen(false)}
+              className="px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 sepia:text-[#433422] hover:bg-slate-100 dark:hover:bg-zinc-800 sepia:hover:bg-[#dfceab] rounded transition"
+            >
+              মানারাহ ফাউন্ডেশন
+            </Link>
             <Link
               href="/e-paper"
               onClick={() => setIsMenuOpen(false)}

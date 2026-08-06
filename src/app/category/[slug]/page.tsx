@@ -70,11 +70,12 @@ export default function CategoryPage({ params }: { params: { slug: string } }) {
   const filteredPosts = allMockPosts.filter((post) => post.category.slug === params.slug);
 
   const categoryName = 
-    params.slug === "politics" ? "রাজনীতি ও জাতীয়" :
-    params.slug === "sports" ? "খেলাধুলা" :
-    params.slug === "sociology" ? "সমাজবিজ্ঞান" :
-    params.slug === "technology" ? "প্রযুক্তি" :
-    params.slug === "opinion" ? "মতামত" : "আন্তর্জাতিক";
+    params.slug === "politics" ? "জাতীয় ও রাজনীতি" :
+    params.slug === "fact-check-research" ? "ফ্যাক্ট-চেক ও গবেষণা" :
+    params.slug === "islamic-life" ? "দাওয়াহ ও ইসলামিক জীবন" :
+    params.slug === "humanity-society" ? "মানবসেবা ও সমাজ" :
+    params.slug === "opinion-editorial" ? "মতামত ও বিশ্লেষণ" :
+    params.slug === "multimedia" ? "মাল্টিমিডিয়া" : "খবর";
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--bg-primary)]">
