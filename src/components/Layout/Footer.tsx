@@ -191,6 +191,8 @@ export function Footer() {
             কপিরাইট © {new Date().getFullYear()} দ্য ডেইলি মানারাহ নিউজ পোর্টাল। সর্বস্বত্ব সংরক্ষিত।
           </span>
           <div className="flex flex-wrap items-center gap-4">
+            <Link href="/about-us" className="hover:underline">আমাদের সম্পর্কে</Link>
+            <span>•</span>
             <Link href="/privacy-policy" className="hover:underline">গোপনীয়তা নীতি</Link>
             <span>•</span>
             <Link href="/terms" className="hover:underline">ব্যবহারের শর্তাবলী</Link>
