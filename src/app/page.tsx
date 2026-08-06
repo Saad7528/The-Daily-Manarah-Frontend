@@ -6,7 +6,7 @@ import { Footer } from "@/components/Layout/Footer";
 import { HeroGrid, NewsItem } from "@/components/News/HeroGrid";
 import { BangladeshMap } from "@/components/News/BangladeshMap";
 import { VideoReels } from "@/components/News/VideoReels";
-import { TrendingUp, Award, BookOpen, ExternalLink, ShieldCheck } from "lucide-react";
+import { TrendingUp, Award, BookOpen, ExternalLink, ShieldCheck, Mail } from "lucide-react";
 import Link from "next/link";
 
 // Premium mock news data matching the categories
@@ -78,6 +78,39 @@ const trendingPosts = [
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<"trending" | "editors">("trending");
+  const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMsg("");
+    setSubscribed(false);
+    
+    if (!email.trim()) return;
+    setLoading(true);
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/subscriptions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setSubscribed(true);
+        setEmail("");
+      } else {
+        const err = await res.json();
+        setErrorMsg(err.error || "সাবস্ক্রাইব করা সম্ভব হয়নি।");
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMsg("সার্ভার ত্রুটি ঘটেছে।");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--bg-primary)] transition-colors duration-300">
@@ -196,6 +229,48 @@ export default function Home() {
 
             {/* Bangladesh Map Filter */}
             <BangladeshMap />
+
+            {/* Newsletter Subscription Card */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+              <h3 className="font-serif font-black text-sm text-[var(--text-primary)] border-b border-[var(--border-color)] pb-2 flex items-center space-x-2">
+                <Mail size={16} className="text-emerald-600" />
+                <span>নিউজলেটার সাবস্ক্রিপশন</span>
+              </h3>
+              <p className="text-[11px] text-slate-450 dark:text-zinc-500 leading-relaxed">
+                ডেইলি মানারাহর প্রধান ও সত্যতা যাচাইকৃত খবরগুলোর সাপ্তাহিক ইমেইল নোটিফিকেশন পেতে আপনার ইমেইলটি দিয়ে সাবস্ক্রাইব করুন।
+              </p>
+              
+              {subscribed && (
+                <div className="bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 p-2.5 rounded border border-emerald-250 text-[10px]">
+                  ধন্যবাদ! আপনি নিউজলেটারে যুক্ত হয়েছেন।
+                </div>
+              )}
+              {errorMsg && (
+                <div className="bg-red-50 dark:bg-red-950/20 text-red-650 dark:text-red-400 p-2.5 rounded border border-red-200 text-[10px]">
+                  {errorMsg}
+                </div>
+              )}
+
+              {!subscribed && (
+                <form onSubmit={handleSubscribe} className="flex gap-2">
+                  <input
+                    type="email"
+                    required
+                    placeholder="name@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-850 rounded px-2.5 py-1.5 text-xs w-full outline-none focus:ring-1 focus:ring-emerald-550 focus:border-emerald-600 transition"
+                  />
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded text-xs transition disabled:opacity-50"
+                  >
+                    {loading ? "..." : "যুক্ত হন"}
+                  </button>
+                </form>
+              )}
+            </div>
 
             {/* Video reels highlights */}
             <VideoReels />

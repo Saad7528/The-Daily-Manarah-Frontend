@@ -18,6 +18,7 @@ import {
 export function Footer() {
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [pwaPrompt, setPwaPrompt] = useState<any>(null);
   const [isInstallable, setIsInstallable] = useState(false);
 
@@ -50,11 +51,29 @@ export function Footer() {
     }
   };
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
-      setSubscribed(true);
-      setEmail("");
+    setErrorMsg("");
+    setSubscribed(false);
+
+    if (!email.trim()) return;
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/subscriptions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (res.ok) {
+        setSubscribed(true);
+        setEmail("");
+      } else {
+        const err = await res.json();
+        setErrorMsg(err.error || "সাবস্ক্রাইব করা সম্ভব হয়নি।");
+      }
+    } catch (err) {
+      console.error(err);
+      setErrorMsg("সার্ভার ত্রুটি ঘটেছে।");
     }
   };
 
@@ -170,6 +189,9 @@ export function Footer() {
             </div>
             {subscribed && (
               <span className="text-[10px] text-emerald-500 font-semibold">ধন্যবাদ! আপনি সফলভাবে নিউজলেটারে যুক্ত হয়েছেন।</span>
+            )}
+            {errorMsg && (
+              <span className="text-[10px] text-red-500 font-semibold">{errorMsg}</span>
             )}
           </form>
 

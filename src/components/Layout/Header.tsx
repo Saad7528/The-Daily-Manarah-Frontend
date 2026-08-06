@@ -18,7 +18,8 @@ import {
   CloudSun,
   TrendingUp,
   XCircle,
-  Award
+  Award,
+  Heart
 } from "lucide-react";
 
 // Mock location data
@@ -107,7 +108,7 @@ export function Header() {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+      router.push(`/archive?search=${encodeURIComponent(searchQuery)}`);
       setIsSearchFocused(false);
     }
   };
@@ -296,7 +297,7 @@ export function Header() {
                   key={idx}
                   onClick={() => {
                     setSearchQuery(item);
-                    router.push(`/search?q=${encodeURIComponent(item)}`);
+                    router.push(`/archive?search=${encodeURIComponent(item)}`);
                   }}
                   className="px-4 py-2 hover:bg-slate-100 dark:hover:bg-zinc-800 sepia:hover:bg-[#dfceab] text-sm cursor-pointer border-b border-[var(--border-color)] last:border-0"
                 >
@@ -315,7 +316,14 @@ export function Header() {
         </div>
 
         {/* Action badges/epaper */}
-        <div className="hidden md:flex items-center gap-3 order-3">
+        <div className="hidden md:flex items-center gap-2.5 order-3">
+          <Link
+            href="/donate"
+            className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-[11px] font-bold px-3.5 py-2 rounded-full border border-red-200 dark:border-red-900 transition shadow-sm animate-pulse"
+          >
+            <Heart size={13} className="shrink-0 text-white" />
+            <span>মানারাহ ফাউন্ডেশনে অনুদান দিন</span>
+          </Link>
           <Link
             href="/e-paper"
             className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 sepia:bg-[#dfceab] text-[11px] font-bold px-3.5 py-2 rounded-full border border-[var(--border-color)] transition"
@@ -411,6 +419,14 @@ export function Header() {
               className="px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 sepia:text-[#433422] hover:bg-slate-100 dark:hover:bg-zinc-800 sepia:hover:bg-[#dfceab] rounded transition"
             >
               মানারাহ ফাউন্ডেশন
+            </Link>
+            <Link
+              href="/donate"
+              onClick={() => setIsMenuOpen(false)}
+              className="px-3 py-2 text-sm font-bold text-red-650 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded transition flex items-center gap-1.5"
+            >
+              <Heart size={14} />
+              <span>মানারাহ ফাউন্ডেশনে অনুদান দিন</span>
             </Link>
             <Link
               href="/e-paper"
