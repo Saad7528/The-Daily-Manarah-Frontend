@@ -195,6 +195,10 @@ export function Footer() {
             <span>•</span>
             <Link href="/terms" className="hover:underline">ব্যবহারের শর্তাবলী</Link>
             <span>•</span>
+            <Link href="/fact-checking-policy" className="hover:underline">ফ্যাক্ট-চেকিং নীতি</Link>
+            <span>•</span>
+            <Link href="/correction-policy" className="hover:underline">সংশোধন নীতি</Link>
+            <span>•</span>
             <Link href="/editorial-team" className="hover:underline">সম্পাদকীয় প্যানেল</Link>
           </div>
         </div>
