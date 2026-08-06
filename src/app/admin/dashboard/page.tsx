@@ -99,9 +99,61 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/settings`);
+      if (res.ok) {
+        const data = await res.json();
+        setSettings({
+          watermarkGlobal: data.watermarkGlobal,
+          commentAiFilterOn: data.commentAiFilterOn,
+          shoppingModuleOn: data.shoppingModuleOn,
+          sponsoredBannersOn: data.sponsoredBannersOn,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchPosts = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/posts`);
+      if (res.ok) {
+        const data = await res.json();
+        const formatted = data.map((p: any) => ({
+          id: p.id,
+          title: p.title,
+          author: p.author?.name || "অজ্ঞাত",
+          views: p.views,
+          isHidden: p.isHidden,
+          isPinned: p.isPinned || false,
+        }));
+        setPosts(formatted);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchRevisions = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/revisions`);
+      if (res.ok) {
+        const data = await res.json();
+        setAuditLogs(data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
     fetchResetRequests();
+    fetchSettings();
+    fetchPosts();
+    fetchRevisions();
   }, []);
 
   const handleCreateUser = async (e: React.FormEvent) => {
@@ -208,25 +260,12 @@ export default function AdminDashboard() {
     }
   };
 
-  // Mock Posts for Moderator
-  const [posts, setPosts] = useState<PostItem[]>([
-    { id: "p-1", title: "ঢাকায় মুষলধারে বৃষ্টি: জলজট ও ট্রাফিক জ্যামে ভোগান্তি চরমে", author: "কাজী রায়হান", views: 4200, isHidden: false, isPinned: true },
-    { id: "p-2", title: "অলিম্পিক গেমসের নতুন স্বর্ণপদক রেকর্ড: ইতিহাস গড়লেন এই অ্যাথলেট", author: "কাজী রায়হান", views: 2450, isHidden: false, isPinned: false },
-    { id: "p-3", title: "কৃত্রিম বুদ্ধিমত্তা ও ভবিষ্যৎ কর্মসংস্থান: একটি সমাজতাত্ত্বিক বিশ্লেষণ", author: "সারাহ তাসনিম", views: 1890, isHidden: false, isPinned: false },
-    { id: "p-4", title: "সোনার বাজারে নতুন রেকর্ড: ভরিতে বাড়ল ১৫০০ টাকা", author: "আহমেদ ফয়সাল", views: 980, isHidden: true, isPinned: false }
-  ]);
-
-  // Mock Revision Audit Logs
-  const [auditLogs, setAuditLogs] = useState<AuditLog[]>([
-    { id: "l-1", postTitle: "ঢাকায় মুষলধারে বৃষ্টি...", editedBy: "সারাহ তাসনিম", role: "EDITOR", time: "আজ দুপুর ২:১০", action: "শিরোনাম সংশোধন" },
-    { id: "l-2", postTitle: "কৃত্রিম বুদ্ধিমত্তা ও ভবিষ্যৎ...", editedBy: "এম. এ. জলিল", role: "SUPER_ADMIN", time: "গতকাল বিকেল ৪:১৫", action: "আর্টিকেল প্রকাশ" },
-    { id: "l-3", postTitle: "সোনার বাজারে নতুন রেকর্ড...", editedBy: "আহমেদ ফয়সাল", role: "AD_MANAGER", time: "৩ দিন আগে সকাল ১১:৩০", action: "আর্টিকেল গোপন (Hidden) করা হয়েছে" }
-  ]);
+  const [posts, setPosts] = useState<PostItem[]>([]);
+  const [auditLogs, setAuditLogs] = useState<any[]>([]);
 
   // Simulating real-time traffic updates
   useEffect(() => {
     const interval = setInterval(() => {
-      // Random change in active users (-5 to +7)
       const diff = Math.floor(Math.random() * 13) - 5;
       const nextUsers = Math.max(80, activeUsers + diff);
       setActiveUsers(nextUsers);
@@ -240,23 +279,54 @@ export default function AdminDashboard() {
     return () => clearInterval(interval);
   }, [activeUsers]);
 
-  const toggleSetting = (key: keyof typeof settings) => {
-    setSettings((prev) => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
+  const toggleSetting = async (key: keyof typeof settings) => {
+    const nextVal = !settings[key];
+    const newSettings = { ...settings, [key]: nextVal };
+    setSettings(newSettings);
+
+    try {
+      await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/settings`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newSettings),
+      });
+    } catch (error) {
+      console.error("Failed to update settings:", error);
+    }
   };
 
-  const handleToggleHidePost = (id: string) => {
-    setPosts((prev) =>
-      prev.map((post) =>
-        post.id === id ? { ...post, isHidden: !post.isHidden } : post
-      )
-    );
+  const handleToggleHidePost = async (id: string, currentlyHidden: boolean) => {
+    const nextHidden = !currentlyHidden;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/posts/${id}/hide`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isHidden: nextHidden }),
+      });
+      if (res.ok) {
+        alert(nextHidden ? "আর্টিকেলটি গোপন (Hidden) করা হয়েছে।" : "আর্টিকেলটি সফলভাবে প্রকাশিত হয়েছে।");
+        fetchPosts();
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  const handleRestoreVersion = (postTitle: string) => {
-    alert(`"${postTitle}" এই সংবাদের পূর্ববর্তী সংস্করণটি সফলভাবে ডাটাবেজ থেকে রিস্টোর করা হয়েছে!`);
+  const handleRestoreVersion = async (revId: string, postTitle: string) => {
+    if (confirm(`আপনি কি নিশ্চিতভাবে "${postTitle}" এই সংবাদের পূর্ববর্তী সংস্করণটি রিস্টোর করতে চান?`)) {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/revisions/${revId}/restore`, {
+          method: "POST"
+        });
+        if (res.ok) {
+          alert("সফলভাবে পূর্ববর্তী সংস্করণটি রিস্টোর করা হয়েছে!");
+          fetchPosts();
+          fetchRevisions();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   // Convert array of user counts into SVG coordinate path
@@ -499,7 +569,7 @@ export default function AdminDashboard() {
                   
                   {/* Hide Toggle Switch */}
                   <button
-                    onClick={() => handleToggleHidePost(post.id)}
+                    onClick={() => handleToggleHidePost(post.id, post.isHidden)}
                     className={`text-xs font-bold px-3 py-1 rounded-full transition ${
                       post.isHidden
                         ? "bg-red-100 text-red-600 dark:bg-red-950/40"
@@ -523,25 +593,25 @@ export default function AdminDashboard() {
             </div>
 
             <div className="flex flex-col gap-3 max-h-[220px] overflow-y-auto">
-              {auditLogs.map((log) => (
+              {auditLogs.map((log: any) => (
                 <div
                   key={log.id}
                   className="flex items-start justify-between p-3 rounded-lg border border-[var(--border-color)] text-xs"
                 >
                   <div className="flex flex-col gap-1">
                     <span className="font-bold text-[var(--text-primary)]">
-                      {log.postTitle}
+                      {log.post?.title || log.title}
                     </span>
                     <span className="text-[10px] text-slate-400">
-                      এডিটর: <span className="font-semibold">{log.editedBy} ({log.role})</span> • {log.time}
+                      এডিটর: <span className="font-semibold">{log.user?.name || "অজ্ঞাত"} ({(log.user?.role) || "EDITOR"})</span> • {new Date(log.createdAt).toLocaleString("bn-BD")}
                     </span>
-                    <span className="text-[10px] text-amber-600 font-medium">
-                      পরিবর্তন: {log.action}
+                    <span className="text-[10px] text-amber-600 font-bold">
+                      অ্যাকশন: সংবাদ কন্টেন্ট এডিট
                     </span>
                   </div>
 
                   <button
-                    onClick={() => handleRestoreVersion(log.postTitle)}
+                    onClick={() => handleRestoreVersion(log.id, log.post?.title || log.title)}
                     className="shrink-0 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-[var(--text-primary)] font-bold px-2.5 py-1 rounded border border-[var(--border-color)] text-[10px] transition"
                   >
                     রিস্টোর করুন
