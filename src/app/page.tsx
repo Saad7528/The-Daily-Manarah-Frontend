@@ -85,6 +85,23 @@ export default function Home() {
 
   const [posts, setPosts] = useState<NewsItem[]>(mockPosts);
 
+  const categoriesToRender = [
+    { name: "জাতীয় ও রাজনীতি", slug: "politics" },
+    { name: "ফ্যাক্ট-চেক ও গবেষণা", slug: "fact-check-research" },
+    { name: "দাওয়াহ ও ইসলামিক জীবন", slug: "islamic-life" },
+    { name: "মানবসেবা ও সমাজ", slug: "humanity-society" },
+    { name: "মতামত ও বিশ্লেষণ", slug: "opinion-editorial" },
+    { name: "মাল্টিমিডিয়া", slug: "multimedia" }
+  ];
+
+  const getCategoryPosts = (catSlug: string) => {
+    return posts.filter(p => 
+      p.category.slug === catSlug || 
+      p.category.slug.startsWith(catSlug + "-") || 
+      (p as any).categorySlug === catSlug
+    );
+  };
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -151,6 +168,22 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Top bar scroll to map navigation link */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[var(--bg-card)] border border-[var(--border-color)] px-5 py-3 rounded-2xl shadow-sm">
+          <span className="text-xs font-semibold text-[var(--text-primary)]">
+            খবরের সত্যতা যাচাই এবং সমাজ সেবায় দ্য ডেইলি মানারাহ
+          </span>
+          <button
+            onClick={() => {
+              const el = document.getElementById("bangladesh-map");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="text-[11px] font-black bg-emerald-50 hover:bg-emerald-100 dark:bg-zinc-800 text-emerald-700 dark:text-emerald-400 border border-emerald-250 px-4 py-1.5 rounded-full shadow-xs transition"
+          >
+            🗺️ মানচিত্র ভিত্তিক খবর দেখুন ↓
+          </button>
+        </div>
+
         {/* Home News section split: Main Grid (Left 8 Cols) + Sidebar (Right 4 Cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
@@ -164,6 +197,83 @@ export default function Home() {
             </div>
             
             <HeroGrid posts={posts} />
+
+            {/* Category-wise news sections rendered dynamically */}
+            <div className="flex flex-col gap-10 mt-6">
+              {categoriesToRender.map((item) => {
+                const catPosts = getCategoryPosts(item.slug);
+                if (catPosts.length === 0) return null;
+                const lead = catPosts[0];
+                const list = catPosts.slice(1, 4);
+
+                return (
+                  <div key={item.slug} className="flex flex-col gap-4 border-b border-[var(--border-color)] pb-8 last:border-0 last:pb-0">
+                    {/* Category Header with thick bottom border */}
+                    <div className="flex items-center justify-between border-b-2 border-amber-500 dark:border-amber-600 pb-2">
+                      <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide">
+                        {item.name}
+                      </h3>
+                      <Link href={`/category/${item.slug}`} className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)] transition-colors">
+                        সব খবর →
+                      </Link>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                      {/* Left: Lead Post */}
+                      <div className="md:col-span-7 flex flex-col gap-3 group">
+                        <Link href={`/article/${lead.slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                          <img
+                            src={lead.coverImage}
+                            alt={lead.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
+                          />
+                        </Link>
+                        <div className="flex flex-col gap-1.5">
+                          <span className="text-[10px] font-bold text-slate-400">
+                            {new Date(lead.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
+                          </span>
+                          <Link href={`/article/${lead.slug}`}>
+                            <h4 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug">
+                              {lead.title}
+                            </h4>
+                          </Link>
+                          {lead.summary && (
+                            <p className="text-xs text-slate-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">
+                              {lead.summary}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Right: List of posts */}
+                      <div className="md:col-span-5 flex flex-col gap-4">
+                        {list.map((post) => (
+                          <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-slate-100 dark:border-zinc-850 last:border-0 last:pb-0 group">
+                            <div className="flex flex-col gap-1 w-2/3">
+                              <span className="text-[9px] font-bold text-slate-450 dark:text-zinc-500">
+                                {new Date(post.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
+                              </span>
+                              <Link href={`/article/${post.slug}`}>
+                                <h5 className="font-serif font-black text-xs text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug line-clamp-2">
+                                  {post.title}
+                                </h5>
+                              </Link>
+                            </div>
+                            <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-slate-100 dark:border-zinc-800">
+                              <img
+                                src={post.coverImage}
+                                alt={post.title}
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                              />
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {/* Sidebar Area (lg:col-span-4) */}
@@ -246,8 +356,7 @@ export default function Home() {
               )}
             </div>
 
-            {/* Bangladesh Map Filter */}
-            <BangladeshMap />
+            {/* Map Removed from sidebar and placed as full width bottom layout */}
 
             {/* Newsletter Subscription Card */}
             <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
@@ -295,6 +404,22 @@ export default function Home() {
             <VideoReels />
           </div>
 
+        </div> {/* grid grid-cols-1 lg:grid-cols-12 gap-8 */}
+
+        {/* Full Width Bottom Map Section */}
+        <div id="bangladesh-map" className="w-full border-t border-[var(--border-color)] pt-8 mt-4 scroll-mt-20">
+          <div className="flex flex-col gap-2 mb-6">
+            <h2 className="font-serif font-black text-xl md:text-2xl text-[var(--text-primary)] flex items-center gap-2">
+              <Award size={22} className="text-emerald-650" />
+              <span>মানচিত্র ভিত্তিক খবর (ঠাকুরগাঁও ও দেশজুড়ে)</span>
+            </h2>
+            <p className="text-xs text-slate-500">
+              নিচের ইন্টারেক্টিভ ম্যাপ থেকে বিভাগ ও জেলা সিলেক্ট করে নির্দিষ্ট অঞ্চলের সংবাদ ফিল্টার করুন।
+            </p>
+          </div>
+          <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-6 md:p-10 shadow-sm">
+            <BangladeshMap />
+          </div>
         </div>
 
       </main>
