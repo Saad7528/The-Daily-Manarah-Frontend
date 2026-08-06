@@ -60,13 +60,100 @@ export default function AdminDashboard() {
   const [activeUsers, setActiveUsers] = useState(142);
   const [trafficHistory, setTrafficHistory] = useState<number[]>([120, 135, 128, 140, 138, 145, 142]);
 
-  // Mock Users
-  const [users, setUsers] = useState<UserItem[]>([
-    { id: "u-1", name: "এম. এ. জলিল", email: "jalil@dailymanarah.com", role: "SUPER_ADMIN" },
-    { id: "u-2", name: "সারাহ তাসনিম", email: "sarah@dailymanarah.com", role: "EDITOR" },
-    { id: "u-3", name: "কাজী রায়হান", email: "rayhan@dailymanarah.com", role: "REPORTER" },
-    { id: "u-4", name: "আহমেদ ফয়সাল", email: "faisal@dailymanarah.com", role: "AD_MANAGER" }
-  ]);
+  // Live Users state & handlers
+  const [users, setUsers] = useState<UserItem[]>([]);
+  const [newUserName, setNewUserName] = useState("");
+  const [newUserEmail, setNewUserEmail] = useState("");
+  const [newUserPassword, setNewUserPassword] = useState("");
+  const [newUserRole, setNewUserRole] = useState<"SUPER_ADMIN" | "EDITOR" | "REPORTER" | "AD_MANAGER">("EDITOR");
+  const [userLoading, setUserLoading] = useState(false);
+
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/users`);
+      if (res.ok) {
+        const data = await res.json();
+        setUsers(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const handleCreateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newUserName.trim() || !newUserEmail.trim() || !newUserPassword.trim()) {
+      alert("অনুগ্রহ করে সবকটি ইনপুট ফিল্ড পূরণ করুন।");
+      return;
+    }
+    setUserLoading(true);
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/users`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newUserName,
+          email: newUserEmail,
+          password: newUserPassword,
+          role: newUserRole,
+        }),
+      });
+
+      if (res.ok) {
+        alert("নতুন টিম মেম্বার সফলভাবে যুক্ত করা হয়েছে!");
+        setNewUserName("");
+        setNewUserEmail("");
+        setNewUserPassword("");
+        setNewUserRole("EDITOR");
+        fetchUsers();
+      } else {
+        const err = await res.json();
+        alert(`ত্রুটি: ${err.error || "যুক্ত করা সম্ভব হয়নি"}`);
+      }
+    } catch (error) {
+      console.error("Failed to create user:", error);
+      alert("সার্ভার ত্রুটি ঘটেছে।");
+    } finally {
+      setUserLoading(false);
+    }
+  };
+
+  const handleDeleteUser = async (userId: string) => {
+    if (confirm("আপনি কি নিশ্চিতভাবে এই টিম মেম্বারকে ডিলিট করতে চান?")) {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/users/${userId}`, {
+          method: "DELETE"
+        });
+        if (res.ok) {
+          alert("টিম মেম্বার ডিলিট করা হয়েছে।");
+          fetchUsers();
+        }
+      } catch (error) {
+        console.error("Failed to delete user:", error);
+      }
+    }
+  };
+
+  const handleRoleChange = async (id: string, newRole: any) => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/users/${id}/role`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role: newRole }),
+      });
+      if (res.ok) {
+        alert("টিম মেম্বারের রোল সফলভাবে পরিবর্তন করা হয়েছে!");
+        fetchUsers();
+      }
+    } catch (error) {
+      console.error("Failed to update user role:", error);
+    }
+  };
 
   // Mock Posts for Moderator
   const [posts, setPosts] = useState<PostItem[]>([
@@ -112,12 +199,6 @@ export default function AdminDashboard() {
       prev.map((post) =>
         post.id === id ? { ...post, isHidden: !post.isHidden } : post
       )
-    );
-  };
-
-  const handleRoleChange = (id: string, newRole: any) => {
-    setUsers((prev) =>
-      prev.map((u) => (u.id === id ? { ...u, role: newRole } : u))
     );
   };
 
@@ -419,13 +500,72 @@ export default function AdminDashboard() {
         </div>
 
         {/* ROLE MANAGER PANEL */}
-        <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-          <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
+        <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-6">
+          <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-1">
             <Lock size={18} className="text-amber-500" />
             <h3 className="font-serif font-black text-base text-[var(--text-primary)]">
               কাস্টম রোল এবং টিম অ্যাক্সেস ক্রিয়েটর (RBAC)
             </h3>
           </div>
+
+          {/* New User Creation Form */}
+          <form onSubmit={handleCreateUser} className="grid grid-cols-1 md:grid-cols-5 gap-3 p-4 bg-slate-50 dark:bg-zinc-950/20 sepia:bg-[#dfceab]/30 rounded-xl border border-[var(--border-color)]">
+            <div className="flex flex-col gap-1 text-[11px]">
+              <label className="font-bold text-slate-400">নাম:</label>
+              <input
+                type="text"
+                required
+                placeholder="নাম লিখুন..."
+                value={newUserName}
+                onChange={(e) => setNewUserName(e.target.value)}
+                className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded p-2 outline-none"
+              />
+            </div>
+            <div className="flex flex-col gap-1 text-[11px]">
+              <label className="font-bold text-slate-400">ইমেইল:</label>
+              <input
+                type="email"
+                required
+                placeholder="name@dailymanarah.com"
+                value={newUserEmail}
+                onChange={(e) => setNewUserEmail(e.target.value)}
+                className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded p-2 outline-none"
+              />
+            </div>
+            <div className="flex flex-col gap-1 text-[11px]">
+              <label className="font-bold text-slate-400">পাসওয়ার্ড:</label>
+              <input
+                type="password"
+                required
+                placeholder="পাসওয়ার্ড..."
+                value={newUserPassword}
+                onChange={(e) => setNewUserPassword(e.target.value)}
+                className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded p-2 outline-none"
+              />
+            </div>
+            <div className="flex flex-col gap-1 text-[11px]">
+              <label className="font-bold text-slate-400">রোল নির্বাচন:</label>
+              <select
+                value={newUserRole}
+                onChange={(e) => setNewUserRole(e.target.value as any)}
+                className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded p-2 outline-none"
+              >
+                <option value="SUPER_ADMIN">SUPER_ADMIN</option>
+                <option value="EDITOR">EDITOR</option>
+                <option value="REPORTER">REPORTER</option>
+                <option value="AD_MANAGER">AD_MANAGER</option>
+              </select>
+            </div>
+            <div className="flex items-end">
+              <button
+                type="submit"
+                disabled={userLoading}
+                className="w-full bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-white font-bold py-2 rounded text-xs transition disabled:opacity-50"
+              >
+                {userLoading ? "যুক্ত করা হচ্ছে..." : "নতুন ইউজার যুক্ত করুন"}
+              </button>
+            </div>
+          </form>
 
           <div className="overflow-x-auto w-full">
             <table className="w-full border-collapse text-left text-xs">
@@ -434,7 +574,7 @@ export default function AdminDashboard() {
                   <th className="py-2">নাম</th>
                   <th className="py-2">ইমেইল</th>
                   <th className="py-2">বর্তমান রোল</th>
-                  <th className="py-2 text-right">রোল পরিবর্তন</th>
+                  <th className="py-2 text-right">পদক্ষেপ / রোল পরিবর্তন</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[var(--border-color)]">
@@ -447,7 +587,7 @@ export default function AdminDashboard() {
                         {user.role}
                       </span>
                     </td>
-                    <td className="py-3 text-right">
+                    <td className="py-3 text-right flex items-center justify-end gap-3">
                       <select
                         value={user.role}
                         onChange={(e) => handleRoleChange(user.id, e.target.value as any)}
@@ -458,6 +598,12 @@ export default function AdminDashboard() {
                         <option value="REPORTER">REPORTER</option>
                         <option value="AD_MANAGER">AD_MANAGER</option>
                       </select>
+                      <button
+                        onClick={() => handleDeleteUser(user.id)}
+                        className="p-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded transition"
+                      >
+                        <Trash2 size={14} />
+                      </button>
                     </td>
                   </tr>
                 ))}
