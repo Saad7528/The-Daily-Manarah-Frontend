@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "@/components/Layout/Header";
 import { Footer } from "@/components/Layout/Footer";
-import { RefreshCw, FileText, CheckCircle2, History, MessageSquareShare } from "lucide-react";
+import { RefreshCw, CheckCircle2, History, Mail } from "lucide-react";
 
 export default function CorrectionPolicyPage() {
   return (
@@ -23,40 +23,30 @@ export default function CorrectionPolicyPage() {
             <section>
               <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
                 <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                <span>১. ভুল স্বীকার ও সংশোধন অঙ্গীকার</span>
+                <span>১. ভুলের দায় স্বীকার</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300">
-                সংবাদ প্রকাশ করার পরও যদি কোনো অসাবধানতাবশত ভুল তথ্য আমাদের দৃষ্টিগোচর হয়, তবে তা দ্রুত স্বীকার করা এবং তা অবিলম্বে সংশোধন করা আমাদের অন্যতম মৌলিক নীতি। আমরা সংবাদের বিশ্বাসযোগ্যতা ও নির্ভুলতা ধরে রাখতে সর্বোচ্চ গুরুত্ব দেই।
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
-                <FileText className="w-5 h-5 text-emerald-500" />
-                <span>২. সংশোধনের প্রক্রিয়া</span>
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300">
-                যেকোনো গুরুতর তথ্যগত ভুল ধরা পড়ার সাথে সাথে আমাদের এডিটর প্যানেল তথ্যটি পুনরায় যাচাই করে সঠিক তথ্য দিয়ে নিবন্ধটি আপডেট করে। ভুলটি সাধারণ ব্যাকরণগত বা বানানজনিত হলে তা সরাসরি এডিট করা হয় এবং তথ্যগত হলে সেটির নিচে নোট যুক্ত করা হয়।
+                আমরা সর্বদা নির্ভুল সংবাদ পরিবেশনের চেষ্টা করি। তবে কোনো সংবাদে অনিচ্ছাকৃত তথ্যগত ভুল বা টাইপিং এরর পরিলক্ষিত হলে, তা আমরা আন্তরিকভাবে স্বীকার করি এবং দ্রুততম সময়ে তা সংশোধন করা হয়।
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
                 <History className="w-5 h-5 text-emerald-500" />
-                <span>৩. পরিবর্তনের ইতিহাস প্রকাশ (Transparency)</span>
+                <span>২. স্বচ্ছতা নিশ্চিত করা</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300">
-                গুরুতর সংশোধনের ক্ষেত্রে আমরা সংবাদের নীচে একটি স্পষ্টভাবে দৃশ্যমান নোট যুক্ত করি, যেখানে উল্লেখ থাকে মূল সংবাদে কী ভুল ছিল এবং কখন ও কেন তা সংশোধন করা হয়েছে। এছাড়া ব্যাকএন্ড অডিট লগের সাহায্যে আমরা প্রতিটি সংবাদের পূর্বের রিভিশন হিস্ট্রি সংরক্ষণ করি।
+                কোনো সংবাদে গুরুত্বপূর্ণ কোনো তথ্য সংশোধন করা হলে রিপোর্টের নিচে বা শেষে &ldquo;সংশোধিত&rdquo; (Correction Note) হিসেবে আপডেট করা তথ্য ও সংশোধনের তারিখ স্পষ্ট উল্লেখ করা হয়, যাতে পাঠকদের মাঝে কোনো বিভ্রান্তি সৃষ্টি না হয়।
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
-                <MessageSquareShare className="w-5 h-5 text-emerald-500" />
-                <span>৪. ভুল সংশোধনের অনুরোধ</span>
+                <Mail className="w-5 h-5 text-emerald-500" />
+                <span>৩. ভুল সংশোধনের অনুরোধ</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300">
-                আমাদের কোনো সংবাদ বা ফিচারে যদি আপনার কাছে কোনো ভুল তথ্য প্রতীয়মান হয়, তবে আমাদের সাথে যোগাযোগ পেজে সরাসরি মেইল করতে পারেন। আমাদের টিম আপনার প্রেরিত প্রমাণের সত্যতা সাপেক্ষে সংবাদটি অতি দ্রুত সংশোধন করবে।
+                আমাদের প্রকাশিত কোনো সংবাদে ভুল তথ্য চোখে পড়লে পাঠক আমাদের অফিশিয়াল ইমেইলে (<a href="mailto:dailymanarah.official@gmail.com" className="text-emerald-600 dark:text-emerald-400 hover:underline">dailymanarah.official@gmail.com</a>) প্রমানসহ সংশোধন অনুরোধ পাঠাতে পারেন।
               </p>
             </section>
           </div>

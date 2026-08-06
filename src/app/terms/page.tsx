@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "@/components/Layout/Header";
 import { Footer } from "@/components/Layout/Footer";
-import { FileText, CheckCircle2, AlertTriangle, Copyright, Scale } from "lucide-react";
+import { FileText, Copyright, ExternalLink, AlertTriangle } from "lucide-react";
 
 export default function TermsOfServicePage() {
   return (
@@ -22,41 +22,31 @@ export default function TermsOfServicePage() {
           <div className="space-y-8 text-leading-relaxed">
             <section>
               <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                <span>১. শর্তাবলী গ্রহণ</span>
+                <Copyright className="w-5 h-5 text-emerald-500" />
+                <span>১. স্বত্ব ও কপিরাইট</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300">
-                &ldquo;দ্য ডেইলি মানারাহ&rdquo; নিউজ পোর্টাল ব্রাউজ বা ব্যবহার করার মাধ্যমে আপনি আমাদের ব্যবহারের শর্তাবলী মেনে নিচ্ছেন বলে গণ্য হবে। আপনি যদি এই শর্তাবলীর সাথে একমত না হন, তবে অনুগ্রহ করে আমাদের ওয়েবসাইট ব্যবহার করা থেকে বিরত থাকুন।
+                &ldquo;ডেইলি মানারাহ্&rdquo;-তে প্রকাশিত সকল সংবাদ, অনুসন্ধানী প্রতিবেদন, ভিডিও, ফটোকার্ড এবং গবেষণামূলক কনটেন্টের সর্বস্বত্ব মানারাহ ফাউন্ডেশন কর্তৃক সংরক্ষিত। অনুমতি ব্যতীত বাণিজ্যিক উদ্দেশ্যে আমাদের কোনো তথ্য হুবহু নকল বা চুরি করা সম্পূর্ণ নিষিদ্ধ।
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
-                <Copyright className="w-5 h-5 text-emerald-500" />
-                <span>২. মেধা সম্পত্তি ও স্বত্বাধিকার</span>
+                <ExternalLink className="w-5 h-5 text-emerald-500" />
+                <span>২. ক্রেডিট দেওয়া</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300">
-                এই ওয়েবসাইটে প্রকাশিত সকল সংবাদ, নিবন্ধ, ছবি, লোগো, ভিডিও এবং ডিজাইন আমাদের নিজস্ব মেধা সম্পদ। আমাদের পূর্বানুমতি ছাড়া যেকোনো প্রকাশনা কপি, রিপ্রোডিউস বা বাণিজ্যিক উদ্দেশ্যে ব্যবহার করা সম্পূর্ণ নিষিদ্ধ এবং আইনত দণ্ডনীয় অপরাধ।
+                যেকোনো সংবাদ বা গবেষণা আংশিক উদ্ধৃতি হিসেবে ব্যবহার করতে হলে অবশ্যই &ldquo;ডেইলি মানারাহ্&rdquo; কে মূল উৎস হিসেবে ক্রেডিট দিতে হবে এবং সক্রিয় লিংক (Backlink) যুক্ত করতে হবে।
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
                 <AlertTriangle className="w-5 h-5 text-emerald-500" />
-                <span>৩. ব্যবহারকারীর আচরণ</span>
+                <span>৩. মন্তব্য নীতি</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300">
-                পাঠকদের মন্তব্যের ঘরে কোনো ধরনের উস্কানিমূলক, অশোভন, সাম্প্রদায়িক বিদ্বেষমূলক বা বেআইনি পোস্ট করা যাবে না। আমাদের এআই স্প্যাম ও প্রোফানিটি ফিল্টার এবং মডারেশন প্যানেল দ্বারা প্রতিনিয়ত মন্তব্যগুলো তদারকি করা হয়।
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
-                <Scale className="w-5 h-5 text-emerald-500" />
-                <span>৪. দায়বদ্ধতার সীমাবদ্ধতা</span>
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300">
-                আমরা সর্বোচ্চ নির্ভরযোগ্যতা ও সততার সাথে সংবাদ পরিবেশন করতে সচেষ্ট। তবে তৃতীয় পক্ষের কোনো লিংক, বিজ্ঞাপন বা ভুল তথ্যের কারণে প্রত্যক্ষ বা পরোক্ষভাবে ব্যবহারকারীর কোনো ক্ষতি হলে &ldquo;দ্য ডেইলি মানারাহ&rdquo; কর্তৃপক্ষ দায়ী থাকবে না।
+                আমাদের ওয়েবসাইট বা সোশ্যাল মিডিয়া পেজে উসকানিমূলক, অশালীন, ধর্মীয় অনুভূতিতে আঘাত হানে এমন বা বেআইনি কোনো মন্তব্য করা গ্রহণযোগ্য নয়। কর্তৃপক্ষ যেকোনো অশালীন মন্তব্য মুছে দেওয়ার অধিকার রাখে।
               </p>
             </section>
           </div>

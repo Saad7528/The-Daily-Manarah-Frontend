@@ -1,7 +1,7 @@
 import React from "react";
 import { Header } from "@/components/Layout/Header";
 import { Footer } from "@/components/Layout/Footer";
-import { Shield, Lock, Eye, CheckCircle2 } from "lucide-react";
+import { Shield, Lock, Eye, ExternalLink } from "lucide-react";
 
 export default function PrivacyPolicyPage() {
   return (
@@ -14,7 +14,7 @@ export default function PrivacyPolicyPage() {
               <Shield className="w-8 h-8" />
             </div>
             <div>
-              <h1 className="text-3xl font-extrabold tracking-tight">গোপনীয়তা নীতি</h1>
+              <h1 className="text-3xl font-extrabold tracking-tight">গোপনীয়তা নীতি</h1>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Privacy Policy | সর্বশেষ আপডেট: আগস্ট ২০২৬</p>
             </div>
           </div>
@@ -23,40 +23,30 @@ export default function PrivacyPolicyPage() {
             <section>
               <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
                 <Lock className="w-5 h-5 text-emerald-500" />
-                <span>১. তথ্য সংগ্রহ ও ব্যবহার</span>
+                <span>১. তথ্যের সংগ্রহ</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300">
-                &ldquo;দ্য DAILY MANARAH&rdquo; আমাদের পাঠকদের গোপনীয়তা রক্ষায় সম্পূর্ণ প্রতিশ্রুতিবদ্ধ। আপনি যখন আমাদের নিউজ পোর্টাল ভিজিট করেন, আমরা আপনার অভিজ্ঞতা উন্নত করতে কিছু মৌলিক তথ্য সংগ্রহ করি। যেমন: ডিভাইস টাইপ, ব্রাউজার ক্যাটাগরি, এবং আইপি অ্যাড্রেস (বেনামে)।
-              </p>
-            </section>
-
-            <section>
-              <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
-                <Eye className="w-5 h-5 text-emerald-500" />
-                <span>২. কুকিজ ও ট্র্যাকিং</span>
-              </h2>
-              <p className="text-slate-600 dark:text-slate-300">
-                আমাদের ওয়েবসাইটে ব্রাউজিং পারফরম্যান্স এবং ব্যবহারকারীর পছন্দ মনে রাখতে আমরা কুকিজ ব্যবহার করি। আপনি চাইলে আপনার ব্রাউজার সেটিংস থেকে কুকিজ নিষ্ক্রিয় করতে পারেন, তবে এতে ওয়েবসাইটের কিছু ফিচারের স্বাভাবিক আচরণ ব্যাহত হতে পারে।
+                &ldquo;ডেইলি মানারাহ্&rdquo; (Daily Manarah) আমাদের পাঠক ও ব্যবহারকারীদের ব্যক্তিগত তথ্যের সুরক্ষাকে সর্বোচ্চ প্রাধান্য দেয়। ওয়েবসাইটে প্রবেশের সময় সাধারণ কুকিজ (Cookies) বা ভিজিটর ডাটা (যেমন: IP এড্রেস, ব্রাউজারের ধরন) কেবল ওয়েবসাইট অভিজ্ঞতা উন্নত করার লক্ষ্যে সংগৃহীত হতে পারে।
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
                 <Shield className="w-5 h-5 text-emerald-500" />
-                <span>৩. তথ্য সুরক্ষা</span>
+                <span>২. তথ্যের সুরক্ষা</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300">
-                আমরা সংগৃহীত কোনো তথ্য তৃতীয় পক্ষের কাছে বিক্রি, বিনিময় বা প্রকাশ করি না। আপনাদের সকল ব্যক্তিগত ডেটা সুরক্ষিত রাখতে আমরা আধুনিক এনক্রিপশন এবং নিরাপদ সার্ভার আর্কিটেকচার ব্যবহার করে থাকি।
+                ব্যবহারকারীর সম্মতি ছাড়া কোনো ব্যক্তিগত তথ্য (নাম, ইমেইল, মোবাইল নম্বর ইত্যাদি) তৃতীয় কোনো পক্ষ বা বাণিজ্যিক প্রতিষ্ঠানে বিক্রি বা হস্তান্তর করা হয় না।
               </p>
             </section>
 
             <section>
               <h2 className="text-xl font-bold flex items-center space-x-2 text-slate-900 dark:text-slate-50 mb-3">
-                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                <span>৪. ব্যবহারকারীর অধিকার</span>
+                <ExternalLink className="w-5 h-5 text-emerald-500" />
+                <span>৩. থার্ড-পার্টি সার্ভিস</span>
               </h2>
               <p className="text-slate-600 dark:text-slate-300">
-                আমাদের নিউজ পোর্টালে আপনার মন্তব্য বা ডেটা মুছে ফেলতে বা সংশোধন করতে চাইলে আপনি যেকোনো সময় আমাদের সাথে যোগাযোগ করতে পারেন। আমাদের মডারেশন টিম দ্রুত আপনার অনুরোধ পর্যালোচনা করে ব্যবস্থা গ্রহণ করবে।
+                আমাদের ওয়েবসাইটে গুগল সার্চ, সোশ্যাল মিডিয়া শেয়ার বা অ্যাডসেন্সের মতো থার্ড-পার্টি সার্ভিস ব্যবহৃত হতে পারে, যার নিজস্ব প্রাইভেসি পলিসি প্রযোজ্য হবে।
               </p>
             </section>
           </div>
