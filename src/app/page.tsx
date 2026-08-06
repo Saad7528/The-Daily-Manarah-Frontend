@@ -6,17 +6,17 @@ import { Footer } from "@/components/Layout/Footer";
 import { HeroGrid, NewsItem } from "@/components/News/HeroGrid";
 import { BangladeshMap } from "@/components/News/BangladeshMap";
 import { VideoReels } from "@/components/News/VideoReels";
-import { TrendingUp, Award, BookOpen, ExternalLink, ShieldCheck, Mail } from "lucide-react";
+import { TrendingUp, Award, BookOpen, ExternalLink, ShieldCheck, Mail, Play, Camera, Star } from "lucide-react";
 import Link from "next/link";
 
-// Premium mock news data matching the categories
+// Premium mock news data matching the categories as fallback
 const mockPosts: NewsItem[] = [
   {
     id: "p-1",
-    title: "ঢাকায় মুষলধারে বৃষ্টি: জলজট ও ট্রাফিক জ্যামে নাকাল নগরবাসী, দুর্ভোগ চরমে",
-    slug: "dhaka-heavy-rain-traffic-jam",
-    summary: "আজ সকাল থেকেই রাজধানীর বিভিন্ন এলাকায় একটানা বৃষ্টিপাত রেকর্ড করা হয়েছে। মিরপুর, ধানমন্ডি এবং কাওরান বাজারের প্রধান সড়কগুলো পানিতে তলিয়ে যাওয়ায় যানবাহন চলাচল প্রায় বন্ধ হয়ে পড়েছে। আবহাওয়া অফিস আরও ২ দিন বৃষ্টির পূর্বাভাস দিয়েছে।",
-    coverImage: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=800&auto=format&fit=crop",
+    title: "দেশের নতুন অর্থনৈতিক সংস্কার ও তরুণদের জন্য কর্মসংস্থান সৃষ্টি",
+    slug: "politics-economic-reform-youth-jobs",
+    summary: "দেশের চলমান অর্থনৈতিক সংস্কার নীতির আওতায় তথ্যপ্রযুক্তি খাতে লাখো তরুণের জন্য নতুন কর্মসংস্থান সৃষ্টির প্রতিশ্রুতি দেওয়া হয়েছে। আবহাওয়া ও পলিসি বিশেষজ্ঞরা এটি সাধুবাদ জানিয়েছেন।",
+    coverImage: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=800&auto=format&fit=crop",
     isVerified: true,
     category: { name: "জাতীয় ও রাজনীতি", slug: "politics" },
     author: { name: "কাজী রায়হান" },
@@ -27,6 +27,7 @@ const mockPosts: NewsItem[] = [
     id: "p-2",
     title: "অলিম্পিক গেমসের নতুন স্বর্ণপদক রেকর্ড: ইতিহাস গড়লেন এই এশিয়ান অ্যাথলেট",
     slug: "olympic-new-gold-medal-record",
+    summary: "আসন্ন গেমসে স্বর্ণপদক বিজয়ী এশিয়ান অ্যাথলেটের নতুন রেকর্ড। খেলাধুলা খাতে এই জয় এক ইতিহাস সৃষ্টি করেছে।",
     coverImage: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&auto=format&fit=crop",
     isVerified: true,
     category: { name: "মাল্টিমিডিয়া", slug: "multimedia" },
@@ -36,8 +37,9 @@ const mockPosts: NewsItem[] = [
   },
   {
     id: "p-3",
-    title: "কৃত্রিম বুদ্ধিমত্তা ও ভবিষ্যৎ কর্মসংস্থান: একটি গভীর সমাজতাত্ত্বিক বিশ্লেষণ",
+    title: "কৃত্রিম বুদ্ধিমত্তা ও ভবিষ্যৎ কর্মসংস্থান: একটি গভীর সমাজতাত্ত্বিক विश्लेषण",
     slug: "artificial-intelligence-and-job-future",
+    summary: "ইন্টারনেটের প্রভাবে ভুয়া তথ্য ও কৃত্রিম বুদ্ধিমত্তা কীভাবে ভবিষ্যৎ জব মার্কেটকে নিয়ন্ত্রণ করতে যাচ্ছে তা নিয়ে বিশেষ প্রতিবেদন।",
     coverImage: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop",
     isVerified: false,
     category: { name: "ফ্যাক্ট-চেক ও গবেষণা", slug: "fact-check-research" },
@@ -49,6 +51,7 @@ const mockPosts: NewsItem[] = [
     id: "p-4",
     title: "সোনার বাজারে নতুন রেকর্ড: আন্তর্জাতিক অস্থিরতায় ভরিতে বাড়ল ১৫০০ টাকা",
     slug: "gold-rate-new-record-high",
+    summary: "আন্তর্জাতিক বাজারে স্বর্ণের দাম বাড়ার পরিপ্রেক্ষিতে দেশীয় বাজারে নতুন প্রাইস চার্ট ঘোষণা করেছে বাজুস।",
     coverImage: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=800&auto=format&fit=crop",
     isVerified: true,
     category: { name: "মানবসেবা ও সমাজ", slug: "humanity-society" },
@@ -84,15 +87,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const [posts, setPosts] = useState<NewsItem[]>(mockPosts);
-
-  const categoriesToRender = [
-    { name: "জাতীয় ও রাজনীতি", slug: "politics" },
-    { name: "ফ্যাক্ট-চেক ও গবেষণা", slug: "fact-check-research" },
-    { name: "দাওয়াহ ও ইসলামিক জীবন", slug: "islamic-life" },
-    { name: "মানবসেবা ও সমাজ", slug: "humanity-society" },
-    { name: "মতামত ও বিশ্লেষণ", slug: "opinion-editorial" },
-    { name: "মাল্টিমিডিয়া", slug: "multimedia" }
-  ];
 
   const getCategoryPosts = (catSlug: string) => {
     return posts.filter(p => 
@@ -148,37 +142,31 @@ export default function Home() {
     }
   };
 
+  // Safe category retrieval
+  const politicsPosts = getCategoryPosts("politics");
+  const factPosts = getCategoryPosts("fact-check-research");
+  const dawahPosts = getCategoryPosts("islamic-life");
+  const humanityPosts = getCategoryPosts("humanity-society");
+  const opinionPosts = getCategoryPosts("opinion-editorial");
+  const multimediaPosts = getCategoryPosts("multimedia");
+
   return (
     <div className="flex flex-col min-h-screen bg-[var(--bg-primary)] transition-colors duration-300">
       <Header />
 
       <main className="max-w-7xl mx-auto w-full px-4 py-8 flex flex-col gap-8 flex-grow">
         
-        {/* AdSense custom banner simulation (CLS-Safe Container) */}
-        <div className="cls-safe-ad w-full flex-col p-4 rounded-xl border border-[var(--border-color)] transition bg-[var(--bg-card)]">
-          <span className="text-[9px] uppercase tracking-widest text-slate-400 font-bold mb-1">
-            SPONSORED ADVERTISEMENT
-          </span>
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-bold text-[var(--accent-color)]">The Daily Manarah Premium E-Paper:</span>
-            <span className="text-xs text-slate-500">অনলাইনে ঘরে বসেই পড়ুন প্রতিদিনের টাটকা সংবাদপত্র। আজই সাবস্ক্রাইব করুন।</span>
-            <Link href="/e-paper" className="text-xs font-bold text-[var(--accent-color)] hover:underline flex items-center gap-0.5 ml-auto">
-              পড়ুন <ExternalLink size={12} />
-            </Link>
-          </div>
-        </div>
-
         {/* Top bar scroll to map navigation link */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[var(--bg-card)] border border-[var(--border-color)] px-5 py-3 rounded-2xl shadow-sm">
           <span className="text-xs font-semibold text-[var(--text-primary)]">
-            খবরের সত্যতা যাচাই এবং সমাজ সেবায় দ্য ডেইলি মানারাহ
+            🔍 নিরপেক্ষ সংবাদ পরিবেশন এবং সত্য ও নৈতিক সুন্নাহভিত্তিক জীবনবোধ ছড়িয়ে দিতে প্রতিশ্রুতিবদ্ধ ডেইলি মানারাহ্।
           </span>
           <button
             onClick={() => {
               const el = document.getElementById("bangladesh-map");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
-            className="text-[11px] font-black bg-emerald-50 hover:bg-emerald-100 dark:bg-zinc-800 text-emerald-700 dark:text-emerald-400 border border-emerald-250 px-4 py-1.5 rounded-full shadow-xs transition"
+            className="text-[11px] font-black bg-emerald-50 hover:bg-emerald-100 dark:bg-zinc-850 text-emerald-700 dark:text-emerald-400 border border-emerald-250 px-4 py-1.5 rounded-full shadow-xs transition"
           >
             🗺️ মানচিত্র ভিত্তিক খবর দেখুন ↓
           </button>
@@ -198,82 +186,326 @@ export default function Home() {
             
             <HeroGrid posts={posts} />
 
-            {/* Category-wise news sections rendered dynamically */}
-            <div className="flex flex-col gap-10 mt-6">
-              {categoriesToRender.map((item) => {
-                const catPosts = getCategoryPosts(item.slug);
-                if (catPosts.length === 0) return null;
-                const lead = catPosts[0];
-                const list = catPosts.slice(1, 4);
-
-                return (
-                  <div key={item.slug} className="flex flex-col gap-4 border-b border-[var(--border-color)] pb-8 last:border-0 last:pb-0">
-                    {/* Category Header with thick bottom border */}
-                    <div className="flex items-center justify-between border-b-2 border-amber-500 dark:border-amber-600 pb-2">
-                      <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide">
-                        {item.name}
-                      </h3>
-                      <Link href={`/category/${item.slug}`} className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)] transition-colors">
-                        সব খবর →
+            {/* ➔ Category Row 1: জাতীয় ও রাজনীতি (White Background) */}
+            {politicsPosts.length > 0 && (
+              <div className="flex flex-col gap-4 border-b border-[var(--border-color)] pb-8 mt-6">
+                <div className="flex items-center justify-between border-b-2 border-amber-500 dark:border-amber-600 pb-2">
+                  <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide">
+                    জাতীয় ও রাজনীতি
+                  </h3>
+                  <Link href="/category/politics" className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)] transition-colors">
+                    সব খবর →
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                  <div className="md:col-span-7 flex flex-col gap-3 group">
+                    <Link href={`/article/${politicsPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                      <img src={politicsPosts[0].coverImage} alt={politicsPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
+                    </Link>
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-[10px] font-bold text-slate-400">
+                        {new Date(politicsPosts[0].createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
+                      </span>
+                      <Link href={`/article/${politicsPosts[0].slug}`}>
+                        <h4 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug">
+                          {politicsPosts[0].title}
+                        </h4>
                       </Link>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-                      {/* Left: Lead Post */}
-                      <div className="md:col-span-7 flex flex-col gap-3 group">
-                        <Link href={`/article/${lead.slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
-                          <img
-                            src={lead.coverImage}
-                            alt={lead.title}
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-102"
-                          />
-                        </Link>
-                        <div className="flex flex-col gap-1.5">
-                          <span className="text-[10px] font-bold text-slate-400">
-                            {new Date(lead.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
-                          </span>
-                          <Link href={`/article/${lead.slug}`}>
-                            <h4 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug">
-                              {lead.title}
-                            </h4>
-                          </Link>
-                          {lead.summary && (
-                            <p className="text-xs text-slate-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">
-                              {lead.summary}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Right: List of posts */}
-                      <div className="md:col-span-5 flex flex-col gap-4">
-                        {list.map((post) => (
-                          <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-slate-100 dark:border-zinc-850 last:border-0 last:pb-0 group">
-                            <div className="flex flex-col gap-1 w-2/3">
-                              <span className="text-[9px] font-bold text-slate-450 dark:text-zinc-500">
-                                {new Date(post.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
-                              </span>
-                              <Link href={`/article/${post.slug}`}>
-                                <h5 className="font-serif font-black text-xs text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug line-clamp-2">
-                                  {post.title}
-                                </h5>
-                              </Link>
-                            </div>
-                            <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-slate-100 dark:border-zinc-800">
-                              <img
-                                src={post.coverImage}
-                                alt={post.title}
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                              />
-                            </Link>
-                          </div>
-                        ))}
-                      </div>
+                      {politicsPosts[0].summary && (
+                        <p className="text-xs text-slate-550 dark:text-zinc-400 line-clamp-2 leading-relaxed">
+                          {politicsPosts[0].summary}
+                        </p>
+                      )}
                     </div>
                   </div>
-                );
-              })}
+                  <div className="md:col-span-5 flex flex-col gap-4">
+                    {politicsPosts.slice(1, 4).map((post) => (
+                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-slate-100 dark:border-zinc-850 last:border-0 last:pb-0 group">
+                        <div className="flex flex-col gap-1 w-2/3">
+                          <span className="text-[9px] font-bold text-slate-450 dark:text-zinc-500">
+                            {new Date(post.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
+                          </span>
+                          <Link href={`/article/${post.slug}`}>
+                            <h5 className="font-serif font-black text-xs text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug line-clamp-2">
+                              {post.title}
+                            </h5>
+                          </Link>
+                        </div>
+                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-slate-100 dark:border-zinc-800">
+                          <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ➔ Category Row 2: ফ্যাক্ট-চেক ও গবেষণা (Alternating Premium Cream/Yellow Background) */}
+            {factPosts.length > 0 && (
+              <div className="flex flex-col gap-4 bg-amber-50/30 dark:bg-zinc-900/20 p-6 rounded-2xl border border-amber-100/50 dark:border-zinc-800/40 pb-8 mt-6">
+                <div className="flex items-center justify-between border-b-2 border-amber-500 dark:border-amber-600 pb-2">
+                  <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide flex items-center gap-1.5">
+                    <ShieldCheck size={18} className="text-amber-500" />
+                    <span>ফ্যাক্ট-চেক ও গবেষণা</span>
+                  </h3>
+                  <Link href="/category/fact-check-research" className="text-xs font-bold text-slate-550 hover:text-[var(--accent-color)] transition-colors">
+                    সব খবর →
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                  <div className="md:col-span-7 flex flex-col gap-3 group">
+                    <Link href={`/article/${factPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                      <img src={factPosts[0].coverImage} alt={factPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
+                    </Link>
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-[10px] font-bold text-slate-400">
+                        {new Date(factPosts[0].createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
+                      </span>
+                      <Link href={`/article/${factPosts[0].slug}`}>
+                        <h4 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug">
+                          {factPosts[0].title}
+                        </h4>
+                      </Link>
+                      {factPosts[0].summary && (
+                        <p className="text-xs text-slate-550 dark:text-zinc-400 line-clamp-2 leading-relaxed">
+                          {factPosts[0].summary}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="md:col-span-5 flex flex-col gap-4">
+                    {factPosts.slice(1, 4).map((post) => (
+                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-slate-100 dark:border-zinc-850 last:border-0 last:pb-0 group">
+                        <div className="flex flex-col gap-1 w-2/3">
+                          <span className="text-[9px] font-bold text-slate-450 dark:text-zinc-500">
+                            {new Date(post.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
+                          </span>
+                          <Link href={`/article/${post.slug}`}>
+                            <h5 className="font-serif font-black text-xs text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug line-clamp-2">
+                              {post.title}
+                            </h5>
+                          </Link>
+                        </div>
+                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-slate-100 dark:border-zinc-800">
+                          <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ➔ Category Row 3: Dual Split Column Row (দাওয়াহ ও ইসলামিক জীবন + মানবসেবা ও সমাজ) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 border-b border-[var(--border-color)] pb-8 mt-6">
+              {/* Left Column Category: দাওয়াহ ও ইসলামিক জীবন */}
+              <div>
+                <div className="flex items-center justify-between border-b-2 border-emerald-600 pb-2 mb-4">
+                  <h3 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">
+                    দাওয়াহ ও ইসলামিক জীবন
+                  </h3>
+                  <Link href="/category/islamic-life" className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)]">
+                    সব →
+                  </Link>
+                </div>
+                {dawahPosts.length > 0 ? (
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2 group">
+                      <Link href={`/article/${dawahPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                        <img src={dawahPosts[0].coverImage} alt={dawahPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
+                      </Link>
+                      <Link href={`/article/${dawahPosts[0].slug}`}>
+                        <h4 className="font-serif font-black text-xs md:text-sm text-[var(--text-primary)] hover:text-[var(--accent-color)] leading-snug line-clamp-2">
+                          {dawahPosts[0].title}
+                        </h4>
+                      </Link>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      {dawahPosts.slice(1, 3).map(post => (
+                        <Link key={post.id} href={`/article/${post.slug}`} className="text-xs font-semibold text-slate-600 dark:text-zinc-350 hover:text-[var(--accent-color)] transition leading-snug block border-t border-slate-105 dark:border-zinc-850 pt-2.5">
+                          • {post.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-400">কোনো পোস্ট পাওয়া যায়নি</p>
+                )}
+              </div>
+
+              {/* Right Column Category: মানবসেবা ও সমাজ */}
+              <div>
+                <div className="flex items-center justify-between border-b-2 border-emerald-600 pb-2 mb-4">
+                  <h3 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">
+                    মানবসেবা ও সমাজ
+                  </h3>
+                  <Link href="/category/humanity-society" className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)]">
+                    সব →
+                  </Link>
+                </div>
+                {humanityPosts.length > 0 ? (
+                  <div className="flex flex-col gap-4">
+                    <div className="flex flex-col gap-2 group">
+                      <Link href={`/article/${humanityPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                        <img src={humanityPosts[0].coverImage} alt={humanityPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
+                      </Link>
+                      <Link href={`/article/${humanityPosts[0].slug}`}>
+                        <h4 className="font-serif font-black text-xs md:text-sm text-[var(--text-primary)] hover:text-[var(--accent-color)] leading-snug line-clamp-2">
+                          {humanityPosts[0].title}
+                        </h4>
+                      </Link>
+                    </div>
+                    <div className="flex flex-col gap-3">
+                      {humanityPosts.slice(1, 3).map(post => (
+                        <Link key={post.id} href={`/article/${post.slug}`} className="text-xs font-semibold text-slate-600 dark:text-zinc-350 hover:text-[var(--accent-color)] transition leading-snug block border-t border-slate-105 dark:border-zinc-850 pt-2.5">
+                          • {post.title}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-400">কোনো পোস্ট পাওয়া যায়নি</p>
+                )}
+              </div>
             </div>
+
+            {/* ➔ Category Row 4: ভিডিও ও মাল্টিমিডিয়া গ্যালারি (Play button overlays) */}
+            {multimediaPosts.length > 0 && (
+              <div className="flex flex-col gap-4 bg-slate-950 text-white p-6 rounded-2xl border border-zinc-800 pb-8 mt-6">
+                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+                  <h3 className="font-serif font-black text-base md:text-lg text-amber-400 tracking-wide flex items-center gap-1.5">
+                    <Play size={18} fill="currentColor" />
+                    <span>ভিডিও স্টোরি ও মাল্টিমিডিয়া</span>
+                  </h3>
+                  <Link href="/category/multimedia" className="text-xs font-bold text-zinc-400 hover:text-amber-400 transition-colors">
+                    সব ভিডিও →
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+                  {/* Left: Large Video Card */}
+                  <div className="lg:col-span-7 flex flex-col gap-3 group relative justify-between">
+                    <Link href={`/article/${multimediaPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-zinc-800 w-full">
+                      <img src={multimediaPosts[0].coverImage} alt={multimediaPosts[0].title} className="w-full h-full object-cover" />
+                      <div className="absolute inset-0 bg-black/40 hover:bg-black/55 transition flex items-center justify-center">
+                        <span className="p-3 bg-red-600 rounded-full text-white shadow-lg animate-pulse hover:scale-105 transition">
+                          <Play size={24} fill="currentColor" />
+                        </span>
+                      </div>
+                    </Link>
+                    <Link href={`/article/${multimediaPosts[0].slug}`}>
+                      <h4 className="font-serif font-black text-sm md:text-base text-zinc-100 hover:text-amber-400 transition-colors leading-snug">
+                        {multimediaPosts[0].title}
+                      </h4>
+                    </Link>
+                  </div>
+
+                  {/* Right: 4 Smaller Video Grid (2x2) */}
+                  <div className="lg:col-span-5 grid grid-cols-2 gap-4">
+                    {multimediaPosts.slice(1, 5).map((post) => (
+                      <div key={post.id} className="flex flex-col gap-1.5 group relative justify-between">
+                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg aspect-[16/9] border border-zinc-850">
+                          <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <span className="p-1.5 bg-red-650 rounded-full text-white shadow">
+                              <Play size={10} fill="currentColor" />
+                            </span>
+                          </div>
+                        </Link>
+                        <Link href={`/article/${post.slug}`}>
+                          <h5 className="font-serif font-bold text-[10px] text-zinc-200 hover:text-amber-400 transition line-clamp-2 leading-snug">
+                            {post.title}
+                          </h5>
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ➔ Category Row 5: মতামত ও বিশ্লেষণ (White Background) */}
+            {opinionPosts.length > 0 && (
+              <div className="flex flex-col gap-4 border-b border-[var(--border-color)] pb-8 mt-6">
+                <div className="flex items-center justify-between border-b-2 border-amber-500 dark:border-amber-600 pb-2">
+                  <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide">
+                    মতামত ও সম্পাদকীয় কলাম
+                  </h3>
+                  <Link href="/category/opinion-editorial" className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)] transition-colors">
+                    সব খবর →
+                  </Link>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                  <div className="md:col-span-7 flex flex-col gap-3 group">
+                    <Link href={`/article/${opinionPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                      <img src={opinionPosts[0].coverImage} alt={opinionPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
+                    </Link>
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-[10px] font-bold text-slate-400">
+                        {new Date(opinionPosts[0].createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
+                      </span>
+                      <Link href={`/article/${opinionPosts[0].slug}`}>
+                        <h4 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug">
+                          {opinionPosts[0].title}
+                        </h4>
+                      </Link>
+                      {opinionPosts[0].summary && (
+                        <p className="text-xs text-slate-550 dark:text-zinc-400 line-clamp-2 leading-relaxed">
+                          {opinionPosts[0].summary}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                  <div className="md:col-span-5 flex flex-col gap-4">
+                    {opinionPosts.slice(1, 4).map((post) => (
+                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-slate-100 dark:border-zinc-850 last:border-0 last:pb-0 group">
+                        <div className="flex flex-col gap-1 w-2/3">
+                          <span className="text-[9px] font-bold text-slate-450 dark:text-zinc-500">
+                            {new Date(post.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
+                          </span>
+                          <Link href={`/article/${post.slug}`}>
+                            <h5 className="font-serif font-black text-xs text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug line-clamp-2">
+                              {post.title}
+                            </h5>
+                          </Link>
+                        </div>
+                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-slate-100 dark:border-zinc-800">
+                          <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ➔ Row 6: Photo Gallery / Carousel Grid */}
+            <div className="flex flex-col gap-4 mt-6">
+              <div className="flex items-center justify-between border-b-2 border-emerald-600 pb-2">
+                <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide flex items-center gap-1.5">
+                  <Camera size={18} className="text-emerald-600" />
+                  <span>ফটো গ্যালারি (ছবিতে খবর)</span>
+                </h3>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {posts.slice(5, 9).map((post) => (
+                  <div key={post.id} className="flex flex-col bg-[var(--bg-card)] rounded-xl overflow-hidden border border-[var(--border-color)] group shadow-xs">
+                    <Link href={`/article/${post.slug}`} className="relative block overflow-hidden aspect-square">
+                      <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3">
+                        <span className="text-[8px] bg-emerald-600 text-white font-bold px-1.5 py-0.5 rounded w-max mb-1">
+                          {post.category.name}
+                        </span>
+                        <h4 className="text-[10px] md:text-[11px] font-bold text-white leading-snug line-clamp-2">
+                          {post.title}
+                        </h4>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            </div>
+
           </div>
 
           {/* Sidebar Area (lg:col-span-4) */}
@@ -356,48 +588,18 @@ export default function Home() {
               )}
             </div>
 
-            {/* Map Removed from sidebar and placed as full width bottom layout */}
-
-            {/* Newsletter Subscription Card */}
-            <div className="bg-white dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+            {/* Newsletter Subscription Card in Sidebar (Fallback) */}
+            <div className="bg-white dark:bg-zinc-900 border border-slate-200/60 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
               <h3 className="font-serif font-black text-sm text-[var(--text-primary)] border-b border-[var(--border-color)] pb-2 flex items-center space-x-2">
-                <Mail size={16} className="text-emerald-600" />
-                <span>নিউজলেটার সাবস্ক্রিপশন</span>
+                <Star size={16} className="text-amber-500" />
+                <span>মানারাহ্ ফাউন্ডেশন</span>
               </h3>
-              <p className="text-[11px] text-slate-450 dark:text-zinc-500 leading-relaxed">
-                ডেইলি মানারাহর প্রধান ও সত্যতা যাচাইকৃত খবরগুলোর সাপ্তাহিক ইমেইল নোটিফিকেশন পেতে আপনার ইমেইলটি দিয়ে সাবস্ক্রাইব করুন।
+              <p className="text-[11px] text-slate-500 leading-relaxed">
+                ডেইলি মানারাহ্-এর কাজের প্রধান ফোকাস হচ্ছে সমাজ থেকে অপসংস্কৃতি, ভুয়া খবর (Fake News) ও কুতথ্য মোকাবিলা করা।
               </p>
-              
-              {subscribed && (
-                <div className="bg-emerald-50 dark:bg-emerald-950/20 text-emerald-600 dark:text-emerald-400 p-2.5 rounded border border-emerald-250 text-[10px]">
-                  ধন্যবাদ! আপনি নিউজলেটারে যুক্ত হয়েছেন।
-                </div>
-              )}
-              {errorMsg && (
-                <div className="bg-red-50 dark:bg-red-950/20 text-red-650 dark:text-red-400 p-2.5 rounded border border-red-200 text-[10px]">
-                  {errorMsg}
-                </div>
-              )}
-
-              {!subscribed && (
-                <form onSubmit={handleSubscribe} className="flex gap-2">
-                  <input
-                    type="email"
-                    required
-                    placeholder="name@example.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-850 rounded px-2.5 py-1.5 text-xs w-full outline-none focus:ring-1 focus:ring-emerald-550 focus:border-emerald-600 transition"
-                  />
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded text-xs transition disabled:opacity-50"
-                  >
-                    {loading ? "..." : "যুক্ত হন"}
-                  </button>
-                </form>
-              )}
+              <Link href="/donate" className="w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-2 rounded-xl text-xs transition">
+                মানারাহ ফাউন্ডেশনে অনুদান দিন
+              </Link>
             </div>
 
             {/* Video reels highlights */}
@@ -406,14 +608,56 @@ export default function Home() {
 
         </div> {/* grid grid-cols-1 lg:grid-cols-12 gap-8 */}
 
+        {/* ➔ Gold Newsletter Subscription Banner at the bottom (Fits side-by-side elements inside) */}
+        <div className="w-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 p-6 md:p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
+          <div className="flex flex-col gap-2 md:w-1/2">
+            <h3 className="font-serif font-black text-base md:text-xl flex items-center gap-2">
+              <Mail size={22} />
+              <span>ডেইলি মানারাহ্ নিউজলেটার</span>
+            </h3>
+            <p className="text-xs md:text-sm text-slate-900 font-medium">
+              সাপ্তাহিক প্রধান খবর, গুরুত্বপূর্ণ ফ্যাক্ট-চেক রিপোর্ট এবং সত্য সংবাদগুলোর নোটিফিকেশন সরাসরি ইনবক্সে পেতে সাবস্ক্রাইব করুন।
+            </p>
+          </div>
+          
+          <div className="w-full md:w-1/2 max-w-md">
+            {subscribed ? (
+              <div className="bg-white/95 text-emerald-700 font-bold p-4 rounded-2xl text-xs border border-emerald-200">
+                ✓ ধন্যবাদ! আপনার ইমেইলটি সফলভাবে নিউজলেটারে যুক্ত হয়েছে।
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="flex gap-2 bg-white/90 p-2 rounded-2xl shadow-inner w-full">
+                <input
+                  type="email"
+                  required
+                  placeholder="আপনার ইমেইল অ্যাড্রেস লিখুন..."
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="bg-transparent border-0 rounded px-3 py-2 text-xs w-full outline-none text-slate-900 placeholder:text-slate-500"
+                />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-5 py-2 rounded-xl text-xs transition shrink-0"
+                >
+                  {loading ? "..." : "সাবস্ক্রাইব"}
+                </button>
+              </form>
+            )}
+            {errorMsg && (
+              <p className="text-xs text-red-750 font-bold mt-2">{errorMsg}</p>
+            )}
+          </div>
+        </div>
+
         {/* Full Width Bottom Map Section */}
         <div id="bangladesh-map" className="w-full border-t border-[var(--border-color)] pt-8 mt-4 scroll-mt-20">
           <div className="flex flex-col gap-2 mb-6">
             <h2 className="font-serif font-black text-xl md:text-2xl text-[var(--text-primary)] flex items-center gap-2">
-              <Award size={22} className="text-emerald-650" />
+              <Award size={22} className="text-emerald-650 animate-bounce" />
               <span>মানচিত্র ভিত্তিক খবর (ঠাকুরগাঁও ও দেশজুড়ে)</span>
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-slate-550 dark:text-zinc-500">
               নিচের ইন্টারেক্টিভ ম্যাপ থেকে বিভাগ ও জেলা সিলেক্ট করে নির্দিষ্ট অঞ্চলের সংবাদ ফিল্টার করুন।
             </p>
           </div>
