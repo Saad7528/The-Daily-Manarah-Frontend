@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
 import {
   FileText,
   ShieldCheck,
@@ -16,13 +17,34 @@ import {
 } from "lucide-react";
 
 export default function ContentEditor() {
+  const { data: session } = useSession();
   // Post metadata states
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("politics");
+  const [category, setCategory] = useState("");
   const [division, setDivision] = useState("");
   const [district, setDistrict] = useState("");
   const [thana, setThana] = useState("");
   const [coverImage, setCoverImage] = useState("");
+  const [categoriesList, setCategoriesList] = useState<{ id: string; name: string }[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/categories`);
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setCategoriesList(data.map((c: any) => ({ id: c.id, name: c.name })));
+          if (data.length > 0) {
+            setCategory(data[0].id);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+    fetchCategories();
+  }, []);
+
   
   // Custom badges/toggles
   const [isWatermarkOn, setIsWatermarkOn] = useState(true);
@@ -94,12 +116,63 @@ export default function ContentEditor() {
     alert("বানান সংশোধন সফল হয়েছে!");
   };
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     if (!title.trim() || !content.trim()) {
       alert("অনুগ্রহ করে খবরের শিরোনাম এবং বিবরণ প্রদান করুন।");
       return;
     }
-    alert(`"${title}" সংবাদটি সফলভাবে দ্য ডেইলি মানারাহ নিউজ পোর্টালে প্রকাশিত হয়েছে!`);
+
+    if (!session?.user) {
+      alert("সংবাদ প্রকাশ করতে আপনাকে অবশ্যই লগইন করতে হবে।");
+      return;
+    }
+
+    const baseSlug = title
+      .toLowerCase()
+      .replace(/[^\w\u0980-\u09FF]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+    const slug = `${baseSlug}-${Date.now()}`;
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/posts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          slug,
+          content,
+          summary: content.substring(0, 150),
+          coverImage,
+          isWatermarkOn,
+          isVerified,
+          sourceUrl,
+          sourceVideo,
+          division,
+          district,
+          thana,
+          categoryId: category,
+          authorId: (session.user as any).id,
+        })
+      });
+
+      if (response.ok) {
+        alert(`"${title}" সংবাদটি সফলভাবে দ্য ডেইলি মানারাহ নিউজ পোর্টালে প্রকাশিত হয়েছে!`);
+        setTitle("");
+        setContent("");
+        setCoverImage("");
+        setDivision("");
+        setDistrict("");
+        setThana("");
+        setSourceUrl("");
+        setSourceVideo("");
+      } else {
+        const errorData = await response.json();
+        alert(`সংবাদ প্রকাশে ত্রুটি: ${errorData.error || "অজ্ঞাত ত্রুটি"}`);
+      }
+    } catch (error) {
+      console.error("Failed to publish post:", error);
+      alert("সার্ভার ত্রুটি ঘটেছে। অনুগ্রহ করে পরে চেষ্টা করুন।");
+    }
   };
 
   return (
@@ -122,18 +195,35 @@ export default function ContentEditor() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* Draft Saving Status Indicator */}
-            <span className="text-[11px] text-slate-400 font-medium">
-              {isSaving ? "ড্রাফট সংরক্ষণ হচ্ছে..." : lastSaved ? `স্বয়ংক্রিয়ভাবে সংরক্ষিত: ${lastSaved}` : "ড্রাফট সংরক্ষিত"}
-            </span>
-            
-            <button
-              onClick={handlePublish}
-              className="bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-white font-bold text-xs px-5 py-2 rounded-full shadow transition-all"
-            >
-              সংবাদ প্রকাশ করুন
-            </button>
+          <div className="flex items-center gap-4">
+            {session?.user && (
+              <div className="flex items-center gap-3 bg-[var(--bg-card)] border border-[var(--border-color)] px-4 py-1.5 rounded-full shadow-sm">
+                <div className="flex flex-col text-right">
+                  <span className="text-xs font-bold text-[var(--text-primary)]">{session.user.name}</span>
+                  <span className="text-[9px] font-medium text-slate-400 uppercase tracking-wider">{(session.user as any).role || "এডিটর"}</span>
+                </div>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 font-bold px-3 py-1 rounded-full text-[10px] transition"
+                >
+                  লগ আউট
+                </button>
+              </div>
+            )}
+
+            <div className="flex items-center gap-3">
+              {/* Draft Saving Status Indicator */}
+              <span className="text-[11px] text-slate-400 font-medium">
+                {isSaving ? "ড্রাফট সংরক্ষণ হচ্ছে..." : lastSaved ? `স্বয়ংক্রিয়ভাবে সংরক্ষিত: ${lastSaved}` : "ড্রাফট সংরক্ষিত"}
+              </span>
+              
+              <button
+                onClick={handlePublish}
+                className="bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-white font-bold text-xs px-5 py-2 rounded-full shadow transition-all"
+              >
+                সংবাদ প্রকাশ করুন
+              </button>
+            </div>
           </div>
         </div>
 
@@ -232,12 +322,21 @@ export default function ContentEditor() {
                   onChange={(e) => setCategory(e.target.value)}
                   className="w-full bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg p-2 text-slate-700 dark:text-slate-300 sepia:text-[#433422] outline-none"
                 >
-                  <option value="politics">রাজনীতি</option>
-                  <option value="sociology">সমাজবিজ্ঞান</option>
-                  <option value="sports">খেলাধুলা</option>
-                  <option value="technology">প্রযুক্তি</option>
-                  <option value="opinion">মতামত</option>
-                  <option value="international">বিশ্ব সংবাদ</option>
+                  {categoriesList.map((cat) => (
+                    <option key={cat.id} value={cat.id}>
+                      {cat.name}
+                    </option>
+                  ))}
+                  {categoriesList.length === 0 && (
+                    <>
+                      <option value="politics">রাজনীতি</option>
+                      <option value="sociology">সমাজবিজ্ঞান</option>
+                      <option value="sports">খেলাধুলা</option>
+                      <option value="technology">প্রযুক্তি</option>
+                      <option value="opinion">مতামত</option>
+                      <option value="international">বিশ্ব সংবাদ</option>
+                    </>
+                  )}
                 </select>
               </div>
 

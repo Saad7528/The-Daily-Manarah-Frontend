@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useSession, signOut } from "next-auth/react";
 import {
   Settings,
   Eye,
@@ -45,6 +46,8 @@ interface PostItem {
 }
 
 export default function AdminDashboard() {
+  const { data: session } = useSession();
+
   // Global settings toggles
   const [settings, setSettings] = useState({
     watermarkGlobal: true,
@@ -160,14 +163,31 @@ export default function AdminDashboard() {
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
-            <span className="flex h-2 w-2 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-            </span>
-            <span className="text-xs font-bold text-red-500">
-              লাইভ ট্রাফিক মনিটরিং
-            </span>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+              </span>
+              <span className="text-xs font-bold text-red-500">
+                লাইভ ট্রাফিক মনিটরিং
+              </span>
+            </div>
+
+            {session?.user && (
+              <div className="flex items-center gap-3 bg-[var(--bg-card)] border border-[var(--border-color)] px-4 py-1.5 rounded-full shadow-sm">
+                <div className="flex flex-col text-right">
+                  <span className="text-xs font-bold text-[var(--text-primary)]">{session.user.name}</span>
+                  <span className="text-[9px] font-medium text-slate-400 uppercase tracking-wider">{(session.user as any).role || "অ্যাডমিন"}</span>
+                </div>
+                <button
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 font-bold px-3 py-1 rounded-full text-[10px] transition"
+                >
+                  লগ আউট
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
