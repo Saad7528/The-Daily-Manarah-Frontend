@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import {
+  Sun,
+  Moon,
+  EyeOff,
   Settings,
   Eye,
   FileText,
@@ -34,6 +37,8 @@ interface UserItem {
   name: string;
   email: string;
   role: "SUPER_ADMIN" | "EDITOR" | "REPORTER" | "AD_MANAGER";
+  isVerified: boolean;
+  plainPassword?: string;
 }
 
 interface PostItem {
@@ -62,6 +67,8 @@ export default function AdminDashboard() {
 
   // Live Users state & handlers
   const [users, setUsers] = useState<UserItem[]>([]);
+  const [visiblePasswords, setVisiblePasswords] = useState<Record<string, boolean>>({});
+  const [resetRequests, setResetRequests] = useState<any[]>([]);
   const [newUserName, setNewUserName] = useState("");
   const [newUserEmail, setNewUserEmail] = useState("");
   const [newUserPassword, setNewUserPassword] = useState("");
@@ -80,8 +87,21 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchResetRequests = async () => {
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/users/reset-requests`);
+      if (res.ok) {
+        const data = await res.json();
+        setResetRequests(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch reset requests:", error);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
+    fetchResetRequests();
   }, []);
 
   const handleCreateUser = async (e: React.FormEvent) => {
@@ -105,7 +125,7 @@ export default function AdminDashboard() {
       });
 
       if (res.ok) {
-        alert("নতুন টিম মেম্বার সফলভাবে যুক্ত করা হয়েছে!");
+        alert("নতুন টিম মেম্বার সফলভাবে যুক্ত করা হয়েছে! একটি কনফার্মেশন লিঙ্ক ওনার মেইলে পাঠানো হয়েছে।");
         setNewUserName("");
         setNewUserEmail("");
         setNewUserPassword("");
@@ -152,6 +172,39 @@ export default function AdminDashboard() {
       }
     } catch (error) {
       console.error("Failed to update user role:", error);
+    }
+  };
+
+  const handleApproveReset = async (reqId: string) => {
+    if (confirm("আপনি কি নিশ্চিতভাবে এই পাসওয়ার্ড পরিবর্তনের আবেদনটি অনুমোদন করতে চান?")) {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/users/reset-requests/${reqId}/approve`, {
+          method: "POST"
+        });
+        if (res.ok) {
+          alert("আবেদনটি সফলভাবে অনুমোদিত হয়েছে এবং পাসওয়ার্ড আপডেট করা হয়েছে।");
+          fetchResetRequests();
+          fetchUsers();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleRejectReset = async (reqId: string) => {
+    if (confirm("আপনি কি নিশ্চিতভাবে এই আবেদনটি প্রত্যাখ্যান করতে চান?")) {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/users/reset-requests/${reqId}/reject`, {
+          method: "POST"
+        });
+        if (res.ok) {
+          alert("আবেদনটি প্রত্যাখ্যান করা হয়েছে।");
+          fetchResetRequests();
+        }
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -499,6 +552,43 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        {/* Pending Password Reset Requests Widget */}
+        {resetRequests.length > 0 && (
+          <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+            <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
+              <ShieldAlert size={18} className="text-red-500 animate-bounce" />
+              <h3 className="font-serif font-black text-base text-[var(--text-primary)]">
+                পাসওয়ার্ড পরিবর্তনের পেন্ডিং আবেদনসমূহ ({resetRequests.length})
+              </h3>
+            </div>
+            <div className="flex flex-col gap-3">
+              {resetRequests.map((req) => (
+                <div key={req.id} className="flex items-center justify-between p-4 rounded-xl border border-red-250 dark:border-red-950/40 bg-red-500/5 text-xs">
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-bold text-[var(--text-primary)]">{req.userName} ({req.userEmail})</span>
+                    <span className="text-slate-500">প্রস্তাবিত নতুন পাসওয়ার্ড: <span className="font-mono font-bold bg-slate-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded text-xs">{req.newPlainPassword}</span></span>
+                    <span className="text-[10px] text-slate-400">আবেদনের তারিখ: {new Date(req.createdAt).toLocaleString("bn-BD")}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleApproveReset(req.id)}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded text-xs transition"
+                    >
+                      অনুমোদন দিন
+                    </button>
+                    <button
+                      onClick={() => handleRejectReset(req.id)}
+                      className="bg-red-650 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded text-xs transition"
+                    >
+                      প্রত্যাখ্যান করুন
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* ROLE MANAGER PANEL */}
         <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-6">
           <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-1">
@@ -573,7 +663,8 @@ export default function AdminDashboard() {
                 <tr className="border-b border-[var(--border-color)] text-slate-400">
                   <th className="py-2">নাম</th>
                   <th className="py-2">ইমেইল</th>
-                  <th className="py-2">বর্তমান রোল</th>
+                  <th className="py-2">ইমেইল স্ট্যাটাস</th>
+                  <th className="py-2 text-right">পাসওয়ার্ড</th>
                   <th className="py-2 text-right">পদক্ষেপ / রোল পরিবর্তন</th>
                 </tr>
               </thead>
@@ -583,9 +674,26 @@ export default function AdminDashboard() {
                     <td className="py-3 font-semibold">{user.name}</td>
                     <td className="py-3 text-slate-400">{user.email}</td>
                     <td className="py-3">
-                      <span className="px-2.5 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-[10px] font-bold">
-                        {user.role}
+                      <span className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${
+                        user.isVerified
+                          ? "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                          : "bg-amber-500/10 text-amber-600 dark:text-amber-400 animate-pulse"
+                      }`}>
+                        {user.isVerified ? "ভেরিফাইড" : "পেন্ডিং (Pending)"}
                       </span>
+                    </td>
+                    <td className="py-3 text-right">
+                      <div className="flex items-center gap-1.5 justify-end">
+                        <span className="font-mono text-xs text-slate-500 dark:text-zinc-400">
+                          {visiblePasswords[user.id] ? (user as any).plainPassword : "••••••••"}
+                        </span>
+                        <button
+                          onClick={() => setVisiblePasswords(prev => ({ ...prev, [user.id]: !prev[user.id] }))}
+                          className="text-slate-400 hover:text-[var(--accent-color)] transition shrink-0"
+                        >
+                          {visiblePasswords[user.id] ? <EyeOff size={13} /> : <Eye size={13} />}
+                        </button>
+                      </div>
                     </td>
                     <td className="py-3 text-right flex items-center justify-end gap-3">
                       <select
