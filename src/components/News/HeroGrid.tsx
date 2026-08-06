@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { ShieldCheck, MessageCircle, Eye, Calendar, User } from "lucide-react";
+import { ShieldCheck, Eye, Calendar, User } from "lucide-react";
 
 export interface NewsItem {
   id: string;
@@ -31,7 +31,7 @@ export function HeroGrid({ posts }: HeroGridProps) {
   }
 
   const leadPost = posts[0];
-  const secondaryPosts = posts.slice(1, 5);
+  const sidePosts = posts.slice(1, 4); // Fetch 3 side posts for the left column stack
 
   const formatDate = (dateVal: Date | string) => {
     const d = new Date(dateVal);
@@ -43,129 +43,116 @@ export function HeroGrid({ posts }: HeroGridProps) {
   };
 
   return (
-    <div className="w-full flex flex-col gap-6">
-      {/* Grid Layout: 1 Lead Column + 4 Secondary Cards Column */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <div className="w-full">
+      {/* 3-Column Layout topology inside Main Content Area */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
         
-        {/* LEFT COLUMN: Large Lead Story (lg:col-span-7 or 8) */}
-        <div className="lg:col-span-7 flex flex-col bg-[var(--bg-card)] rounded-2xl overflow-hidden border border-[var(--border-color)] shadow-sm hover:shadow-md transition-all duration-300 group">
+        {/* LEFT COLUMN: Vertical Stack of 3 Mini News Cards (md:col-span-4 or 5) */}
+        <div className="md:col-span-4 flex flex-col gap-5">
+          {sidePosts.map((post) => (
+            <div
+              key={post.id}
+              className="flex flex-col bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 group"
+            >
+              {/* Small Thumbnail Image */}
+              <Link href={`/article/${post.slug}`} className="relative block overflow-hidden aspect-[16/9] border-b border-slate-100 dark:border-zinc-850">
+                <img
+                  src={post.coverImage}
+                  alt={post.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <span className="absolute bottom-2 left-2 bg-slate-900/70 text-white text-[9px] font-bold px-2 py-0.5 rounded backdrop-blur-xs">
+                  {post.category.name}
+                </span>
+              </Link>
+
+              {/* Text Info */}
+              <div className="p-3.5 flex flex-col gap-1.5 justify-between flex-grow">
+                <Link href={`/article/${post.slug}`}>
+                  <h3 className="font-serif font-black text-xs md:text-sm text-slate-800 dark:text-zinc-150 hover:text-emerald-650 transition-colors leading-snug line-clamp-2">
+                    {post.title}
+                  </h3>
+                </Link>
+                <div className="flex items-center justify-between text-[10px] text-slate-400">
+                  <span>{formatDate(post.createdAt)}</span>
+                  <span>{formatViews(post.views)} বার পঠিত</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* RIGHT COLUMN: The Big Spotlight Headline Story (md:col-span-8) */}
+        <div className="md:col-span-8 flex flex-col bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 group">
+          
+          {/* Main Large Image */}
           <Link href={`/article/${leadPost.slug}`} className="relative block overflow-hidden aspect-[16/10]">
             <img
               src={leadPost.coverImage}
               alt={leadPost.title}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
             />
             {/* Category Tag */}
-            <span className="absolute top-4 left-4 bg-[var(--accent-color)] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider z-10">
+            <span className="absolute top-4 left-4 bg-emerald-600 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
               {leadPost.category.name}
             </span>
             {leadPost.isVerified && (
-              <span className="absolute top-4 right-4 bg-emerald-600/90 text-white text-[10px] font-bold px-2 py-1 rounded-md flex items-center gap-1 backdrop-blur-sm z-10 border border-emerald-500/20">
+              <span className="absolute top-4 right-4 bg-emerald-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-md flex items-center gap-1 shadow-sm z-10">
                 <ShieldCheck size={12} />
-                ভেরিফাইড রিপোর্ট
+                <span>ভেরিফাইড রিপোর্ট</span>
               </span>
             )}
           </Link>
 
-          <div className="p-6 flex flex-col gap-3 flex-grow justify-between">
-            <div className="flex flex-col gap-2">
-              {/* Meta tags */}
-              <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 dark:text-zinc-500 sepia:text-[#705e4c]">
-                <span className="flex items-center gap-1">
-                  <User size={12} />
-                  {leadPost.author.name}
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <Calendar size={12} />
-                  {formatDate(leadPost.createdAt)}
-                </span>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <Eye size={12} />
-                  {formatViews(leadPost.views)} বার পঠিত
-                </span>
-              </div>
-
-              {/* Title */}
-              <Link href={`/article/${leadPost.slug}`}>
-                <h2 className="font-serif font-black text-xl md:text-2xl lg:text-3xl text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug">
-                  {leadPost.title}
-                </h2>
-              </Link>
-
-              {/* Summary */}
-              {leadPost.summary && (
-                <p className="text-sm text-slate-600 dark:text-zinc-400 sepia:text-[#705e4c] leading-relaxed line-clamp-3">
-                  {leadPost.summary}
-                </p>
-              )}
+          {/* Details */}
+          <div className="p-6 flex flex-col gap-4">
+            
+            {/* Meta information */}
+            <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-450 dark:text-zinc-500">
+              <span className="flex items-center gap-1">
+                <User size={12} />
+                {leadPost.author.name}
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1">
+                <Calendar size={12} />
+                {formatDate(leadPost.createdAt)}
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1">
+                <Eye size={12} />
+                {formatViews(leadPost.views)} বার পঠিত
+              </span>
             </div>
 
-            <div className="mt-4 pt-4 border-t border-[var(--border-color)]">
+            {/* Title */}
+            <Link href={`/article/${leadPost.slug}`}>
+              <h2 className="font-serif font-black text-lg md:text-xl lg:text-2xl text-slate-900 dark:text-zinc-50 hover:text-emerald-650 transition-colors leading-snug">
+                {leadPost.title}
+              </h2>
+            </Link>
+
+            {/* Summary */}
+            {leadPost.summary && (
+              <p className="text-xs md:text-sm text-slate-500 dark:text-zinc-400 leading-relaxed line-clamp-3">
+                {leadPost.summary}
+              </p>
+            )}
+
+            {/* Read More button */}
+            <div className="pt-3 border-t border-slate-100 dark:border-zinc-850 flex items-center justify-between">
               <Link
                 href={`/article/${leadPost.slug}`}
-                className="text-xs font-bold text-[var(--accent-color)] hover:underline inline-flex items-center gap-1"
+                className="text-xs font-bold text-emerald-600 hover:text-emerald-700 transition"
               >
                 বিস্তারিত পড়ুন →
               </Link>
             </div>
+
           </div>
+
         </div>
 
-        {/* RIGHT COLUMN: 4 Secondary Featured Stories (lg:col-span-5) */}
-        <div className="lg:col-span-5 flex flex-col gap-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {secondaryPosts.map((post) => (
-              <div
-                key={post.id}
-                className="flex flex-col bg-[var(--bg-card)] rounded-xl overflow-hidden border border-[var(--border-color)] shadow-sm hover:shadow-md transition-all duration-300 group"
-              >
-                <Link href={`/article/${post.slug}`} className="relative block overflow-hidden aspect-[16/10]">
-                  <img
-                    src={post.coverImage}
-                    alt={post.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <span className="absolute top-2 left-2 bg-slate-900/80 text-white text-[9px] font-bold px-2 py-0.5 rounded backdrop-blur-sm">
-                    {post.category.name}
-                  </span>
-                  {post.isVerified && (
-                    <span className="absolute top-2 right-2 bg-emerald-600/90 text-white p-0.5 rounded-full" title="ভেরিফাইড রিপোর্ট">
-                      <ShieldCheck size={12} />
-                    </span>
-                  )}
-                </Link>
-
-                <div className="p-4 flex flex-col gap-2 flex-grow justify-between">
-                  <div className="flex flex-col gap-1.5">
-                    {/* Meta */}
-                    <div className="flex items-center gap-2 text-[10px] text-slate-500 dark:text-zinc-500 sepia:text-[#705e4c]">
-                      <span>{formatDate(post.createdAt)}</span>
-                      <span>•</span>
-                      <span>{formatViews(post.views)} ভিউ</span>
-                    </div>
-                    {/* Title */}
-                    <Link href={`/article/${post.slug}`}>
-                      <h3 className="font-serif font-bold text-sm text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug line-clamp-3">
-                        {post.title}
-                      </h3>
-                    </Link>
-                  </div>
-
-                  <div className="mt-2 pt-2 border-t border-[var(--border-color)]">
-                    <Link
-                      href={`/article/${post.slug}`}
-                      className="text-[11px] font-bold text-[var(--accent-color)] hover:underline"
-                    >
-                      পড়ুন →
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </div>
   );

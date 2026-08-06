@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Header } from "@/components/Layout/Header";
 import { Footer } from "@/components/Layout/Footer";
 import { HeroGrid, NewsItem } from "@/components/News/HeroGrid";
@@ -83,6 +83,25 @@ export default function Home() {
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [posts, setPosts] = useState<NewsItem[]>(mockPosts);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/posts`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.length > 0) {
+            setPosts(data);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch homepage posts:", err);
+      }
+    };
+    fetchPosts();
+  }, []);
+
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg("");
@@ -144,7 +163,7 @@ export default function Home() {
               </h2>
             </div>
             
-            <HeroGrid posts={mockPosts} />
+            <HeroGrid posts={posts} />
           </div>
 
           {/* Sidebar Area (lg:col-span-4) */}
