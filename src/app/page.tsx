@@ -166,7 +166,7 @@ export default function Home() {
               const el = document.getElementById("bangladesh-map");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
-            className="text-[11px] font-black bg-emerald-50 hover:bg-emerald-100 dark:bg-zinc-850 text-emerald-700 dark:text-emerald-400 border border-emerald-250 px-4 py-1.5 rounded-full shadow-xs transition"
+            className="text-[11px] font-black bg-[var(--bg-input)] hover:opacity-90 text-[var(--accent-color)] border border-[var(--border-color)] px-4 py-1.5 rounded-full shadow-xs transition"
           >
             🗺️ মানচিত্র ভিত্তিক খবর দেখুন ↓
           </button>
@@ -193,17 +193,17 @@ export default function Home() {
                   <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide">
                     জাতীয় ও রাজনীতি
                   </h3>
-                  <Link href="/category/politics" className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)] transition-colors">
+                  <Link href="/category/politics" className="text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-color)] transition-colors">
                     সব খবর →
                   </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                   <div className="md:col-span-7 flex flex-col gap-3 group">
-                    <Link href={`/article/${politicsPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                    <Link href={`/article/${politicsPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
                       <img src={politicsPosts[0].coverImage} alt={politicsPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
                     </Link>
                     <div className="flex flex-col gap-1.5">
-                      <span className="text-[10px] font-bold text-slate-400">
+                      <span className="text-[10px] font-bold text-[var(--text-secondary)]">
                         {new Date(politicsPosts[0].createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
                       </span>
                       <Link href={`/article/${politicsPosts[0].slug}`}>
@@ -212,7 +212,7 @@ export default function Home() {
                         </h4>
                       </Link>
                       {politicsPosts[0].summary && (
-                        <p className="text-xs text-slate-550 dark:text-zinc-400 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed">
                           {politicsPosts[0].summary}
                         </p>
                       )}
@@ -220,9 +220,9 @@ export default function Home() {
                   </div>
                   <div className="md:col-span-5 flex flex-col gap-4">
                     {politicsPosts.slice(1, 4).map((post) => (
-                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-slate-100 dark:border-zinc-850 last:border-0 last:pb-0 group">
+                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-[var(--border-color)] last:border-0 last:pb-0 group">
                         <div className="flex flex-col gap-1 w-2/3">
-                          <span className="text-[9px] font-bold text-slate-450 dark:text-zinc-500">
+                          <span className="text-[9px] font-bold text-[var(--text-secondary)]">
                             {new Date(post.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
                           </span>
                           <Link href={`/article/${post.slug}`}>
@@ -231,7 +231,7 @@ export default function Home() {
                             </h5>
                           </Link>
                         </div>
-                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-slate-100 dark:border-zinc-800">
+                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-[var(--border-color)]">
                           <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
                         </Link>
                       </div>
@@ -241,25 +241,25 @@ export default function Home() {
               </div>
             )}
 
-            {/* ➔ Category Row 2: ফ্যাক্ট-চেক ও গবেষণা (Alternating Premium Cream/Yellow Background) */}
+            {/* ➔ Category Row 2: ফ্যাক্ট-চেক ও গবেষণা (Alternating Premium soft cream background) */}
             {factPosts.length > 0 && (
-              <div className="flex flex-col gap-4 bg-amber-50/30 dark:bg-zinc-900/20 p-6 rounded-2xl border border-amber-100/50 dark:border-zinc-800/40 pb-8 mt-6">
+              <div className="flex flex-col gap-4 bg-amber-50/10 dark:bg-zinc-950/20 p-6 rounded-2xl border border-[var(--border-color)] pb-8 mt-6">
                 <div className="flex items-center justify-between border-b-2 border-amber-500 dark:border-amber-600 pb-2">
                   <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide flex items-center gap-1.5">
-                    <ShieldCheck size={18} className="text-amber-500" />
+                    <ShieldCheck size={18} className="text-[var(--accent-color)]" />
                     <span>ফ্যাক্ট-চেক ও গবেষণা</span>
                   </h3>
-                  <Link href="/category/fact-check-research" className="text-xs font-bold text-slate-550 hover:text-[var(--accent-color)] transition-colors">
+                  <Link href="/category/fact-check-research" className="text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-color)] transition-colors">
                     সব খবর →
                   </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                   <div className="md:col-span-7 flex flex-col gap-3 group">
-                    <Link href={`/article/${factPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                    <Link href={`/article/${factPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
                       <img src={factPosts[0].coverImage} alt={factPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
                     </Link>
                     <div className="flex flex-col gap-1.5">
-                      <span className="text-[10px] font-bold text-slate-400">
+                      <span className="text-[10px] font-bold text-[var(--text-secondary)]">
                         {new Date(factPosts[0].createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
                       </span>
                       <Link href={`/article/${factPosts[0].slug}`}>
@@ -268,7 +268,7 @@ export default function Home() {
                         </h4>
                       </Link>
                       {factPosts[0].summary && (
-                        <p className="text-xs text-slate-550 dark:text-zinc-400 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed">
                           {factPosts[0].summary}
                         </p>
                       )}
@@ -276,9 +276,9 @@ export default function Home() {
                   </div>
                   <div className="md:col-span-5 flex flex-col gap-4">
                     {factPosts.slice(1, 4).map((post) => (
-                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-slate-100 dark:border-zinc-850 last:border-0 last:pb-0 group">
+                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-[var(--border-color)] last:border-0 last:pb-0 group">
                         <div className="flex flex-col gap-1 w-2/3">
-                          <span className="text-[9px] font-bold text-slate-450 dark:text-zinc-500">
+                          <span className="text-[9px] font-bold text-[var(--text-secondary)]">
                             {new Date(post.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
                           </span>
                           <Link href={`/article/${post.slug}`}>
@@ -287,7 +287,7 @@ export default function Home() {
                             </h5>
                           </Link>
                         </div>
-                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-slate-100 dark:border-zinc-800">
+                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-[var(--border-color)]">
                           <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
                         </Link>
                       </div>
@@ -305,14 +305,14 @@ export default function Home() {
                   <h3 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">
                     দাওয়াহ ও ইসলামিক জীবন
                   </h3>
-                  <Link href="/category/islamic-life" className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)]">
+                  <Link href="/category/islamic-life" className="text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-color)]">
                     সব →
                   </Link>
                 </div>
                 {dawahPosts.length > 0 ? (
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2 group">
-                      <Link href={`/article/${dawahPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                      <Link href={`/article/${dawahPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
                         <img src={dawahPosts[0].coverImage} alt={dawahPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
                       </Link>
                       <Link href={`/article/${dawahPosts[0].slug}`}>
@@ -323,14 +323,14 @@ export default function Home() {
                     </div>
                     <div className="flex flex-col gap-3">
                       {dawahPosts.slice(1, 3).map(post => (
-                        <Link key={post.id} href={`/article/${post.slug}`} className="text-xs font-semibold text-slate-600 dark:text-zinc-350 hover:text-[var(--accent-color)] transition leading-snug block border-t border-slate-105 dark:border-zinc-850 pt-2.5">
+                        <Link key={post.id} href={`/article/${post.slug}`} className="text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--accent-color)] transition leading-snug block border-t border-[var(--border-color)] pt-2.5">
                           • {post.title}
                         </Link>
                       ))}
                     </div>
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-400">কোনো পোস্ট পাওয়া যায়নি</p>
+                  <p className="text-xs text-[var(--text-secondary)]">কোনো পোস্ট পাওয়া যায়নি</p>
                 )}
               </div>
 
@@ -340,14 +340,14 @@ export default function Home() {
                   <h3 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] tracking-wide">
                     মানবসেবা ও সমাজ
                   </h3>
-                  <Link href="/category/humanity-society" className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)]">
+                  <Link href="/category/humanity-society" className="text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-color)]">
                     সব →
                   </Link>
                 </div>
                 {humanityPosts.length > 0 ? (
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2 group">
-                      <Link href={`/article/${humanityPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                      <Link href={`/article/${humanityPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
                         <img src={humanityPosts[0].coverImage} alt={humanityPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
                       </Link>
                       <Link href={`/article/${humanityPosts[0].slug}`}>
@@ -358,19 +358,19 @@ export default function Home() {
                     </div>
                     <div className="flex flex-col gap-3">
                       {humanityPosts.slice(1, 3).map(post => (
-                        <Link key={post.id} href={`/article/${post.slug}`} className="text-xs font-semibold text-slate-600 dark:text-zinc-350 hover:text-[var(--accent-color)] transition leading-snug block border-t border-slate-105 dark:border-zinc-850 pt-2.5">
+                        <Link key={post.id} href={`/article/${post.slug}`} className="text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--accent-color)] transition leading-snug block border-t border-[var(--border-color)] pt-2.5">
                           • {post.title}
                         </Link>
                       ))}
                     </div>
                   </div>
                 ) : (
-                  <p className="text-xs text-slate-400">কোনো পোস্ট পাওয়া যায়নি</p>
+                  <p className="text-xs text-[var(--text-secondary)]">কোনো পোস্ট পাওয়া যায়নি</p>
                 )}
               </div>
             </div>
 
-            {/* ➔ Category Row 4: ভিডিও ও মাল্টিমিডিয়া গ্যালারি (Play button overlays) */}
+            {/* ➔ Category Row 4: ভিডিও ও মাল্টিমিডিয়া গ্যালারি */}
             {multimediaPosts.length > 0 && (
               <div className="flex flex-col gap-4 bg-slate-950 text-white p-6 rounded-2xl border border-zinc-800 pb-8 mt-6">
                 <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
@@ -388,7 +388,7 @@ export default function Home() {
                     <Link href={`/article/${multimediaPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-zinc-800 w-full">
                       <img src={multimediaPosts[0].coverImage} alt={multimediaPosts[0].title} className="w-full h-full object-cover" />
                       <div className="absolute inset-0 bg-black/40 hover:bg-black/55 transition flex items-center justify-center">
-                        <span className="p-3 bg-red-600 rounded-full text-white shadow-lg animate-pulse hover:scale-105 transition">
+                        <span className="p-3 bg-red-650 rounded-full text-white shadow-lg animate-pulse hover:scale-105 transition">
                           <Play size={24} fill="currentColor" />
                         </span>
                       </div>
@@ -431,17 +431,17 @@ export default function Home() {
                   <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide">
                     মতামত ও সম্পাদকীয় কলাম
                   </h3>
-                  <Link href="/category/opinion-editorial" className="text-xs font-bold text-slate-500 hover:text-[var(--accent-color)] transition-colors">
+                  <Link href="/category/opinion-editorial" className="text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-color)] transition-colors">
                     সব খবর →
                   </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                   <div className="md:col-span-7 flex flex-col gap-3 group">
-                    <Link href={`/article/${opinionPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-slate-100 dark:border-zinc-800">
+                    <Link href={`/article/${opinionPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
                       <img src={opinionPosts[0].coverImage} alt={opinionPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
                     </Link>
                     <div className="flex flex-col gap-1.5">
-                      <span className="text-[10px] font-bold text-slate-400">
+                      <span className="text-[10px] font-bold text-[var(--text-secondary)]">
                         {new Date(opinionPosts[0].createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
                       </span>
                       <Link href={`/article/${opinionPosts[0].slug}`}>
@@ -450,7 +450,7 @@ export default function Home() {
                         </h4>
                       </Link>
                       {opinionPosts[0].summary && (
-                        <p className="text-xs text-slate-550 dark:text-zinc-400 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed">
                           {opinionPosts[0].summary}
                         </p>
                       )}
@@ -458,9 +458,9 @@ export default function Home() {
                   </div>
                   <div className="md:col-span-5 flex flex-col gap-4">
                     {opinionPosts.slice(1, 4).map((post) => (
-                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-slate-100 dark:border-zinc-850 last:border-0 last:pb-0 group">
+                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-[var(--border-color)] last:border-0 last:pb-0 group">
                         <div className="flex flex-col gap-1 w-2/3">
-                          <span className="text-[9px] font-bold text-slate-450 dark:text-zinc-500">
+                          <span className="text-[9px] font-bold text-[var(--text-secondary)]">
                             {new Date(post.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
                           </span>
                           <Link href={`/article/${post.slug}`}>
@@ -469,7 +469,7 @@ export default function Home() {
                             </h5>
                           </Link>
                         </div>
-                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-slate-100 dark:border-zinc-800">
+                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-[var(--border-color)]">
                           <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
                         </Link>
                       </div>
@@ -513,13 +513,13 @@ export default function Home() {
             
             {/* Tab switch widget (Trending / Editors choice) */}
             <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-              <div className="flex bg-slate-100 dark:bg-zinc-800 sepia:bg-[#dfceab] p-1 rounded-xl gap-1">
+              <div className="flex bg-[var(--bg-input)] p-1 rounded-xl gap-1">
                 <button
                   onClick={() => setActiveTab("trending")}
                   className={`w-1/2 py-2 text-xs font-bold rounded-lg transition-all ${
                     activeTab === "trending"
                       ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-sm"
-                      : "text-slate-500 hover:text-slate-700"
+                      : "text-[var(--text-secondary)] hover:opacity-90"
                   }`}
                 >
                   সর্বাধিক পঠিত (Trending)
@@ -529,7 +529,7 @@ export default function Home() {
                   className={`w-1/2 py-2 text-xs font-bold rounded-lg transition-all ${
                     activeTab === "editors"
                       ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-sm"
-                      : "text-slate-500 hover:text-slate-700"
+                      : "text-[var(--text-secondary)] hover:opacity-90"
                   }`}
                 >
                   সম্পাদকীয় কলাম (Opinion)
@@ -542,16 +542,16 @@ export default function Home() {
                   {trendingPosts.map((item, idx) => (
                     <div
                       key={item.id}
-                      className="flex items-start gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-950/20 sepia:hover:bg-[#dfceab]/30 transition"
+                      className="flex items-start gap-3 p-2 rounded-lg hover:bg-[var(--bg-input)] transition"
                     >
-                      <span className="shrink-0 flex items-center justify-center bg-slate-200 dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 font-black text-sm w-7 h-7 rounded-full">
+                      <span className="shrink-0 flex items-center justify-center bg-[var(--bg-input)] text-[var(--accent-color)] font-black text-sm w-7 h-7 rounded-full">
                         {idx + 1}
                       </span>
                       <div className="flex flex-col gap-1">
                         <Link href="/article/dummy" className="text-xs font-bold hover:text-[var(--accent-color)] text-[var(--text-primary)] transition leading-snug">
                           {item.title}
                         </Link>
-                        <span className="text-[10px] text-slate-400 flex items-center gap-1 font-medium">
+                        <span className="text-[10px] text-[var(--text-secondary)] flex items-center gap-1 font-medium">
                           <TrendingUp size={10} /> {item.views} বার পঠিত
                         </span>
                       </div>
@@ -562,11 +562,11 @@ export default function Home() {
                 <div className="flex flex-col gap-4 text-xs">
                   {/* Editor Column 1 */}
                   <div className="flex gap-3 items-start">
-                    <div className="w-10 h-10 rounded-full bg-slate-300 overflow-hidden shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-[var(--bg-input)] overflow-hidden shrink-0 border border-[var(--border-color)]">
                       <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop" alt="author" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <span className="font-bold text-slate-500">সারাহ তাসনিম</span>
+                      <span className="font-bold text-[var(--text-secondary)]">সারাহ তাসনিম</span>
                       <Link href="/article/dummy" className="font-bold text-[var(--text-primary)] hover:text-[var(--accent-color)]">
                         ডিজিটাল যুগে সমাজবিজ্ঞান শিক্ষার রূপান্তর ও ভবিষ্যৎ
                       </Link>
@@ -574,11 +574,11 @@ export default function Home() {
                   </div>
                   {/* Editor Column 2 */}
                   <div className="flex gap-3 items-start border-t border-[var(--border-color)] pt-3">
-                    <div className="w-10 h-10 rounded-full bg-slate-300 overflow-hidden shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-[var(--bg-input)] overflow-hidden shrink-0 border border-[var(--border-color)]">
                       <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop" alt="author" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex flex-col gap-1">
-                      <span className="font-bold text-slate-500">এম. এ. জলিল</span>
+                      <span className="font-bold text-[var(--text-secondary)]">এম. এ. জলিল</span>
                       <Link href="/article/dummy" className="font-bold text-[var(--text-primary)] hover:text-[var(--accent-color)]">
                         বস্তুনিষ্ঠ সাংবাদিকতা: বর্তমান সময়ের একটি কঠোর পরীক্ষা
                       </Link>
@@ -589,12 +589,12 @@ export default function Home() {
             </div>
 
             {/* Newsletter Subscription Card in Sidebar (Fallback) */}
-            <div className="bg-white dark:bg-zinc-900 border border-slate-200/60 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
               <h3 className="font-serif font-black text-sm text-[var(--text-primary)] border-b border-[var(--border-color)] pb-2 flex items-center space-x-2">
-                <Star size={16} className="text-amber-500" />
+                <Star size={16} className="text-amber-500 animate-pulse" />
                 <span>মানারাহ্ ফাউন্ডেশন</span>
               </h3>
-              <p className="text-[11px] text-slate-500 leading-relaxed">
+              <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
                 ডেইলি মানারাহ্-এর কাজের প্রধান ফোকাস হচ্ছে সমাজ থেকে অপসংস্কৃতি, ভুয়া খবর (Fake News) ও কুতথ্য মোকাবিলা করা।
               </p>
               <Link href="/donate" className="w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-2 rounded-xl text-xs transition">
@@ -608,7 +608,7 @@ export default function Home() {
 
         </div> {/* grid grid-cols-1 lg:grid-cols-12 gap-8 */}
 
-        {/* ➔ Gold Newsletter Subscription Banner at the bottom (Fits side-by-side elements inside) */}
+        {/* ➔ Gold Newsletter Subscription Banner at the bottom */}
         <div className="w-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 p-6 md:p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
           <div className="flex flex-col gap-2 md:w-1/2">
             <h3 className="font-serif font-black text-base md:text-xl flex items-center gap-2">
@@ -622,18 +622,18 @@ export default function Home() {
           
           <div className="w-full md:w-1/2 max-w-md">
             {subscribed ? (
-              <div className="bg-white/95 text-emerald-700 font-bold p-4 rounded-2xl text-xs border border-emerald-200">
+              <div className="bg-white/95 text-emerald-750 font-bold p-4 rounded-2xl text-xs border border-emerald-250">
                 ✓ ধন্যবাদ! আপনার ইমেইলটি সফলভাবে নিউজলেটারে যুক্ত হয়েছে।
               </div>
             ) : (
-              <form onSubmit={handleSubscribe} className="flex gap-2 bg-white/90 p-2 rounded-2xl shadow-inner w-full">
+              <form onSubmit={handleSubscribe} className="flex gap-2 bg-white/95 p-2 rounded-2xl shadow-inner w-full">
                 <input
                   type="email"
                   required
                   placeholder="আপনার ইমেইল অ্যাড্রেস লিখুন..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-transparent border-0 rounded px-3 py-2 text-xs w-full outline-none text-slate-900 placeholder:text-slate-500"
+                  className="bg-transparent border-0 rounded px-3 py-2 text-xs w-full outline-none text-slate-900 placeholder:text-slate-550"
                 />
                 <button
                   type="submit"
@@ -645,7 +645,7 @@ export default function Home() {
               </form>
             )}
             {errorMsg && (
-              <p className="text-xs text-red-750 font-bold mt-2">{errorMsg}</p>
+              <p className="text-xs text-red-800 font-bold mt-2">{errorMsg}</p>
             )}
           </div>
         </div>
@@ -654,10 +654,10 @@ export default function Home() {
         <div id="bangladesh-map" className="w-full border-t border-[var(--border-color)] pt-8 mt-4 scroll-mt-20">
           <div className="flex flex-col gap-2 mb-6">
             <h2 className="font-serif font-black text-xl md:text-2xl text-[var(--text-primary)] flex items-center gap-2">
-              <Award size={22} className="text-emerald-650 animate-bounce" />
+              <Award size={22} className="text-emerald-650 animate-pulse" />
               <span>মানচিত্র ভিত্তিক খবর (ঠাকুরগাঁও ও দেশজুড়ে)</span>
             </h2>
-            <p className="text-xs text-slate-550 dark:text-zinc-500">
+            <p className="text-xs text-[var(--text-secondary)]">
               নিচের ইন্টারেক্টিভ ম্যাপ থেকে বিভাগ ও জেলা সিলেক্ট করে নির্দিষ্ট অঞ্চলের সংবাদ ফিল্টার করুন।
             </p>
           </div>

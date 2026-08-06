@@ -24,7 +24,7 @@ interface HeroGridProps {
 export function HeroGrid({ posts }: HeroGridProps) {
   if (!posts || posts.length === 0) {
     return (
-      <div className="w-full text-center py-10 text-slate-500">
+      <div className="w-full text-center py-10 text-[var(--text-secondary)]">
         কোনো সংবাদ পাওয়া যায়নি।
       </div>
     );
@@ -52,16 +52,16 @@ export function HeroGrid({ posts }: HeroGridProps) {
           {sidePosts.map((post) => (
             <div
               key={post.id}
-              className="flex flex-col bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 group"
+              className="flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition duration-350 group"
             >
               {/* Small Thumbnail Image */}
-              <Link href={`/article/${post.slug}`} className="relative block overflow-hidden aspect-[16/9] border-b border-slate-100 dark:border-zinc-850">
+              <Link href={`/article/${post.slug}`} className="relative block overflow-hidden aspect-[16/9] border-b border-[var(--border-color)]">
                 <img
                   src={post.coverImage}
                   alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <span className="absolute bottom-2 left-2 bg-slate-900/70 text-white text-[9px] font-bold px-2 py-0.5 rounded backdrop-blur-xs">
+                <span className="absolute bottom-2 left-2 bg-slate-900/80 text-white text-[9px] font-bold px-2 py-0.5 rounded backdrop-blur-xs">
                   {post.category.name}
                 </span>
               </Link>
@@ -69,11 +69,11 @@ export function HeroGrid({ posts }: HeroGridProps) {
               {/* Text Info */}
               <div className="p-3.5 flex flex-col gap-1.5 justify-between flex-grow">
                 <Link href={`/article/${post.slug}`}>
-                  <h3 className="font-serif font-black text-xs md:text-sm text-slate-800 dark:text-zinc-150 hover:text-emerald-650 transition-colors leading-snug line-clamp-2">
+                  <h3 className="font-serif font-black text-xs md:text-sm text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug line-clamp-2">
                     {post.title}
                   </h3>
                 </Link>
-                <div className="flex items-center justify-between text-[10px] text-slate-400">
+                <div className="flex items-center justify-between text-[10px] text-[var(--text-secondary)] font-medium">
                   <span>{formatDate(post.createdAt)}</span>
                   <span>{formatViews(post.views)} বার পঠিত</span>
                 </div>
@@ -83,7 +83,7 @@ export function HeroGrid({ posts }: HeroGridProps) {
         </div>
 
         {/* RIGHT COLUMN: The Big Spotlight Headline Story (md:col-span-8) */}
-        <div className="md:col-span-8 flex flex-col bg-white dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 group">
+        <div className="md:col-span-8 flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-350 group">
           
           {/* Main Large Image */}
           <Link href={`/article/${leadPost.slug}`} className="relative block overflow-hidden aspect-[16/10]">
@@ -93,7 +93,7 @@ export function HeroGrid({ posts }: HeroGridProps) {
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
             />
             {/* Category Tag */}
-            <span className="absolute top-4 left-4 bg-emerald-600 text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
+            <span className="absolute top-4 left-4 bg-[var(--accent-color)] text-white text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm z-10">
               {leadPost.category.name}
             </span>
             {leadPost.isVerified && (
@@ -108,7 +108,7 @@ export function HeroGrid({ posts }: HeroGridProps) {
           <div className="p-6 flex flex-col gap-4">
             
             {/* Meta information */}
-            <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-450 dark:text-zinc-500">
+            <div className="flex flex-wrap items-center gap-3 text-[11px] text-[var(--text-secondary)] font-medium">
               <span className="flex items-center gap-1">
                 <User size={12} />
                 {leadPost.author.name}
@@ -127,23 +127,23 @@ export function HeroGrid({ posts }: HeroGridProps) {
 
             {/* Title */}
             <Link href={`/article/${leadPost.slug}`}>
-              <h2 className="font-serif font-black text-lg md:text-xl lg:text-2xl text-slate-900 dark:text-zinc-50 hover:text-emerald-650 transition-colors leading-snug">
+              <h2 className="font-serif font-black text-lg md:text-xl lg:text-2xl text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug">
                 {leadPost.title}
               </h2>
             </Link>
 
             {/* Summary */}
             {leadPost.summary && (
-              <p className="text-xs md:text-sm text-slate-500 dark:text-zinc-400 leading-relaxed line-clamp-3">
+              <p className="text-xs md:text-sm text-[var(--text-secondary)] leading-relaxed line-clamp-3">
                 {leadPost.summary}
               </p>
             )}
 
             {/* Read More button */}
-            <div className="pt-3 border-t border-slate-100 dark:border-zinc-850 flex items-center justify-between">
+            <div className="pt-3 border-t border-[var(--border-color)] flex items-center justify-between">
               <Link
                 href={`/article/${leadPost.slug}`}
-                className="text-xs font-bold text-emerald-600 hover:text-emerald-700 transition"
+                className="text-xs font-bold text-[var(--accent-color)] hover:text-[var(--accent-hover)] transition"
               >
                 বিস্তারিত পড়ুন →
               </Link>
