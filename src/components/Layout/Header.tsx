@@ -19,7 +19,8 @@ import {
   TrendingUp,
   XCircle,
   Award,
-  Heart
+  Heart,
+  Calendar
 } from "lucide-react";
 
 // Mock location data
@@ -58,12 +59,13 @@ export function Header() {
   const [selectedDivision, setSelectedDivision] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedThana, setSelectedThana] = useState("");
-  
-  // Search states
-  const [searchQuery, setSearchQuery] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+
+  // Date Search Popover states
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const today = new Date();
+    return today.toISOString().split("T")[0]; // YYYY-MM-DD
+  });
 
   // Breaking news banner state
   const [showBreaking, setShowBreaking] = useState(true);
@@ -90,28 +92,11 @@ export function Header() {
     });
   }, []);
 
-  // Filter suggestion mock trigger
-  useEffect(() => {
-    if (searchQuery.trim().length > 1) {
-      const mockSuggestions = [
-        "বাংলাদেশে তথ্যপ্রযুক্তির উন্নয়ন",
-        "অলিম্পিক গেমসের সর্বশেষ আপডেট",
-        "বিশ্ব অর্থনীতিতে মুদ্রাস্ফীতির প্রভাব",
-        "সমাজবিজ্ঞানের নতুন দিগন্ত",
-        "আজকের সোনার বাজার দর"
-      ].filter((item) => item.includes(searchQuery) || searchQuery.split(" ").some(word => item.includes(word)));
-      setSuggestions(mockSuggestions);
-    } else {
-      setSuggestions([]);
-    }
-  }, [searchQuery]);
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
+  const handleDateSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/archive?search=${encodeURIComponent(searchQuery)}`);
-      setIsSearchFocused(false);
-      setIsMobileSearchOpen(false);
+    if (selectedDate) {
+      router.push(`/archive?date=${selectedDate}`);
+      setIsCalendarOpen(false);
     }
   };
 
@@ -172,7 +157,7 @@ export function Header() {
             <span className="hidden md:inline">|</span>
             <span>{dates.en}</span>
             <span className="hidden md:inline">|</span>
-            <div className="flex items-center gap-1 text-emerald-650 dark:text-amber-400 sepia:text-amber-800">
+            <div className="flex items-center gap-1 text-emerald-655 dark:text-amber-400 sepia:text-amber-800">
               <CloudSun size={14} />
               <span>ঢাকা: ৩১°সে. (বজ্রবৃষ্টির সম্ভাবনা)</span>
             </div>
@@ -188,7 +173,7 @@ export function Header() {
               <div className="absolute flex whitespace-nowrap animate-marquee text-[11px] font-medium text-slate-700 dark:text-slate-300 sepia:text-[#433422] gap-10">
                 <span>সোনার বাজার দর: ২২ ক্যারেট ১,১৮,০০০ টাকা (ভরি)</span>
                 <span>ইউএসডি এক্সচেঞ্জ রেট: ১২০.৫০ টাকা</span>
-                <span>ক্রিকেট স্কোর: বাংলাদেশ ২৮ো/৫ (৪৫ ওভার) বনাম পাকিস্তান</span>
+                <span>ক্রিকেট স্কোর: বাংলাদেশ ২৮০/৫ (৪৫ ওভার) বনাম পাকিস্তান</span>
                 <span>জ্বালানি তেলের দাম আন্তর্জাতিক বাজারে হ্রাস পেয়েছে</span>
               </div>
             </div>
@@ -215,7 +200,7 @@ export function Header() {
               }}
               className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-slate-700 dark:text-slate-300 sepia:text-[#433422]"
             >
-              <option value="">বি विभाग নির্বাচন করুন</option>
+              <option value="">বিভাগ নির্বাচন করুন</option>
               {Object.keys(locations).map((div) => (
                 <option key={div} value={div}>
                   {div}
@@ -273,41 +258,40 @@ export function Header() {
       {/* 2. MAIN BRANDING BAR */}
       <div className="w-full py-4 md:py-5 px-4 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         
-        {/* ➔ Search Bar (Hidden on Mobile view, replaced by a neat toggle action) */}
-        <form onSubmit={handleSearchSubmit} className="hidden md:block relative w-full md:w-80 order-2 md:order-1">
-          <div className="flex items-center bg-[var(--bg-input)] border border-[var(--border-color)] rounded-full px-3 py-1.5">
-            <input
-              type="text"
-              placeholder="সংবাদ খুঁজুন..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
-              className="bg-transparent border-none outline-none text-sm w-full text-[var(--text-primary)] placeholder-slate-400"
-            />
-            <button type="submit" className="text-slate-400 hover:text-[var(--accent-color)] transition">
-              <Search size={16} />
-            </button>
-          </div>
+        {/* ➔ Premium Datepicker Calendar Popover Toggle Button (Instead of standard search box) */}
+        <div className="hidden md:block relative order-2 md:order-1">
+          <button
+            onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+            className="flex items-center gap-2 bg-[var(--bg-input)] hover:bg-[var(--border-color)] border border-[var(--border-color)] rounded-full px-5 py-2.5 text-xs font-bold text-[var(--text-primary)] transition"
+          >
+            <Calendar size={14} className="text-amber-500" />
+            <span>তারিখ অনুযায়ী আর্কাইভ খবর</span>
+          </button>
 
-          {/* Suggestions Dropdown */}
-          {isSearchFocused && suggestions.length > 0 && (
-            <div className="absolute left-0 right-0 mt-2 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg shadow-xl z-50 overflow-hidden">
-              {suggestions.map((item, idx) => (
-                <div
-                  key={idx}
-                  onClick={() => {
-                    setSearchQuery(item);
-                    router.push(`/archive?search=${encodeURIComponent(item)}`);
-                  }}
-                  className="px-4 py-2 hover:bg-slate-100 dark:hover:bg-zinc-800 sepia:hover:bg-[#dfceab] text-sm cursor-pointer border-b border-[var(--border-color)] last:border-0"
-                >
-                  {item}
-                </div>
-              ))}
+          {/* Date Selector Popover (Designed exactly like the User Mockup) */}
+          {isCalendarOpen && (
+            <div className="absolute left-0 mt-2 z-50 bg-[var(--bg-card)] border-2 border-amber-500 rounded-2xl p-6 shadow-2xl w-72 flex flex-col gap-4">
+              <div className="flex items-center gap-2 text-amber-600 font-bold text-xs">
+                <Calendar size={14} />
+                <span>তারিখ নির্বাচন করুন</span>
+              </div>
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs font-semibold outline-none text-[var(--text-primary)] focus:ring-2 focus:ring-amber-400"
+              />
+              <button
+                type="button"
+                onClick={handleDateSearch}
+                className="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition"
+              >
+                <Search size={14} />
+                <span>খুঁজুন</span>
+              </button>
             </div>
           )}
-        </form>
+        </div>
 
         {/* Center Logo */}
         <div className="order-1 md:order-2 flex justify-center">
@@ -320,7 +304,7 @@ export function Header() {
         <div className="hidden md:flex items-center gap-2.5 order-3">
           <Link
             href="/donate"
-            className="flex items-center gap-1 bg-red-650 hover:bg-red-700 text-white text-[11px] font-bold px-3.5 py-2 rounded-full border border-red-200 dark:border-red-900 transition shadow-sm animate-pulse"
+            className="flex items-center gap-1 bg-red-655 hover:bg-red-700 text-white text-[11px] font-bold px-3.5 py-2 rounded-full border border-red-200 dark:border-red-900 transition shadow-sm animate-pulse"
           >
             <Heart size={13} className="shrink-0 text-white" />
             <span>মানারাহ ফাউন্ডেশনে অনুদান দিন</span>
@@ -354,7 +338,7 @@ export function Header() {
         </div>
       )}
 
-      {/* ➔ 3. STICKY MEGA NAVIGATION & HORIZONTAL MOBILE SWIPE BAR (Sticks to top on scroll) */}
+      {/* ➔ 3. STICKY MEGA NAVIGATION & HORIZONTAL MOBILE SWIPE BAR */}
       <nav className="w-full sticky top-0 z-45 bg-[var(--bg-card)]/95 backdrop-blur-md border-y border-[var(--border-color)] shadow-xs select-none">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4">
           
@@ -388,7 +372,7 @@ export function Header() {
             <div className="flex items-center gap-1 overflow-x-auto scrollbar-none py-1.5 w-full text-xs font-bold mr-2 select-none">
               <Link
                 href="/"
-                className="shrink-0 px-3.5 py-1.5 bg-emerald-655 text-emerald-700 dark:bg-zinc-800 dark:text-emerald-400 rounded-full bg-slate-100"
+                className="shrink-0 px-3.5 py-1.5 bg-emerald-655 text-emerald-705 dark:bg-zinc-800 dark:text-emerald-400 rounded-full bg-slate-100"
               >
                 প্রচ্ছদ
               </Link>
@@ -409,14 +393,14 @@ export function Header() {
               </Link>
             </div>
 
-            {/* Mobile Actions: Simple Search Icon Trigger & Hamburger Menu */}
+            {/* Mobile Actions: Calendar Selector Trigger & Hamburger Menu */}
             <div className="flex items-center gap-1">
               <button
-                onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-                className="p-1.5 rounded-lg border border-[var(--border-color)] hover:bg-[var(--bg-input)] transition text-[var(--text-primary)] shrink-0"
-                title="সংবাদ অনুসন্ধান"
+                onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+                className="p-1.5 rounded-lg border border-[var(--border-color)] hover:bg-[var(--bg-input)] transition text-[var(--text-primary)] shrink-0 animate-pulse"
+                title="তারিখ অনুযায়ী সংবাদ"
               >
-                {isMobileSearchOpen ? <X size={16} /> : <Search size={16} />}
+                {isCalendarOpen ? <X size={16} /> : <Calendar size={16} className="text-amber-500" />}
               </button>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -428,27 +412,32 @@ export function Header() {
           </div>
         </div>
 
-        {/* ➔ Mobile Search dropdown overlay toggler */}
-        {isMobileSearchOpen && (
-          <div className="md:hidden w-full bg-[var(--bg-card)] border-t border-[var(--border-color)] px-4 py-2.5 shadow-md">
-            <form onSubmit={handleSearchSubmit} className="relative w-full">
-              <div className="flex items-center bg-[var(--bg-input)] border border-[var(--border-color)] rounded-full px-3 py-1.5">
-                <input
-                  type="text"
-                  placeholder="সংবাদ খুঁজুন..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-transparent border-none outline-none text-xs w-full text-[var(--text-primary)] placeholder-slate-400"
-                />
-                <button type="submit" className="text-slate-400">
-                  <Search size={14} />
-                </button>
+        {/* ➔ Mobile Date selector dropdown panel */}
+        {isCalendarOpen && (
+          <div className="md:hidden w-full bg-[var(--bg-card)] border-t border-[var(--border-color)] p-4 shadow-md flex justify-center">
+            <div className="w-full max-w-sm border-2 border-amber-500 rounded-2xl p-5 bg-[var(--bg-card)] flex flex-col gap-4">
+              <div className="flex items-center gap-2 text-amber-600 font-bold text-xs">
+                <Calendar size={14} />
+                <span>তারিখ নির্বাচন করুন</span>
               </div>
-            </form>
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => setSelectedDate(e.target.value)}
+                className="w-full bg-[var(--bg-primary)] border border-slate-300 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-xs font-semibold outline-none text-[var(--text-primary)] focus:ring-1 focus:ring-amber-500"
+              />
+              <button
+                onClick={handleDateSearch}
+                className="w-full bg-amber-500 hover:bg-amber-600 text-slate-955 font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow"
+              >
+                <Search size={14} />
+                <span>খুঁজুন</span>
+              </button>
+            </div>
           </div>
         )}
 
-        {/* Mobile menu dropdown drawer (Backup navigation) */}
+        {/* Mobile menu dropdown drawer */}
         {isMenuOpen && (
           <div className="md:hidden w-full bg-[var(--bg-card)] border-t border-[var(--border-color)] px-4 py-4 flex flex-col gap-2.5 z-50 shadow-lg">
             <Link
