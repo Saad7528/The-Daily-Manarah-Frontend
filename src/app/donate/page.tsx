@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Header } from "@/components/Layout/Header";
 import { Footer } from "@/components/Layout/Footer";
-import { Heart, Landmark, Smartphone, ClipboardCheck, Sparkles } from "lucide-react";
+import { Heart, Landmark, Smartphone, ClipboardCheck, Sparkles, ChevronRight } from "lucide-react";
 
 export default function DonatePage() {
   const [email, setEmail] = useState("");
@@ -252,6 +252,27 @@ export default function DonatePage() {
                 {loading ? "জমা দেওয়া হচ্ছে..." : "অনুদানের তথ্য পাঠান"}
               </button>
             </form>
+          </div>
+        </div>
+
+        {/* Learn More about Manarah Foundation Section */}
+        <div className="mt-8 border-t border-slate-200 dark:border-slate-800 pt-12 text-center w-full">
+          <div className="max-w-2xl mx-auto space-y-4">
+            <h3 className="text-xl font-bold font-serif text-slate-900 dark:text-white">
+              আমাদের কার্যক্রম ও স্বচ্ছতা সম্পর্কে জানতে চান?
+            </h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              মানারাহ ফাউন্ডেশন একটি সম্পূর্ণ অরাজনৈতিক, অলাভজনক এবং দ্বীনি ট্রাস্টি প্রতিষ্ঠান। আমাদের লক্ষ্য, উদ্দেশ্য, সেবা কার্যক্রম এবং আয়-ব্যয়ের নীতিমালা সম্পর্কে বিস্তারিত জানুন।
+            </p>
+            <div className="pt-2">
+              <a
+                href="/manarah-foundation"
+                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-2.5 rounded-full transition shadow-md hover:shadow-lg"
+              >
+                <span>মানারাহ ফাউন্ডেশন সম্পর্কে বিস্তারিত জানুন</span>
+                <ChevronRight className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
 

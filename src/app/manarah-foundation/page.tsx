@@ -64,16 +64,26 @@ export default function ManarahFoundationPage() {
             মানারাহ ফাউন্ডেশন (Manarah Foundation) গণপ্রজাতন্ত্রী বাংলাদেশ সরকার কর্তৃক নিবন্ধিত একটি অরাজনৈতিক, অলাভজনক এবং সম্পূর্ণ দ্বীনি ট্রাস্টি প্রতিষ্ঠান (নিবন্ধন নম্বর: ৩৩০৯/২০২৫)। মানবতার শ্রেষ্ঠ শিক্ষক, শান্তির দূত মহানবী মুহাম্মাদ (সাঃ)-এর সুমহান আদর্শ ও পদাঙ্ক অনুসরণ করে আর্তমানবতার সেবা এবং একটি আদর্শ কল্যাণ-সমাজ বিনির্মাণে আমরা নিরস্তর কাজ করে যাচ্ছি।
           </p>
 
-          <a
-            href="https://www.manarahfoundation.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-8 inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-2.5 rounded-full transition shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-          >
-            <Globe className="w-4 h-4" />
-            <span>মূল ওয়েবসাইট ভিজিট করুন</span>
-            <ExternalLink className="w-3.5 h-3.5" />
-          </a>
+          <div className="mt-8 flex flex-col sm:flex-row gap-4 items-center justify-center">
+            <a
+              href="/donate"
+              className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-2.5 rounded-full transition shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+            >
+              <HeartHandshake className="w-4 h-4" />
+              <span>মানারাহ ফাউন্ডেশনে অনুদান দিন</span>
+            </a>
+            
+            <a
+              href="https://www.manarahfoundation.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-emerald-800/80 hover:bg-emerald-800 border border-emerald-700/50 hover:border-emerald-700 text-white font-bold px-6 py-2.5 rounded-full transition shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+            >
+              <Globe className="w-4 h-4" />
+              <span>মূল ওয়েবসাইট ভিজিট করুন</span>
+              <ExternalLink className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
       </div>
 
@@ -557,6 +567,26 @@ export default function ManarahFoundationPage() {
               </div>
             </div>
 
+          </div>
+        </section>
+
+        {/* Call to Action Banner */}
+        <section className="bg-emerald-900 text-white rounded-3xl p-8 text-center relative overflow-hidden border border-amber-500/20">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-800 via-emerald-950 to-emerald-950 opacity-95"></div>
+          <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+            <h2 className="font-serif text-2xl md:text-3xl font-extrabold text-amber-400">
+              মানবতার কল্যাণে আপনার হাত বাড়িয়ে দিন
+            </h2>
+            <p className="text-slate-200 text-sm md:text-base leading-relaxed">
+              আপনার সদাকাহ, জাকাত ও অনুদান পৌঁছে যাবে দেশের সুবিধাবঞ্চিত, অবহেলিত ও সংকটাপন্ন মানুষের দোড়গোড়ায়। আমাদের প্রতিটি কল্যাণমুখী প্রজেক্টের সঠিক বাস্তবায়নে অংশ নিন।
+            </p>
+            <a
+              href="/donate"
+              className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-8 py-3 rounded-full transition shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+            >
+              <HeartHandshake className="w-5 h-5 animate-pulse" />
+              <span>অনুদানের মাধ্যমে পাশে দাঁড়ান</span>
+            </a>
           </div>
         </section>
 
