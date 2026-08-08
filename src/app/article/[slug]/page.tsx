@@ -90,8 +90,8 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
       <main className="max-w-3xl mx-auto w-full px-4 py-8 flex flex-col gap-6 flex-grow">
         
         {/* Article Breadcrumbs & Category */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-zinc-500 sepia:text-[#705e4c]">
-          <span className="bg-[var(--accent-color)] text-white font-bold px-2.5 py-0.5 rounded-full">
+        <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)] font-bold">
+          <span className="bg-[var(--accent-color)] text-slate-950 font-bold px-2.5 py-0.5 rounded-full">
             {post.category}
           </span>
           <span>•</span>
@@ -104,7 +104,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         </h1>
 
         {/* Metadata Details */}
-        <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 dark:text-zinc-500 sepia:text-[#705e4c] border-y border-[var(--border-color)] py-3">
+        <div className="flex flex-wrap items-center gap-4 text-xs text-[var(--text-secondary)] font-bold border-y border-[var(--border-color)] py-3">
           <div className="flex items-center gap-1">
             <User size={13} />
             <span className="font-semibold text-[var(--text-primary)]">{post.author}</span>
@@ -115,7 +115,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
             <span>{new Date().toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}</span>
           </div>
           {post.isVerified && (
-            <div className="flex items-center gap-1 text-emerald-600 dark:text-amber-400 sepia:text-amber-800 font-bold ml-auto">
+            <div className="flex items-center gap-1 text-[var(--accent-color)] font-bold ml-auto">
               <ShieldCheck size={14} />
               <span>ভেরিফাইড ও সত্যতা পরীক্ষিত</span>
             </div>
@@ -123,7 +123,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
         </div>
 
         {/* Cover Image with Watermark Overlay */}
-        <div className="w-full rounded-2xl overflow-hidden border border-[var(--border-color)] relative aspect-[16/9] bg-slate-100">
+        <div className="w-full rounded-2xl overflow-hidden border border-[var(--border-color)] relative aspect-[16/9] bg-[var(--bg-input)]">
           <img
             src={post.coverImage}
             alt={post.title}
@@ -131,7 +131,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
           />
           {/* Watermark overlay */}
           <div className="absolute bottom-4 right-4 bg-slate-900/60 backdrop-blur-sm px-3 py-1 rounded text-[9px] font-black tracking-widest text-white/80 select-none border border-white/10 uppercase">
-            THE DAILY MANARAH WATERMARK ACTIVE
+            DAILY MANARAH WATERMARK ACTIVE
           </div>
         </div>
 
@@ -143,7 +143,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
 
         {/* Article Body Content */}
         <article
-          className="prose dark:prose-invert max-w-none text-sm md:text-base text-slate-700 dark:text-zinc-300 sepia:text-[#433422] leading-relaxed flex flex-col gap-4"
+          className="max-w-none text-sm md:text-base text-[var(--text-primary)] font-medium leading-relaxed flex flex-col gap-5"
           dangerouslySetInnerHTML={{ __html: post.contentHtml }}
         />
 
@@ -179,7 +179,7 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
                 placeholder="আপনার নাম..."
                 value={commentName}
                 onChange={(e) => setCommentName(e.target.value)}
-                className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-xs w-full sm:w-1/2 outline-none"
+                className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-xs w-full sm:w-1/2 outline-none text-[var(--text-primary)] font-semibold"
                 required
               />
             </div>
@@ -188,12 +188,12 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
               value={commentContent}
               onChange={(e) => setCommentContent(e.target.value)}
               rows={3}
-              className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-xs outline-none resize-none"
+              className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-xs outline-none resize-none text-[var(--text-primary)] font-semibold"
               required
             />
             <button
               type="submit"
-              className="bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-white font-bold text-xs px-4 py-2 rounded-lg self-end transition flex items-center gap-1.5"
+              className="bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-slate-955 font-bold text-xs px-4 py-2 rounded-lg self-end transition flex items-center gap-1.5"
             >
               <Send size={12} />
               মন্তব্য প্রকাশ করুন
@@ -206,11 +206,11 @@ export default function ArticlePage({ params }: { params: { slug: string } }) {
               <div key={idx} className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] flex flex-col gap-1 text-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-[var(--text-primary)]">{c.authorName}</span>
-                  <span className="text-[10px] text-slate-400">
+                  <span className="text-[10px] text-[var(--text-secondary)] font-bold">
                     {c.createdAt.toLocaleTimeString("bn-BD", { hour: "numeric", minute: "2-digit" })}
                   </span>
                 </div>
-                <p className="text-slate-600 dark:text-zinc-400 sepia:text-[#705e4c] mt-1 leading-relaxed">
+                <p className="text-[var(--text-secondary)] font-medium mt-1 leading-relaxed">
                   {c.content}
                 </p>
               </div>
