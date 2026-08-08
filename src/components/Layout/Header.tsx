@@ -378,7 +378,7 @@ export function Header() {
               </Link>
             ))}
             <Link
-              href="/about-us"
+              href="/manarah-foundation"
               className="px-4 py-3.5 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-primary)] transition"
             >
               মানারাহ ফাউন্ডেশন
