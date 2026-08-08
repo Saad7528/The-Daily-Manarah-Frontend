@@ -156,22 +156,6 @@ export default function Home() {
 
       <main className="max-w-7xl mx-auto w-full px-4 py-8 flex flex-col gap-8 flex-grow">
         
-        {/* Top bar scroll to map navigation link */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[var(--bg-card)] border border-[var(--border-color)] px-5 py-3 rounded-2xl shadow-sm">
-          <span className="text-xs font-semibold text-[var(--text-primary)]">
-            🔍 নিরপেক্ষ সংবাদ পরিবেশন এবং সত্য ও নৈতিক সুন্নাহভিত্তিক জীবনবোধ ছড়িয়ে দিতে প্রতিশ্রুতিবদ্ধ ডেইলি মানারাহ্।
-          </span>
-          <button
-            onClick={() => {
-              const el = document.getElementById("bangladesh-map");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="text-[11px] font-black bg-[var(--bg-input)] hover:opacity-90 text-[var(--accent-color)] border border-[var(--border-color)] px-4 py-1.5 rounded-full shadow-xs transition"
-          >
-            🗺️ মানচিত্র ভিত্তিক খবর দেখুন ↓
-          </button>
-        </div>
-
         {/* Home News section split: Main Grid (Left 8 Cols) + Sidebar (Right 4 Cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
