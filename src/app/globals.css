@@ -3,35 +3,38 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #f8fafc; /* slate-50 */
-  --bg-card: #ffffff;
-  --text-primary: #0f172a; /* slate-900 */
-  --text-secondary: #475569; /* slate-600 */
-  --border-color: #e2e8f0; /* slate-200 */
-  --accent-color: #059669; /* emerald-600 */
-  --accent-hover: #047857; /* emerald-700 */
-  --bg-input: #f1f5f9;
+  /* Brand-inspired Light Mode Colors (Dark Teal & Gold theme) */
+  --bg-primary: #f4f6f8; /* Crisp, clean off-white background */
+  --bg-card: #ffffff; /* Pure white card background */
+  --text-primary: #0e3e4d; /* Exact dark navy-teal from the logo (high contrast) */
+  --text-secondary: #4c6c78; /* Muted slate-teal for descriptive texts */
+  --border-color: #dbe3e6; /* Sharp, clean teal-gray borders */
+  --accent-color: #dca72a; /* Golden-yellow from the logo branding */
+  --accent-hover: #b8861d; /* Rich hover amber */
+  --bg-input: #eef3f5; /* Light teal-gray input background */
 }
 
 .dark {
-  --bg-primary: #000000; /* AMOLED pure black */
-  --bg-card: #0c0c0c; /* dark gray card */
-  --text-primary: #f8fafc; /* slate-50 */
-  --text-secondary: #94a3b8; /* slate-400 */
-  --border-color: #1e293b; /* slate-800 */
-  --accent-color: #eab308; /* gold / amber-500 */
-  --accent-hover: #ca8a04; /* gold-600 */
-  --bg-input: #111827;
+  /* Brand-inspired Dark Mode Colors (Rich Deep Midnight Teal) */
+  --bg-primary: #071317; /* Deep midnight-teal background */
+  --bg-card: #0f2228; /* Rich slate-teal card backgrounds */
+  --text-primary: #f1f6f7; /* High visibility soft white text */
+  --text-secondary: #889fa8; /* Clear, bright slate-blue secondary text */
+  --border-color: #1a363f; /* Contrasting dark teal borders */
+  --accent-color: #dca72a; /* Brand Golden-yellow */
+  --accent-hover: #b8861d;
+  --bg-input: #122930;
 }
 
 .sepia {
-  --bg-primary: #f5ecd7; /* warm sepia paper */
-  --bg-card: #ebdcb9; /* warm sepia card */
-  --text-primary: #433422; /* warm dark brown */
-  --text-secondary: #705e4c; /* warm medium brown */
-  --border-color: #dfceab; /* warm border */
-  --accent-color: #b45309; /* warm orange/amber-700 */
-  --accent-hover: #92400e; /* warm amber-800 */
+  /* Eye Comfort Warm Sepia Mode */
+  --bg-primary: #f7f4eb; /* Soft warm paper */
+  --bg-card: #f0e6cf; /* Soft warm card */
+  --text-primary: #3e301d; /* Dark sepia brown */
+  --text-secondary: #6d5b4a; /* Medium sepia brown */
+  --border-color: #e3d7bd; /* Warm sepia borders */
+  --accent-color: #b45309; /* Warm orange-amber accent */
+  --accent-hover: #92400e;
   --bg-input: #ebdcb9;
 }
 
@@ -43,7 +46,7 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Custom scrollbar for premium aesthetics */
+/* Custom scrollbar matching logo brand style */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

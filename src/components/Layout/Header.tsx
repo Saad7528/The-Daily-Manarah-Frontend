@@ -70,6 +70,7 @@ export function Header() {
   // Breaking news banner state
   const [showBreaking, setShowBreaking] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isThemeDrawerOpen, setIsThemeDrawerOpen] = useState(false);
 
   useEffect(() => {
     // Generate dates on client to avoid hydration mismatch
@@ -111,41 +112,74 @@ export function Header() {
   return (
     <header className="w-full flex flex-col border-b border-[var(--border-color)] bg-[var(--bg-card)] transition-colors duration-300 relative">
       
-      {/* ➔ FLOATING EYE COMFORT THEME SELECTOR BAR (Bottom Right, Pops Up on Scroll, doesn't eat header space) */}
-      <div className="fixed right-4 bottom-24 z-50 flex flex-col bg-[var(--bg-card)]/90 backdrop-blur-md p-1.5 rounded-full border border-[var(--border-color)] shadow-xl gap-2 transition-transform hover:scale-105 duration-200">
+      {/* ➔ SLIDING SIDEBAR THEME SELECTOR DRAWER (Floating on the right edge of screen, opens on click, hides default on mobile, doesn't block text reading) */}
+      <div className={`fixed right-0 top-1/2 -translate-y-1/2 z-50 flex items-center transition-all duration-300 ${isThemeDrawerOpen ? "translate-x-0" : "translate-x-[calc(100%-12px)] md:translate-x-0"}`}>
+        
+        {/* Toggle pull-out Tab (Hidden on desktop since desktop has enough space, or shown as clean pull-out on mobile) */}
         <button
-          onClick={() => setTheme("light")}
-          className={`p-2 rounded-full transition-all ${
-            theme === "light"
-              ? "bg-emerald-600 text-white shadow"
-              : "text-slate-500 hover:text-slate-700 dark:text-zinc-400"
-          }`}
-          title="লাইট মোড"
+          onClick={() => setIsThemeDrawerOpen(!isThemeDrawerOpen)}
+          className="md:hidden flex items-center justify-center bg-[var(--bg-card)] border-l border-y border-[var(--border-color)] rounded-l-xl p-3 shadow-lg text-[var(--accent-color)] hover:scale-105 transition duration-200"
+          title="থিম পরিবর্তন প্যানেল"
         >
-          <Sun size={15} />
+          {isThemeDrawerOpen ? (
+            <X size={15} />
+          ) : theme === "light" ? (
+            <Sun size={15} className="text-amber-500 animate-spin-slow" />
+          ) : theme === "dark" ? (
+            <Moon size={15} className="text-amber-400" />
+          ) : (
+            <Coffee size={15} className="text-amber-800" />
+          )}
         </button>
-        <button
-          onClick={() => setTheme("dark")}
-          className={`p-2 rounded-full transition-all ${
-            theme === "dark"
-              ? "bg-zinc-950 text-amber-400 shadow border border-zinc-800"
-              : "text-slate-400 hover:text-slate-200"
-          }`}
-          title="AMOLED ডার্ক মোড"
-        >
-          <Moon size={15} />
-        </button>
-        <button
-          onClick={() => setTheme("sepia")}
-          className={`p-2 rounded-full transition-all ${
-            theme === "sepia"
-              ? "bg-[#f5ecd7] text-amber-900 shadow border border-amber-250"
-              : "text-amber-800/60 hover:text-amber-900"
-          }`}
-          title="সেপিয়া চোখের আরাম মোড"
-        >
-          <Coffee size={15} />
-        </button>
+
+        {/* Theme select Panel (Fitted with premium rounded shapes and gold border accents) */}
+        <div className="bg-[var(--bg-card)] border-l border-y border-[var(--border-color)] rounded-l-2xl p-4 shadow-2xl flex flex-col gap-3 w-32 border-2 border-r-0 border-amber-400">
+          <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] border-b border-[var(--border-color)] pb-1 text-center">
+            থিম পরিবর্তন
+          </span>
+          <button
+            onClick={() => {
+              setTheme("light");
+              setIsThemeDrawerOpen(false);
+            }}
+            className={`flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] font-black transition ${
+              theme === "light"
+                ? "bg-amber-500 text-slate-950 shadow"
+                : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
+            }`}
+          >
+            <Sun size={12} />
+            <span>লাইট মোড</span>
+          </button>
+          <button
+            onClick={() => {
+              setTheme("dark");
+              setIsThemeDrawerOpen(false);
+            }}
+            className={`flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] font-black transition ${
+              theme === "dark"
+                ? "bg-zinc-950 text-amber-400 border border-zinc-800 shadow"
+                : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
+            }`}
+          >
+            <Moon size={12} />
+            <span>ডার্ক মোড</span>
+          </button>
+          <button
+            onClick={() => {
+              setTheme("sepia");
+              setIsThemeDrawerOpen(false);
+            }}
+            className={`flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] font-black transition ${
+              theme === "sepia"
+                ? "bg-[#f5ecd7] text-amber-900 border border-amber-200 shadow"
+                : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
+            }`}
+          >
+            <Coffee size={12} />
+            <span>সেপিয়া মোড</span>
+          </button>
+        </div>
       </div>
 
       {/* 1. TOP BAR (Dates & Ticker) */}
