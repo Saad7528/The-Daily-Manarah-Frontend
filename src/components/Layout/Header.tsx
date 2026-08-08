@@ -404,7 +404,7 @@ export function Header() {
                 </Link>
               ))}
               <Link
-                href="/about-us"
+                href="/manarah-foundation"
                 className="shrink-0 px-3.5 py-1.5 text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-input)] rounded-full transition"
               >
                 মানারাহ ফাউন্ডেশন
@@ -476,7 +476,7 @@ export function Header() {
               </Link>
             ))}
             <Link
-              href="/about-us"
+              href="/manarah-foundation"
               onClick={() => setIsMenuOpen(false)}
               className="px-3 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--bg-input)] rounded transition"
             >
