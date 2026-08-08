@@ -322,9 +322,9 @@ export function Header() {
         <div className="hidden md:flex items-center gap-2.5 order-3">
           <Link
             href="/donate"
-            className="flex items-center gap-1 bg-red-655 hover:bg-red-700 text-white text-[11px] font-bold px-3.5 py-2 rounded-full border border-red-200 dark:border-red-900 transition shadow-sm animate-pulse"
+            className="flex items-center gap-1.5 bg-[#e6f4f0] dark:bg-[#0f2d36] text-[#0e3e4d] dark:text-white text-[11px] font-bold px-3.5 py-2 rounded-full border border-[#bcdad1] dark:border-[#1a4450] transition shadow-sm hover:scale-105"
           >
-            <Heart size={13} className="shrink-0 text-white" />
+            <Heart size={13} className="shrink-0 text-red-500 fill-red-500 animate-pulse" />
             <span>মানারাহ ফাউন্ডেশনে অনুদান দিন</span>
           </Link>
           <Link
