@@ -125,10 +125,8 @@ export function Header() {
             <X size={15} />
           ) : theme === "light" ? (
             <Sun size={15} className="text-amber-500 animate-spin-slow" />
-          ) : theme === "dark" ? (
-            <Moon size={15} className="text-amber-400" />
           ) : (
-            <Coffee size={15} className="text-amber-800" />
+            <Moon size={15} className="text-amber-400" />
           )}
         </button>
 
@@ -165,46 +163,32 @@ export function Header() {
             <Moon size={12} />
             <span>ডার্ক মোড</span>
           </button>
-          <button
-            onClick={() => {
-              setTheme("sepia");
-              setIsThemeDrawerOpen(false);
-            }}
-            className={`flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] font-black transition ${
-              theme === "sepia"
-                ? "bg-[#f5ecd7] text-amber-900 border border-amber-200 shadow"
-                : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
-            }`}
-          >
-            <Coffee size={12} />
-            <span>সেপিয়া মোড</span>
-          </button>
         </div>
       </div>
 
       {/* 1. TOP BAR (Dates & Ticker) */}
-      <div className="w-full bg-slate-100 dark:bg-zinc-900 sepia:bg-[#ebdcb9] border-b border-[var(--border-color)] text-xs py-2 px-4 transition-colors duration-300">
+      <div className="w-full bg-[var(--bg-input)] border-b border-[var(--border-color)] text-xs py-2 px-4 transition-colors duration-300">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
           {/* Dates & Weather */}
-          <div className="flex flex-wrap items-center gap-3 text-slate-600 dark:text-slate-300 sepia:text-[#705e4c]">
+          <div className="flex flex-wrap items-center gap-3 text-[var(--text-secondary)]">
             <span className="font-semibold">{dates.bn}</span>
             <span className="hidden md:inline">|</span>
             <span>{dates.en}</span>
             <span className="hidden md:inline">|</span>
-            <div className="flex items-center gap-1 text-emerald-655 dark:text-amber-400 sepia:text-amber-800">
+            <div className="flex items-center gap-1 text-[var(--accent-color)]">
               <CloudSun size={14} />
               <span>ঢাকা: ৩১°সে. (বজ্রবৃষ্টির সম্ভাবনা)</span>
             </div>
           </div>
 
           {/* Scrolling Ticker (Live Ticker) */}
-          <div className="flex items-center gap-2 overflow-hidden w-full md:w-1/3 bg-slate-200/50 dark:bg-zinc-800/50 sepia:bg-[#dfceab]/50 px-2 py-0.5 rounded border border-[var(--border-color)]">
-            <span className="shrink-0 flex items-center gap-1 font-bold text-[10px] text-red-500 uppercase">
+          <div className="flex items-center gap-2 overflow-hidden w-full md:w-1/3 bg-[var(--bg-card)]/50 px-2 py-0.5 rounded border border-[var(--border-color)]">
+            <span className="shrink-0 flex items-center gap-1 font-bold text-[10px] text-red-650 uppercase">
               <TrendingUp size={12} className="animate-bounce" />
               টিকার:
             </span>
             <div className="relative w-full overflow-hidden h-4">
-              <div className="absolute flex whitespace-nowrap animate-marquee text-[11px] font-medium text-slate-700 dark:text-slate-300 sepia:text-[#433422] gap-10">
+              <div className="absolute flex whitespace-nowrap animate-marquee text-[11px] font-bold text-[var(--text-primary)] gap-10">
                 <span>সোনার বাজার দর: ২২ ক্যারেট ১,১৮,০০০ টাকা (ভরি)</span>
                 <span>ইউএসডি এক্সচেঞ্জ রেট: ১২০.৫০ টাকা</span>
                 <span>ক্রিকেট স্কোর: বাংলাদেশ ২৮০/৫ (৪৫ ওভার) বনাম পাকিস্তান</span>
@@ -218,9 +202,9 @@ export function Header() {
       {/* ➔ LOCATION BAR WIDGET (Hidden on Mobile View to save fixed screen height) */}
       <div className="hidden md:block w-full py-2 px-4 border-b border-[var(--border-color)] text-xs bg-[var(--bg-card)]">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-slate-500">
+          <div className="flex items-center gap-2 text-[var(--text-secondary)]">
             <MapPin size={14} className="text-[var(--accent-color)]" />
-            <span className="font-semibold text-slate-700 dark:text-slate-300 sepia:text-[#433422]">সারাদেশের খবর:</span>
+            <span className="font-semibold text-[var(--text-primary)]">সারাদেশের খবর:</span>
           </div>
 
           <div className="flex flex-wrap items-center gap-2">
@@ -232,7 +216,7 @@ export function Header() {
                 setSelectedDistrict("");
                 setSelectedThana("");
               }}
-              className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-slate-700 dark:text-slate-300 sepia:text-[#433422]"
+              className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-[var(--text-primary)]"
             >
               <option value="">বিভাগ নির্বাচন করুন</option>
               {Object.keys(locations).map((div) => (
@@ -250,7 +234,7 @@ export function Header() {
                 setSelectedThana("");
               }}
               disabled={!selectedDivision}
-              className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-slate-700 dark:text-slate-300 sepia:text-[#433422] disabled:opacity-50"
+              className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-[var(--text-primary)] disabled:opacity-50"
             >
               <option value="">জেলা নির্বাচন করুন</option>
               {selectedDivision &&
@@ -266,7 +250,7 @@ export function Header() {
               value={selectedThana}
               onChange={(e) => setSelectedThana(e.target.value)}
               disabled={!selectedDistrict}
-              className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-slate-700 dark:text-slate-300 sepia:text-[#433422] disabled:opacity-50"
+              className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-[var(--text-primary)] disabled:opacity-50"
             >
               <option value="">থানা নির্বাচন করুন</option>
               {selectedDivision &&
@@ -345,7 +329,7 @@ export function Header() {
           </Link>
           <Link
             href="/e-paper"
-            className="flex items-center gap-1.5 bg-slate-150 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 sepia:bg-[#dfceab] text-[11px] font-bold px-3.5 py-2 rounded-full border border-[var(--border-color)] transition"
+            className="flex items-center gap-1.5 bg-[var(--bg-input)] hover:bg-[var(--border-color)] text-[var(--text-primary)] text-[11px] font-bold px-3.5 py-2 rounded-full border border-[var(--border-color)] transition"
           >
             <Award size={14} className="text-amber-500" />
             ই-পেপার সংস্করণ
@@ -355,13 +339,13 @@ export function Header() {
 
       {/* Breaking News Flash */}
       {showBreaking && (
-        <div className="w-full bg-red-50 dark:bg-red-950/20 sepia:bg-amber-100 border-y border-red-100 dark:border-red-900/30 py-2.5 px-4 text-xs">
+        <div className="w-full bg-red-50 dark:bg-red-950/20 border-y border-red-100 dark:border-red-900/30 py-2.5 px-4 text-xs">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 overflow-hidden">
               <span className="shrink-0 bg-red-600 text-white font-black px-2 py-0.5 rounded text-[10px] uppercase animate-pulse">
                 ব্রেকিং নিউজ:
               </span>
-              <span className="font-semibold text-red-850 dark:text-red-300 sepia:text-amber-900 truncate">
+              <span className="font-bold text-red-900 dark:text-red-300 truncate">
                 আজ সারাদেশে বজ্রসহ ভারী বৃষ্টিপাতের পূর্বাভাস দিয়েছে আবহাওয়া অধিদপ্তর। সবাইকে নিরাপদ আশ্রয়ে থাকতে বলা হয়েছে।
               </span>
             </div>
@@ -380,7 +364,7 @@ export function Header() {
           <div className="hidden md:flex items-center gap-1">
             <Link
               href="/"
-              className="px-4 py-3.5 text-sm font-bold text-[var(--accent-color)] hover:bg-slate-50 dark:hover:bg-zinc-900 sepia:hover:bg-[#dfceab] border-b-2 border-[var(--accent-color)]"
+              className="px-4 py-3.5 text-sm font-bold text-[var(--accent-color)] hover:bg-[var(--bg-primary)] border-b-2 border-[var(--accent-color)]"
             >
               প্রচ্ছদ
             </Link>
@@ -388,14 +372,14 @@ export function Header() {
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
-                className="px-4 py-3.5 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-slate-50 dark:hover:bg-zinc-900 sepia:hover:bg-[#dfceab] transition"
+                className="px-4 py-3.5 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-primary)] transition"
               >
                 {cat.name}
               </Link>
             ))}
             <Link
               href="/about-us"
-              className="px-4 py-3.5 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-slate-50 dark:hover:bg-zinc-900 sepia:hover:bg-[#dfceab] transition"
+              className="px-4 py-3.5 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-primary)] transition"
             >
               মানারাহ ফাউন্ডেশন
             </Link>
@@ -406,7 +390,7 @@ export function Header() {
             <div className="flex items-center gap-1 overflow-x-auto scrollbar-none py-1.5 w-full text-xs font-bold mr-2 select-none">
               <Link
                 href="/"
-                className="shrink-0 px-3.5 py-1.5 bg-emerald-655 text-emerald-705 dark:bg-zinc-800 dark:text-emerald-400 rounded-full bg-slate-100"
+                className="shrink-0 px-3.5 py-1.5 bg-amber-500 text-slate-950 rounded-full"
               >
                 প্রচ্ছদ
               </Link>

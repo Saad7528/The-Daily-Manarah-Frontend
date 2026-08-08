@@ -26,18 +26,6 @@
   --bg-input: #122930;
 }
 
-.sepia {
-  /* Eye Comfort Warm Sepia Mode */
-  --bg-primary: #f7f4eb; /* Soft warm paper */
-  --bg-card: #f0e6cf; /* Soft warm card */
-  --text-primary: #3e301d; /* Dark sepia brown */
-  --text-secondary: #6d5b4a; /* Medium sepia brown */
-  --border-color: #e3d7bd; /* Warm sepia borders */
-  --accent-color: #b45309; /* Warm orange-amber accent */
-  --accent-hover: #92400e;
-  --bg-input: #ebdcb9;
-}
-
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);

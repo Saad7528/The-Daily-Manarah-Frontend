@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark" | "sepia";
+type Theme = "light" | "dark";
 
 interface ThemeContextType {
   theme: Theme;
@@ -18,7 +18,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Read from localStorage on mount
     const savedTheme = localStorage.getItem("site-theme") as Theme;
-    if (savedTheme === "dark" || savedTheme === "sepia" || savedTheme === "light") {
+    if (savedTheme === "dark" || savedTheme === "light") {
       setThemeState(savedTheme);
     } else {
       // Check system preference
@@ -42,8 +42,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     if (theme === "dark") {
       root.classList.add("dark");
-    } else if (theme === "sepia") {
-      root.classList.add("sepia");
     }
   }, [theme, mounted]);
 
