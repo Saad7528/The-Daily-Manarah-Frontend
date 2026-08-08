@@ -1,5 +1,7 @@
 "use client";
 
+// Triggering frontend Vercel redeploy to sync with the now online backend API
+
 import React, { useState, useEffect } from "react";
 import { Header } from "@/components/Layout/Header";
 import { Footer } from "@/components/Layout/Footer";
