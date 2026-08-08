@@ -322,8 +322,8 @@ export default function ManarahFoundationPage() {
                   <li className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950/40 border border-slate-100/50 dark:border-slate-850">
                     <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-xs font-bold text-emerald-600 dark:text-emerald-400">২</span>
                     <div>
-                      <strong className="text-slate-900 dark:text-white block mb-1">যোগ্য দা'য়ী ও আলোচক তৈরি</strong>
-                      <span className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">জাতীয় ও আন্তর্জাতিক পর্যায়ে ইসলামের সঠিক বার্তা পৌঁছে দেওয়ার জন্য দক্ষ, প্রাজ্ঞ এবং ভারসাম্যপূর্ণ চিন্তার ইসলামী আলোচক ও দা'য়ী তৈরি করা।</span>
+                      <strong className="text-slate-900 dark:text-white block mb-1">যোগ্য দা&#39;য়ী ও আলোচক তৈরি</strong>
+                      <span className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">জাতীয় ও আন্তর্জাতিক পর্যায়ে ইসলামের সঠিক বার্তা পৌঁছে দেওয়ার জন্য দক্ষ, প্রাজ্ঞ এবং ভারসাম্যপূর্ণ চিন্তার ইসলামী আলোচক ও দা&#39;য়ী তৈরি করা।</span>
                     </div>
                   </li>
                   <li className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950/40 border border-slate-100/50 dark:border-slate-850">
@@ -344,7 +344,7 @@ export default function ManarahFoundationPage() {
                     <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 text-xs font-bold text-emerald-600 dark:text-emerald-400">৫</span>
                     <div>
                       <strong className="text-slate-900 dark:text-white block mb-1">কারিগরি প্রশিক্ষণ ও কর্মসংস্থান</strong>
-                      <span className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">'মানারাহ স্কিল ডেভেলপমেন্ট ইনস্টিটিউট'-এর মাধ্যমে বিভিন্ন কারিগরি প্রশিক্ষণ প্রদান করে ২০৩০ সাল নাগাদ প্রতি বছর বিপুল সংখ্যক বেকার তরুণের কর্মসংস্থানের সুযোগ সৃষ্টি করা।</span>
+                      <span className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">&#39;মানারাহ স্কিল ডেভেলপমেন্ট ইনস্টিটিউট&#39;-এর মাধ্যমে বিভিন্ন কারিগরি প্রশিক্ষণ প্রদান করে ২০৩০ সাল নাগাদ প্রতি বছর বিপুল সংখ্যক বেকার তরুণের কর্মসংস্থানের সুযোগ সৃষ্টি করা।</span>
                     </div>
                   </li>
                   <li className="flex gap-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-950/40 border border-slate-100/50 dark:border-slate-850">
@@ -512,7 +512,7 @@ export default function ManarahFoundationPage() {
                   </li>
                   <li className="flex gap-3 text-sm text-slate-600 dark:text-slate-450">
                     <ChevronRight className="w-4 h-4 text-emerald-500 shrink-0 mt-1" />
-                    <span><strong className="text-slate-900 dark:text-white">দুর্নীতি প্রতিরোধ:</strong> কোনো প্রকার আর্থিক অনিয়ম বা দুর্নীতির ক্ষেত্রে 'শূন্য সহনশীলতা' (Zero Tolerance) নীতি অনুসরণ করা হবে।</span>
+                    <span><strong className="text-slate-900 dark:text-white">দুর্নীতি প্রতিরোধ:</strong> কোনো প্রকার আর্থিক অনিয়ম বা দুর্নীতির ক্ষেত্রে &#39;শূন্য সহনশীলতা&#39; (Zero Tolerance) নীতি অনুসরণ করা হবে।</span>
                   </li>
                 </ul>
               </div>
