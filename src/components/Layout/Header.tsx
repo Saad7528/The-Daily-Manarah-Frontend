@@ -118,50 +118,41 @@ export function Header() {
         {/* Toggle pull-out Tab (Hidden on desktop since desktop has enough space, or shown as clean pull-out on mobile) */}
         <button
           onClick={() => setIsThemeDrawerOpen(!isThemeDrawerOpen)}
-          className="md:hidden flex items-center justify-center bg-[var(--bg-card)] border-l border-y border-[var(--border-color)] rounded-l-xl p-3 shadow-lg text-[var(--accent-color)] hover:scale-105 transition duration-200"
+          className="md:hidden flex items-center justify-center bg-[var(--bg-card)] border-l border-y border-[var(--border-color)] rounded-l-lg p-2 shadow-lg text-[var(--accent-color)] hover:scale-105 transition duration-200 w-7 h-7"
           title="থিম পরিবর্তন প্যানেল"
         >
           {isThemeDrawerOpen ? (
-            <X size={15} />
+            <X size={14} />
           ) : theme === "light" ? (
-            <Sun size={15} className="text-amber-500 animate-spin-slow" />
+            <Sun size={14} className="text-amber-500 animate-spin-slow" />
           ) : (
-            <Moon size={15} className="text-amber-400" />
+            <Moon size={14} className="text-amber-400" />
           )}
         </button>
 
-        {/* Theme select Panel (Fitted with premium rounded shapes and gold border accents) */}
-        <div className="bg-[var(--bg-card)] border-l border-y border-[var(--border-color)] rounded-l-2xl p-4 shadow-2xl flex flex-col gap-3 w-32 border-2 border-r-0 border-amber-400">
-          <span className="text-[10px] font-black uppercase tracking-wider text-[var(--text-secondary)] border-b border-[var(--border-color)] pb-1 text-center">
-            থিম পরিবর্তন
-          </span>
+        {/* Theme select Panel - Sleek vertical icon strip with gold border accents */}
+        <div className="bg-[var(--bg-card)] border-l border-y border-[var(--border-color)] rounded-l-xl p-2 shadow-2xl flex flex-col gap-2 w-11 border-2 border-r-0 border-amber-400">
           <button
-            onClick={() => {
-              setTheme("light");
-              setIsThemeDrawerOpen(false);
-            }}
-            className={`flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] font-black transition ${
+            onClick={() => setTheme("light")}
+            className={`flex items-center justify-center w-7 h-7 rounded-lg transition ${
               theme === "light"
                 ? "bg-amber-500 text-slate-950 shadow"
                 : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
             }`}
+            title="লাইট মোড"
           >
-            <Sun size={12} />
-            <span>লাইট মোড</span>
+            <Sun size={15} />
           </button>
           <button
-            onClick={() => {
-              setTheme("dark");
-              setIsThemeDrawerOpen(false);
-            }}
-            className={`flex items-center justify-center gap-1.5 py-2 rounded-xl text-[10px] font-black transition ${
+            onClick={() => setTheme("dark")}
+            className={`flex items-center justify-center w-7 h-7 rounded-lg transition ${
               theme === "dark"
                 ? "bg-zinc-950 text-amber-400 border border-zinc-800 shadow"
                 : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
             }`}
+            title="ডার্ক মোড"
           >
-            <Moon size={12} />
-            <span>ডার্ক মোড</span>
+            <Moon size={15} />
           </button>
         </div>
       </div>
