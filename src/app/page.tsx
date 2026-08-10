@@ -6,6 +6,7 @@ import { Footer } from "@/components/Layout/Footer";
 import { HeroGrid, NewsItem } from "@/components/News/HeroGrid";
 import { BangladeshMap } from "@/components/News/BangladeshMap";
 import { VideoReels } from "@/components/News/VideoReels";
+import { FacebookFeed } from "@/components/News/FacebookFeed";
 import { TrendingUp, Award, BookOpen, ExternalLink, ShieldCheck, Mail, Play, Camera, Star } from "lucide-react";
 import Link from "next/link";
 
@@ -588,6 +589,9 @@ export default function Home() {
 
             {/* Video reels highlights */}
             <VideoReels />
+
+            {/* Facebook page feed carousel */}
+            <FacebookFeed />
           </div>
 
         </div> {/* grid grid-cols-1 lg:grid-cols-12 gap-8 */}
