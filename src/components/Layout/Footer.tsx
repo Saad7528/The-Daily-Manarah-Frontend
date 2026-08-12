@@ -90,11 +90,11 @@ export function Footer() {
           <div className="flex flex-col gap-2 text-xs">
             <div className="flex items-center gap-2">
               <Mail size={14} className="text-emerald-500" />
-              <span>editorial@dailymanarah.com</span>
+              <span>dailymanarah.official@gmail.com</span>
             </div>
             <div className="flex items-center gap-2">
               <Phone size={14} className="text-emerald-500" />
-              <span>+৮৮০ ২-৯৮৭৬৫৪৩</span>
+              <span>+৮৮০১৭১৭৩৫১৬৭৪</span>
             </div>
             <div className="text-[10px] text-slate-500 dark:text-zinc-600 sepia:text-[#705e4c] mt-2">
               ট্রেড লাইসেন্স নং: TRAD/DNCC/025482/2026
