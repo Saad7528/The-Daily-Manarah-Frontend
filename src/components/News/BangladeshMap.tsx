@@ -215,12 +215,10 @@ export function BangladeshMap() {
             <button
               key={div.id}
               onClick={() => handleDivisionClick(div)}
-              className="flex items-center justify-between hover:text-[var(--accent-color)] text-slate-700 dark:text-slate-400 sepia:text-[#433422] font-medium text-left border-l border-[var(--border-color)] pl-2"
+              className="flex items-center gap-1.5 hover:text-[var(--accent-color)] text-slate-700 dark:text-slate-400 sepia:text-[#433422] font-medium text-left border-l border-[var(--border-color)] pl-2 py-0.5"
             >
-              <div className="flex items-center gap-1.5">
-                <Navigation size={10} className="text-slate-400 rotate-45" />
-                <span>{div.bnName} বিভাগ</span>
-              </div>
+              <Navigation size={10} className="text-slate-400 rotate-45 flex-shrink-0" />
+              <span>{div.bnName} বিভাগ</span>
               {count > 0 && (
                 <span className="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-full font-bold">
                   {count}

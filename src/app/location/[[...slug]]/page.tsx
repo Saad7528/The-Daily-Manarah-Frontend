@@ -5,6 +5,7 @@ import { Header } from "@/components/Layout/Header";
 import { Footer } from "@/components/Layout/Footer";
 import { HeroGrid, NewsItem } from "@/components/News/HeroGrid";
 import { MapPin, Loader2 } from "lucide-react";
+import { BangladeshMap } from "@/components/News/BangladeshMap";
 
 const divisionBnNames: Record<string, string> = {
   dhaka: "ঢাকা",
@@ -81,9 +82,15 @@ export default function LocationPage({ params }: { params: { slug?: string[] } }
         ) : posts.length > 0 ? (
           <HeroGrid posts={posts} />
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-slate-400 gap-2 bg-[var(--bg-card)] rounded-2xl border border-[var(--border-color)]">
-            <span className="text-sm font-bold text-[var(--text-primary)]">দুঃখিত, {formattedLocation} এলাকায় এই মুহূর্তে কোনো প্রকাশিত সংবাদ নেই।</span>
-            <span className="text-xs">শীঘ্রই রিপোর্টারদের পাঠানো সংবাদ এই পাতায় প্রদর্শন করা হবে।</span>
+          <div className="flex flex-col gap-8">
+            <div className="flex flex-col items-center justify-center py-20 text-slate-400 gap-2 bg-[var(--bg-card)] rounded-2xl border border-[var(--border-color)]">
+              <span className="text-sm font-bold text-[var(--text-primary)]">দুঃখিত, {formattedLocation} এলাকায় এই মুহূর্তে কোনো প্রকাশিত সংবাদ নেই।</span>
+              <span className="text-xs">শীঘ্রই রিপোর্টারদের পাঠানো সংবাদ এই পাতায় প্রদর্শন করা হবে।</span>
+            </div>
+            
+            <div className="max-w-3xl mx-auto w-full">
+              <BangladeshMap />
+            </div>
           </div>
         )}
 
