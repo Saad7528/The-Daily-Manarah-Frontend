@@ -85,7 +85,7 @@ export function Footer() {
         <div className="flex flex-col gap-4">
           <Logo theme="dark" className="sepia:text-[#433422]" />
           <p className="text-xs leading-relaxed text-slate-400 dark:text-zinc-500 sepia:text-[#705e4c]">
-            দ্য ডেইলি মানারাহ হলো সত্য ও সততার প্রতীক। আমরা বস্তুনিষ্ঠ সাংবাদিকতা এবং সঠিক সংবাদের মাধ্যমে সুস্থ সমাজ নির্মাণে দৃঢ় প্রতিজ্ঞ।
+            ডেইলি মানারাহ - সংবাদ ও সত্য প্রকাশের এক নির্ভরযোগ্য ঠিকানা। ফ্যাক্ট-চেকিং, নিরপেক্ষ সংবাদ এবং অনুসন্ধানী প্রতিবেদনের মাধ্যমে অপসংবাদ মোকাবিলা ও সুস্থ সমাজ গঠনে আমরা সংকল্পবদ্ধ।
           </p>
           <div className="flex flex-col gap-2 text-xs">
             <div className="flex items-center gap-2">

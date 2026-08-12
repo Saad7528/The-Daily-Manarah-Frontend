@@ -26,7 +26,7 @@ export function Logo({ className = "" }: LogoProps) {
           DAILY MANARAH
         </span>
         <span className="text-[8px] md:text-[9px] tracking-[0.2em] font-sans font-bold text-[var(--text-secondary)] mt-1 uppercase">
-          Beacon of Truth & Integrity
+        Truth in News, Welfare in Thought
         </span>
       </div>
     </div>
