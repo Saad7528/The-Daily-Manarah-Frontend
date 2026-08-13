@@ -69,7 +69,7 @@ export function Header() {
 
   // Breaking news banner state
   const [showBreaking, setShowBreaking] = useState(true);
-  const [breakingNewsOn, setBreakingNewsOn] = useState(true);
+  const [breakingNewsOn, setBreakingNewsOn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isThemeDrawerOpen, setIsThemeDrawerOpen] = useState(false);
 
