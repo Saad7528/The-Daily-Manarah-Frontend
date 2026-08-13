@@ -153,7 +153,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
             />
 
             {/* Hot Social Share */}
-            <HotShare title={post.title} summary={post.summary || ""} slug={params.slug} coverImage={post.coverImage} />
+            <HotShare title={post.title} summary={post.summary || ""} slug={post.slug} coverImage={post.coverImage} />
 
             {/* COMMENT SECTION */}
             <div className="flex flex-col gap-4 border-t border-[var(--border-color)] pt-8">
