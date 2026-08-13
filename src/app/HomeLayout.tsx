@@ -7,7 +7,7 @@ import { HeroGrid, NewsItem } from "@/components/News/HeroGrid";
 import { BangladeshMap } from "@/components/News/BangladeshMap";
 import { VideoReels } from "@/components/News/VideoReels";
 import { FacebookFeed } from "@/components/News/FacebookFeed";
-import { TrendingUp, Award, BookOpen, ExternalLink, ShieldCheck, Mail, Play, Camera, Star } from "lucide-react";
+import { TrendingUp, Award, BookOpen, ExternalLink, ShieldCheck, Mail, Play, Camera, Star, Send } from "lucide-react";
 import Link from "next/link";
 
 // Premium mock news data matching the categories as fallback
@@ -638,15 +638,40 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
           </div>
         </div>
 
+        {/* ➔ Telegram Channel Subscription Banner at the bottom (Responsive Light/Dark theme) */}
+        <div className="w-full bg-gradient-to-r from-sky-50 to-sky-100/70 dark:from-slate-900 dark:to-slate-950 text-slate-800 dark:text-white border border-sky-200 dark:border-amber-500/30 p-6 md:p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-md mt-4 transition duration-300">
+          <div className="flex flex-col gap-2 md:w-2/3">
+            <h3 className="font-serif font-black text-base md:text-xl flex items-center gap-2 text-sky-600 dark:text-amber-400">
+              <Send size={22} className="fill-sky-100/50 dark:fill-none" />
+              <span>টেলিগ্রাম চ্যানেলে ডেইলি মানারাহ্</span>
+            </h3>
+            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-300 font-medium">
+              আমাদের অফিসিয়াল টেলিগ্রাম চ্যানেলে যুক্ত হয়ে তাৎক্ষণিক ব্রেকিং নিউজ, গুরুত্বপূর্ণ আপডেট এবং সরাসরি নোটিফিকেশন পান আপনার ফোনে।
+            </p>
+          </div>
+          
+          <div className="w-full md:w-auto shrink-0 flex justify-end">
+            <a
+              href="https://t.me/dailymanarah"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full md:w-auto bg-sky-600 hover:bg-sky-500 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-black px-8 py-3.5 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-md transition hover:scale-105"
+            >
+              <Send size={14} />
+              <span>চ্যানেলে যুক্ত হোন</span>
+            </a>
+          </div>
+        </div>
+
         {/* Full Width Bottom Map Section */}
         <div id="bangladesh-map" className="w-full border-t border-[var(--border-color)] pt-8 mt-4 scroll-mt-20">
           <div className="flex flex-col gap-2 mb-6">
             <h2 className="font-serif font-black text-xl md:text-2xl text-[var(--text-primary)] flex items-center gap-2">
               <Award size={22} className="text-emerald-650 animate-pulse" />
-              <span>মানচিত্র ভিত্তিক খবর (ঠাকুরগাঁও ও দেশজুড়ে)</span>
+              <span>মানচিত্রে সারাদেশের সংবাদ</span>
             </h2>
             <p className="text-xs text-[var(--text-secondary)]">
-              নিচের ইন্টারেক্টিভ ম্যাপ থেকে বিভাগ ও জেলা সিলেক্ট করে নির্দিষ্ট অঞ্চলের সংবাদ ফিল্টার করুন।
+              নিচের ইন্টারেক্টিভ ম্যাপ থেকে বিভাগ সিলেক্ট করে নির্দিষ্ট অঞ্চলের সংবাদ ফিল্টার করুন।
             </p>
           </div>
           <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-6 md:p-10 shadow-sm">
