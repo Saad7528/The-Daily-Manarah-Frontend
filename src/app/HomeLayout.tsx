@@ -580,7 +580,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                 <span>মানারাহ্ ফাউন্ডেশন</span>
               </h3>
               <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
-                ডেইলি মানারাহ্-এর কাজের প্রধান ফোকাস হচ্ছে সমাজ থেকে অপসংস্কৃতি, ভুয়া খবর (Fake News) ও কুতথ্য মোকাবিলা করা।
+                মানারাহ্ ফাউন্ডেশন (নিবন্ধন নং: ৩৩০৯/২০২৫) একটি নিবন্ধিত ট্রাস্টি প্রতিষ্ঠান। সমাজ সংস্কার, মানবসেবা ও দ্বীনি দাওয়াহর প্রসারে আমাদের সাথে যুক্ত থাকুন। আপনার অনুদান হোক পরকালের জন্য এক অফুরন্ত সাদাকাহ জারিয়া।
               </p>
               <Link href="/donate" className="w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-2 rounded-xl text-xs transition">
                 মানারাহ ফাউন্ডেশনে অনুদান দিন

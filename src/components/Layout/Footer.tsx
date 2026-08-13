@@ -85,7 +85,7 @@ export function Footer() {
         <div className="flex flex-col gap-4">
           <Logo theme="dark" className="sepia:text-[#433422]" />
           <p className="text-xs leading-relaxed text-slate-400 dark:text-zinc-500 sepia:text-[#705e4c]">
-            ডেইলি মানারাহ - সংবাদ ও সত্য প্রকাশের এক নির্ভরযোগ্য ঠিকানা। ফ্যাক্ট-চেকিং, নিরপেক্ষ সংবাদ এবং অনুসন্ধানী প্রতিবেদনের মাধ্যমে অপসংবাদ মোকাবিলা ও সুস্থ সমাজ গঠনে আমরা সংকল্পবদ্ধ।
+           ডেইলি মানারাহ — সত্য ও বস্তুনিষ্ঠ খবরের এক নির্ভরযোগ্য ঠিকানা। ফ্যাক্ট-চেকিং, নিরপেক্ষ সংবাদ এবং অনুসন্ধানী প্রতিবেদনের মাধ্যমে অপতথ্য মোকাবিলা ও সুস্থ সমাজ গঠনে আমরা সংকল্পবদ্ধ।
           </p>
           <div className="flex flex-col gap-2 text-xs">
             <div className="flex items-center gap-2">
@@ -138,10 +138,10 @@ export function Footer() {
         {/* Column 3: Location news & Fact check guarantee */}
         <div className="flex flex-col gap-4">
           <h4 className="font-bold text-sm text-white dark:text-zinc-200 sepia:text-[#433422] border-b border-slate-800 sepia:border-[#dfceab] pb-2 uppercase tracking-wider">
-            সততা ও নিশ্চয়তা
+            সত্যতা ও নির্ভরতা 
           </h4>
           <p className="text-xs text-slate-400 dark:text-zinc-500 sepia:text-[#705e4c]">
-            আমরা প্রতিটি সংবাদের উৎস এবং সত্যতা সূক্ষ্মভাবে যাচাই করে থাকি। গুজব ও অসত্য সংবাদের বিরুদ্ধে আমাদের জিরো টলারেন্স নীতি রয়েছে।
+            আমরা প্রতিটি খবরের উৎস ও সত্যতা সূক্ষ্মভাবে যাচাই করে থাকি। গুজব, অপতথ্য ও ভুয়া সংবাদের বিরুদ্ধে আমাদের জিরো টলারেন্স নীতি রয়েছে।
           </p>
           {/* Fact check guarantee badge */}
           <div className="flex items-center gap-3 bg-slate-800/50 dark:bg-zinc-900/50 sepia:bg-[#dfceab]/60 p-3 rounded-lg border border-slate-800 sepia:border-[#dfceab]">
@@ -160,14 +160,20 @@ export function Footer() {
           </h4>
           {/* Social icons */}
           <div className="flex items-center gap-3">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 hover:bg-slate-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 sepia:bg-[#dfceab] rounded-full transition text-slate-400 hover:text-white sepia:text-[#433422]">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 hover:bg-slate-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 sepia:bg-[#dfceab] rounded-full transition text-slate-400 hover:text-white sepia:text-[#433422]" title="Facebook">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
             </a>
-            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 hover:bg-slate-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 sepia:bg-[#dfceab] rounded-full transition text-slate-400 hover:text-white sepia:text-[#433422]">
+            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 hover:bg-slate-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 sepia:bg-[#dfceab] rounded-full transition text-slate-400 hover:text-white sepia:text-[#433422]" title="Twitter">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
             </a>
-            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 hover:bg-slate-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 sepia:bg-[#dfceab] rounded-full transition text-slate-400 hover:text-white sepia:text-[#433422]">
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 hover:bg-slate-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 sepia:bg-[#dfceab] rounded-full transition text-slate-400 hover:text-white sepia:text-[#433422]" title="YouTube">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-youtube"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17z"/><path d="m10 15 5-3-5-3z"/></svg>
+            </a>
+            <a href="https://whatsapp.com/channel/0029VbDGjuKB4hdMSuudYe0T" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 hover:bg-slate-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 sepia:bg-[#dfceab] rounded-full transition text-slate-400 hover:text-white sepia:text-[#433422]" title="WhatsApp Channel">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 2c-5.513 0-9.99 4.477-9.99 9.99 0 2.08.637 4.013 1.737 5.614l-1.137 4.16 4.29-1.123c1.51.93 3.28 1.463 5.093 1.463 5.513 0 9.99-4.477 9.99-9.99S17.544 2 12.031 2zm6.39 13.987c-.247.694-1.238 1.265-1.71 1.306-.472.04-1.07.247-3.15-.592-2.67-1.07-4.364-3.81-4.502-3.99-.137-.18-1.137-1.51-1.137-2.878 0-1.368.718-2.04.97-2.316.252-.276.55-.34.733-.34h.52c.164 0 .382-.06.598.455.22.52.748 1.824.814 1.96.065.13.11.285.02.46-.088.175-.133.284-.265.44-.132.155-.277.345-.396.463-.13.13-.266.27-.115.53.15.26.666 1.1.1.5 1.427 1.275 1.83 1.635.15.13.3.26.475.26.176 0 .385-.09.528-.21.144-.12.616-.714.783-.956.167-.243.334-.2.56-.115.228.085 1.442.68 1.69.8.25.12.416.18.477.287.06.1.06.587-.188 1.282z"/></svg>
+            </a>
+            <a href="https://t.me/dailymanarah" target="_blank" rel="noopener noreferrer" className="p-2 bg-slate-800 hover:bg-slate-700 dark:bg-zinc-900 dark:hover:bg-zinc-800 sepia:bg-[#dfceab] rounded-full transition text-slate-400 hover:text-white sepia:text-[#433422]" title="Telegram Channel">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-send"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
             </a>
           </div>
 
