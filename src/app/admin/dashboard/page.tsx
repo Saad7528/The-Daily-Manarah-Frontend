@@ -58,7 +58,8 @@ export default function AdminDashboard() {
     watermarkGlobal: true,
     commentAiFilterOn: true,
     shoppingModuleOn: false,
-    sponsoredBannersOn: true
+    sponsoredBannersOn: true,
+    breakingNewsOn: true
   });
 
   // Real-time Traffic Simulator
@@ -109,6 +110,7 @@ export default function AdminDashboard() {
           commentAiFilterOn: data.commentAiFilterOn,
           shoppingModuleOn: data.shoppingModuleOn,
           sponsoredBannersOn: data.sponsoredBannersOn,
+          breakingNewsOn: data.breakingNewsOn ?? true,
         });
       }
     } catch (error) {
@@ -538,6 +540,17 @@ export default function AdminDashboard() {
                 </div>
                 <button onClick={() => toggleSetting("sponsoredBannersOn")} className="text-[var(--accent-color)]">
                   {settings.sponsoredBannersOn ? <ToggleRight size={32} /> : <ToggleLeft size={32} className="text-slate-400" />}
+                </button>
+              </div>
+
+              {/* Toggle 5: Breaking News */}
+              <div className="flex items-center justify-between">
+                <div className="flex flex-col">
+                  <span className="font-semibold text-xs">ব্রেকিং নিউজ</span>
+                  <span className="text-[10px] text-slate-400">হেডারে ব্রেকিং নিউজ প্রদর্শন করুন</span>
+                </div>
+                <button onClick={() => toggleSetting("breakingNewsOn")} className="text-[var(--accent-color)]">
+                  {settings.breakingNewsOn ? <ToggleRight size={32} /> : <ToggleLeft size={32} className="text-slate-400" />}
                 </button>
               </div>
             </div>

@@ -69,6 +69,7 @@ export function Header() {
 
   // Breaking news banner state
   const [showBreaking, setShowBreaking] = useState(true);
+  const [breakingNewsOn, setBreakingNewsOn] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isThemeDrawerOpen, setIsThemeDrawerOpen] = useState(false);
 
@@ -91,6 +92,22 @@ export function Header() {
       bn: date.toLocaleDateString("bn-BD", optionsBn),
       en: date.toLocaleDateString("en-US", optionsEn)
     });
+
+    // Fetch global site settings to get breakingNewsOn status
+    const fetchGlobalSettings = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/settings`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data && typeof data.breakingNewsOn === "boolean") {
+            setBreakingNewsOn(data.breakingNewsOn);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch settings in Header:", err);
+      }
+    };
+    fetchGlobalSettings();
   }, []);
 
   const handleDateSearch = (e: React.FormEvent) => {
@@ -166,14 +183,14 @@ export function Header() {
             <span className="hidden md:inline">|</span>
             <span>{dates.en}</span>
             <span className="hidden md:inline">|</span>
-            <div className="flex items-center gap-1 text-[var(--accent-color)]">
+            <div className="hidden md:flex items-center gap-1 text-[var(--accent-color)]">
               <CloudSun size={14} />
               <span>ঢাকা: ৩১°সে. (বজ্রবৃষ্টির সম্ভাবনা)</span>
             </div>
           </div>
 
           {/* Scrolling Ticker (Live Ticker) */}
-          <div className="flex items-center gap-2 overflow-hidden w-full md:w-1/3 bg-[var(--bg-card)]/50 px-2 py-0.5 rounded border border-[var(--border-color)]">
+          <div className="hidden md:flex items-center gap-2 overflow-hidden w-full md:w-1/3 bg-[var(--bg-card)]/50 px-2 py-0.5 rounded border border-[var(--border-color)]">
             <span className="shrink-0 flex items-center gap-1 font-bold text-[10px] text-red-650 uppercase">
               <TrendingUp size={12} className="animate-bounce" />
               টিকার:
@@ -329,8 +346,8 @@ export function Header() {
       </div>
 
       {/* Breaking News Flash */}
-      {showBreaking && (
-        <div className="w-full bg-red-50 dark:bg-red-950/20 border-y border-red-100 dark:border-red-900/30 py-2.5 px-4 text-xs">
+      {breakingNewsOn && showBreaking && (
+        <div className="hidden md:block w-full bg-red-50 dark:bg-red-950/20 border-y border-red-100 dark:border-red-900/30 py-2.5 px-4 text-xs">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 overflow-hidden">
               <span className="shrink-0 bg-red-600 text-white font-black px-2 py-0.5 rounded text-[10px] uppercase animate-pulse">
