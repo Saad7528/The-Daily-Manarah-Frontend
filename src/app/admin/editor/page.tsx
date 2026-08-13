@@ -156,7 +156,7 @@ export default function ContentEditor() {
       });
 
       if (response.ok) {
-        alert(`"${title}" সংবাদটি সফলভাবে দ্য ডেইলি মানারাহ নিউজ পোর্টালে প্রকাশিত হয়েছে!`);
+        alert(`"${title}" সংবাদটি সফলভাবে ডেইলি মানারাহ নিউজ পোর্টালে প্রকাশিত হয়েছে!`);
         setTitle("");
         setContent("");
         setCoverImage("");

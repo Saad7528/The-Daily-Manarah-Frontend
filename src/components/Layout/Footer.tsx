@@ -47,7 +47,7 @@ export function Footer() {
       setPwaPrompt(null);
     } else {
       // Simulate installation mock
-      alert("দ্য ডেইলি মানারাহ PWA অ্যাপ্লিকেশনটি আপনার ডিভাইসের হোম স্ক্রিনে যুক্ত করা হয়েছে!");
+      alert("ডেইলি মানারাহ PWA অ্যাপ্লিকেশনটি আপনার ডিভাইসের হোম স্ক্রিনে যুক্ত করা হয়েছে!");
     }
   };
 
@@ -210,7 +210,7 @@ export function Footer() {
       <div className="w-full bg-slate-950 dark:bg-black/90 sepia:bg-[#dfceab] border-t border-slate-800 sepia:border-[#dfceab]/60 py-4 px-4 transition-colors duration-300">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-slate-500 dark:text-zinc-600 sepia:text-[#705e4c]">
           <span>
-            কপিরাইট © {new Date().getFullYear()} দ্য ডেইলি মানারাহ নিউজ পোর্টাল। সর্বস্বত্ব সংরক্ষিত।
+            কপিরাইট © {new Date().getFullYear()} ডেইলি মানারাহ নিউজ পোর্টাল। সর্বস্বত্ব সংরক্ষিত।
           </span>
           <div className="flex flex-wrap items-center gap-4">
             <Link href="/about-us" className="hover:underline">আমাদের সম্পর্কে</Link>

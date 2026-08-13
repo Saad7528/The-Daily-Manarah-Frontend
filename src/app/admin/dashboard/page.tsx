@@ -360,7 +360,7 @@ export default function AdminDashboard() {
             </div>
             <div>
               <h1 className="font-serif font-black text-2xl md:text-3xl text-[var(--text-primary)]">
-                দ্য ডেইলি মানারাহ অ্যাডমিন প্যানেল
+                ডেইলি মানারাহ অ্যাডমিন প্যানেল
               </h1>
               <p className="text-xs text-slate-500 dark:text-zinc-500 sepia:text-[#705e4c]">
                 সুপার অ্যাডমিন ড্যাশবোর্ড • গ্লোবাল ফিচার সুইচবোর্ড ও ট্রাফিক অ্যানালিটিক্স
@@ -501,7 +501,7 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between">
                 <div className="flex flex-col">
                   <span className="font-semibold text-xs">ইমেজ ওয়াটারমার্ক</span>
-                  <span className="text-[10px] text-slate-400">ছবিতে The Daily Manarah যুক্ত করুন</span>
+                  <span className="text-[10px] text-slate-400">ছবিতে Daily Manarah যুক্ত করুন</span>
                 </div>
                 <button onClick={() => toggleSetting("watermarkGlobal")} className="text-[var(--accent-color)]">
                   {settings.watermarkGlobal ? <ToggleRight size={32} /> : <ToggleLeft size={32} className="text-slate-400" />}

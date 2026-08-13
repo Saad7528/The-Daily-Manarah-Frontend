@@ -15,7 +15,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "The Daily Manarah | Illuminating Truth & Integrity in Journalism",
+  title: "Daily Manarah | Illuminating Truth & Integrity in Journalism",
   description:
     "A modern, ultra-fast, and trustworthy news portal bringing you verified reports and fact-checked news.",
 };

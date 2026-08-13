@@ -7,7 +7,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
     // Dynamic params
-    const title = searchParams.get("title") || "দ্য ডেইলি মানারাহ নিউজ পোর্টাল";
+    const title = searchParams.get("title") || "ডেইলি মানারাহ নিউজ পোর্টাল";
     const category = searchParams.get("category") || "রাজনীতি";
 
     return new ImageResponse(
@@ -66,7 +66,7 @@ export async function GET(request: Request) {
                     margin: 0,
                   }}
                 >
-                  THE DAILY MANARAH
+                  DAILY MANARAH
                 </span>
                 <span
                   style={{

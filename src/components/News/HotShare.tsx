@@ -85,7 +85,7 @@ export function HotShare({ title, summary, slug, coverImage }: HotShareProps) {
             {/* Header Brand */}
             <div className="relative z-10 flex items-center justify-between border-b border-white/20 pb-2">
               <span className="text-[10px] font-black tracking-widest font-serif text-amber-400">
-                THE DAILY MANARAH
+                DAILY MANARAH
               </span>
               <span className="text-[8px] bg-red-600 text-white font-bold px-1.5 py-0.5 rounded tracking-wide uppercase">
                 HOT NEWS
