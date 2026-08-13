@@ -118,7 +118,7 @@ export default function AdminDashboard() {
 
   const fetchPosts = async () => {
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/posts`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/posts?showHidden=true`);
       if (res.ok) {
         const data = await res.json();
         const formatted = data.map((p: any) => ({
@@ -261,6 +261,7 @@ export default function AdminDashboard() {
   };
 
   const [posts, setPosts] = useState<PostItem[]>([]);
+  const [moderationSearchQuery, setModerationSearchQuery] = useState("");
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
 
   // Simulating real-time traffic updates
@@ -552,34 +553,93 @@ export default function AdminDashboard() {
               সংবাদ মডারেশন ও গোপন করার প্যানেল (Super Admin)
             </h3>
 
-            <div className="flex flex-col gap-3">
-              {posts.map((post) => (
-                <div
-                  key={post.id}
-                  className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-color)] bg-slate-50 dark:bg-zinc-950/20 sepia:bg-[#dfceab]/30"
-                >
-                  <div className="flex flex-col gap-1 w-2/3">
-                    <span className="text-xs font-semibold truncate text-[var(--text-primary)]">
-                      {post.title}
-                    </span>
-                    <span className="text-[10px] text-slate-500">
-                      লেখক: {post.author} • ভিউ: {post.views}
-                    </span>
-                  </div>
-                  
-                  {/* Hide Toggle Switch */}
-                  <button
-                    onClick={() => handleToggleHidePost(post.id, post.isHidden)}
-                    className={`text-xs font-bold px-3 py-1 rounded-full transition ${
-                      post.isHidden
-                        ? "bg-red-100 text-red-600 dark:bg-red-950/40"
-                        : "bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40"
-                    }`}
-                  >
-                    {post.isHidden ? "Hidden (সংগুপ্ত)" : "Published (প্রকাশিত)"}
-                  </button>
-                </div>
-              ))}
+            {/* Search Input */}
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="সংবাদ খুঁজুন (শিরোনাম বা লেখক)..."
+                className="w-full text-xs px-3 py-2 border border-[var(--border-color)] rounded-lg bg-slate-50 dark:bg-zinc-900 focus:outline-none focus:border-[var(--accent-color)] text-[var(--text-primary)]"
+                value={moderationSearchQuery}
+                onChange={(e) => setModerationSearchQuery(e.target.value)}
+              />
+            </div>
+
+            {/* Section 1: Published News */}
+            <div className="flex flex-col gap-2">
+              <h4 className="text-xs font-bold text-emerald-600 border-b border-[var(--border-color)] pb-1.5 flex items-center justify-between">
+                <span>প্রকাশিত সংবাদ (Published)</span>
+                <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full dark:bg-emerald-950/20">
+                  {posts.filter(p => !p.isHidden && (p.title.toLowerCase().includes(moderationSearchQuery.toLowerCase()) || p.author.toLowerCase().includes(moderationSearchQuery.toLowerCase()))).length} টি
+                </span>
+              </h4>
+              <div className="flex flex-col gap-2.5 max-h-[250px] overflow-y-auto pr-1">
+                {posts.filter(p => !p.isHidden && (p.title.toLowerCase().includes(moderationSearchQuery.toLowerCase()) || p.author.toLowerCase().includes(moderationSearchQuery.toLowerCase()))).length > 0 ? (
+                  posts
+                    .filter(p => !p.isHidden && (p.title.toLowerCase().includes(moderationSearchQuery.toLowerCase()) || p.author.toLowerCase().includes(moderationSearchQuery.toLowerCase())))
+                    .map((post) => (
+                      <div
+                        key={post.id}
+                        className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-color)] bg-slate-50 dark:bg-zinc-950/20 sepia:bg-[#dfceab]/30"
+                      >
+                        <div className="flex flex-col gap-1 w-2/3">
+                          <span className="text-xs font-semibold truncate text-[var(--text-primary)]">
+                            {post.title}
+                          </span>
+                          <span className="text-[10px] text-slate-500">
+                            লেখক: {post.author} • ভিউ: {post.views}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => handleToggleHidePost(post.id, post.isHidden)}
+                          className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40 hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-950/40 transition"
+                        >
+                          Hide (গোপন করুন)
+                        </button>
+                      </div>
+                    ))
+                ) : (
+                  <span className="text-[10px] text-slate-400 py-2">কোনো প্রকাশিত সংবাদ পাওয়া যায়নি।</span>
+                )}
+              </div>
+            </div>
+
+            {/* Section 2: Hidden News */}
+            <div className="flex flex-col gap-2 mt-2">
+              <h4 className="text-xs font-bold text-red-500 border-b border-[var(--border-color)] pb-1.5 flex items-center justify-between">
+                <span>সংগুপ্ত/অপ্রকাশিত সংবাদ (Hidden)</span>
+                <span className="text-[10px] bg-red-50 text-red-700 px-2 py-0.5 rounded-full dark:bg-red-950/20">
+                  {posts.filter(p => p.isHidden && (p.title.toLowerCase().includes(moderationSearchQuery.toLowerCase()) || p.author.toLowerCase().includes(moderationSearchQuery.toLowerCase()))).length} টি
+                </span>
+              </h4>
+              <div className="flex flex-col gap-2.5 max-h-[250px] overflow-y-auto pr-1">
+                {posts.filter(p => p.isHidden && (p.title.toLowerCase().includes(moderationSearchQuery.toLowerCase()) || p.author.toLowerCase().includes(moderationSearchQuery.toLowerCase()))).length > 0 ? (
+                  posts
+                    .filter(p => p.isHidden && (p.title.toLowerCase().includes(moderationSearchQuery.toLowerCase()) || p.author.toLowerCase().includes(moderationSearchQuery.toLowerCase())))
+                    .map((post) => (
+                      <div
+                        key={post.id}
+                        className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-color)] bg-slate-100/50 dark:bg-zinc-900/40 sepia:bg-[#dfceab]/15"
+                      >
+                        <div className="flex flex-col gap-1 w-2/3">
+                          <span className="text-xs font-semibold truncate text-[var(--text-primary)]">
+                            {post.title}
+                          </span>
+                          <span className="text-[10px] text-slate-500">
+                            লেখক: {post.author} • ভিউ: {post.views}
+                          </span>
+                        </div>
+                        <button
+                          onClick={() => handleToggleHidePost(post.id, post.isHidden)}
+                          className="text-xs font-bold px-3 py-1 rounded-full bg-red-100 text-red-600 dark:bg-red-950/40 hover:bg-emerald-100 hover:text-emerald-600 dark:hover:bg-emerald-950/40 transition"
+                        >
+                          Publish (প্রকাশ করুন)
+                        </button>
+                      </div>
+                    ))
+                ) : (
+                  <span className="text-[10px] text-slate-400 py-2">কোনো গোপনকৃত সংবাদ নেই।</span>
+                )}
+              </div>
             </div>
           </div>
 
