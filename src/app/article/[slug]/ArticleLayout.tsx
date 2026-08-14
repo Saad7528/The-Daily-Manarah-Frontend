@@ -141,7 +141,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
             </div>
 
             {/* AI Audio TTS Player */}
-            <TTSPlayer text={post.title + " " + (post.summary || "")} />
+            <TTSPlayer text={post.title + "। " + (post.summary || "") + "। " + post.content} />
 
             {/* AI 3-Bullet Summary */}
             <QuickSummary />

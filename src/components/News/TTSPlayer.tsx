@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Play, Pause, RotateCcw, Volume2, HelpCircle, AlertCircle } from "lucide-react";
+import { Play, Pause, RotateCcw, Volume2 } from "lucide-react";
 
 interface TTSPlayerProps {
   text: string;
@@ -10,97 +10,216 @@ interface TTSPlayerProps {
 export function TTSPlayer({ text }: TTSPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [rate, setRate] = useState(1.0);
-  const [supported, setSupported] = useState(true);
-  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const [currentChunkIndex, setCurrentChunkIndex] = useState(0);
+  const [chunks, setChunks] = useState<string[]>([]);
+  
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Keep references to the latest state to avoid closure issues in the event listener
+  const chunksRef = useRef<string[]>([]);
+  const indexRef = useRef<number>(0);
+  const rateRef = useRef<number>(1.0);
+  const isPlayingRef = useRef<boolean>(false);
+
+  // Sync references with active states
+  useEffect(() => {
+    chunksRef.current = chunks;
+  }, [chunks]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && !window.speechSynthesis) {
-      setSupported(false);
+    indexRef.current = currentChunkIndex;
+  }, [currentChunkIndex]);
+
+  useEffect(() => {
+    rateRef.current = rate;
+  }, [rate]);
+
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
+  // Clean HTML text, decode entities, and split into sensible sentences/chunks
+  const cleanAndChunkText = (htmlText: string): string[] => {
+    const rawText = htmlText
+      .replace(/<[^>]*>/g, "") // Remove HTML tags
+      .replace(/&nbsp;/g, " ")
+      .replace(/&rsquo;/g, "'")
+      .replace(/&ldquo;/g, '"')
+      .replace(/&rdquo;/g, '"')
+      .replace(/&amp;/g, "&")
+      .replace(/\s+/g, " ") // Normalize spaces
+      .trim();
+
+    // Split by sentence terminators (Bengali darsi, English full stop, question mark, exclamation, newline)
+    const sentences = rawText.split(/[।\.?!\n]/);
+    const result: string[] = [];
+    let currentChunk = "";
+
+    for (let i = 0; i < sentences.length; i++) {
+      let sentence = sentences[i].trim();
+      if (!sentence) continue;
+
+      // Add standard Bengali punctuation back
+      sentence = sentence + "। ";
+
+      // If a single sentence is extremely long, slice it into smaller sub-chunks
+      if (sentence.length > 150) {
+        if (currentChunk.trim()) {
+          result.push(currentChunk.trim());
+          currentChunk = "";
+        }
+
+        let remaining = sentence;
+        while (remaining.length > 0) {
+          const sliceSize = Math.min(150, remaining.length);
+          let slice = remaining.substring(0, sliceSize);
+
+          if (remaining.length > 150) {
+            const lastSpace = slice.lastIndexOf(" ");
+            if (lastSpace > 100) {
+              slice = remaining.substring(0, lastSpace);
+            }
+          }
+
+          result.push(slice.trim());
+          remaining = remaining.substring(slice.length).trim();
+        }
+      } else {
+        if ((currentChunk + sentence).length > 150) {
+          if (currentChunk.trim()) {
+            result.push(currentChunk.trim());
+          }
+          currentChunk = sentence;
+        } else {
+          currentChunk += sentence;
+        }
+      }
     }
 
-    return () => {
-      // Clean up on unmount
-      if (typeof window !== "undefined" && window.speechSynthesis) {
-        window.speechSynthesis.cancel();
+    if (currentChunk.trim()) {
+      result.push(currentChunk.trim());
+    }
+
+    console.log("TTS Prepared Chunks count:", result.length);
+    return result;
+  };
+
+  // Populate chunks when text changes
+  useEffect(() => {
+    if (text) {
+      setChunks(cleanAndChunkText(text));
+    }
+  }, [text]);
+
+  // Initialize audio player and static event listeners ONCE on mount
+  useEffect(() => {
+    const audio = new Audio();
+    audioRef.current = audio;
+
+    const handleEnded = () => {
+      const nextIndex = indexRef.current + 1;
+      const activeChunks = chunksRef.current;
+      const activeRate = rateRef.current;
+
+      if (nextIndex >= activeChunks.length) {
+        setIsPlaying(false);
+        setCurrentChunkIndex(0);
+        audio.src = "";
+        return;
       }
+
+      // Set state and play the next chunk
+      setCurrentChunkIndex(nextIndex);
+      const textChunk = activeChunks[nextIndex];
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000";
+      const url = `${backendUrl}/api/tts?text=${encodeURIComponent(textChunk)}`;
+
+      audio.src = url;
+      audio.playbackRate = activeRate;
+      audio.play().catch((err) => {
+        console.error("Audio sequential playback failed at index:", nextIndex, err);
+        setIsPlaying(false);
+      });
+    };
+
+    const handleError = (e: any) => {
+      console.error("Audio player encountered an error:", e);
+      setIsPlaying(false);
+    };
+
+    audio.addEventListener("ended", handleEnded);
+    audio.addEventListener("error", handleError);
+
+    return () => {
+      audio.pause();
+      audio.removeEventListener("ended", handleEnded);
+      audio.removeEventListener("error", handleError);
+      audioRef.current = null;
     };
   }, []);
 
-  const cleanText = (htmlText: string) => {
-    // Basic text cleaner to remove HTML tags
-    return htmlText.replace(/<[^>]*>/g, "").substring(0, 1000); // Read first 1000 characters
+  const playChunk = (index: number, rateValue: number) => {
+    const activeChunks = chunksRef.current;
+    if (index >= activeChunks.length) {
+      setIsPlaying(false);
+      setCurrentChunkIndex(0);
+      if (audioRef.current) {
+        audioRef.current.src = "";
+      }
+      return;
+    }
+
+    setCurrentChunkIndex(index);
+    const textChunk = activeChunks[index];
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000";
+    const url = `${backendUrl}/api/tts?text=${encodeURIComponent(textChunk)}`;
+
+    if (audioRef.current) {
+      audioRef.current.src = url;
+      audioRef.current.playbackRate = rateValue;
+      audioRef.current.play().catch((err) => {
+        console.error("Audio playback failed at index:", index, err);
+        setIsPlaying(false);
+      });
+    }
   };
 
   const handlePlayPause = () => {
-    if (!supported) return;
-
-    const synth = window.speechSynthesis;
-
     if (isPlaying) {
-      synth.pause();
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
       setIsPlaying(false);
     } else {
-      if (synth.paused) {
-        synth.resume();
-        setIsPlaying(true);
+      setIsPlaying(true);
+      // Resume if already loaded, else start playChunk
+      if (audioRef.current && audioRef.current.src) {
+        audioRef.current.playbackRate = rate;
+        audioRef.current.play().catch((err) => {
+          console.error("Failed to resume playback, restarting chunk:", err);
+          playChunk(currentChunkIndex, rate);
+        });
       } else {
-        synth.cancel();
-        
-        const txtToSpeak = cleanText(text);
-        const utterance = new SpeechSynthesisUtterance(txtToSpeak);
-        
-        // Find Bengali voice
-        const voices = synth.getVoices();
-        const bnVoice = voices.find(
-          (v) => v.lang.startsWith("bn") || v.name.includes("Bengali") || v.name.includes("Bangla")
-        );
-        if (bnVoice) {
-          utterance.voice = bnVoice;
-        }
-        
-        utterance.lang = "bn-BD";
-        utterance.rate = rate;
-
-        utterance.onend = () => {
-          setIsPlaying(false);
-        };
-
-        utterance.onerror = () => {
-          setIsPlaying(false);
-        };
-
-        utteranceRef.current = utterance;
-        synth.speak(utterance);
-        setIsPlaying(true);
+        playChunk(currentChunkIndex, rate);
       }
     }
   };
 
   const handleStop = () => {
-    if (!supported) return;
-    window.speechSynthesis.cancel();
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = "";
+    }
     setIsPlaying(false);
+    setCurrentChunkIndex(0);
   };
 
   const changeRate = (newRate: number) => {
     setRate(newRate);
-    if (isPlaying && typeof window !== "undefined") {
-      // Restart speech with new rate
-      window.speechSynthesis.cancel();
-      const txtToSpeak = cleanText(text);
-      const utterance = new SpeechSynthesisUtterance(txtToSpeak);
-      const voices = window.speechSynthesis.getVoices();
-      const bnVoice = voices.find(
-        (v) => v.lang.startsWith("bn") || v.name.includes("Bengali") || v.name.includes("Bangla")
-      );
-      if (bnVoice) utterance.voice = bnVoice;
-      utterance.lang = "bn-BD";
-      utterance.rate = newRate;
-      utterance.onend = () => setIsPlaying(false);
-      utterance.onerror = () => setIsPlaying(false);
-      
-      utteranceRef.current = utterance;
-      window.speechSynthesis.speak(utterance);
+    if (isPlaying) {
+      playChunk(indexRef.current, newRate);
+    } else if (audioRef.current) {
+      audioRef.current.playbackRate = newRate;
     }
   };
 
