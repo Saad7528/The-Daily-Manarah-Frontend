@@ -6,21 +6,26 @@ export default withAuth(
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
-    // ১. সুপার অ্যাডমিন ড্যাশবোর্ড নিরাপত্তা
-    if (path.startsWith("/admin/dashboard")) {
-      if (token?.role !== "SUPER_ADMIN") {
-        return NextResponse.redirect(new URL("/?error=unauthorized", req.url));
-      }
+    // Allowed roles definition
+    const validRoles = ["SUPER_ADMIN", "EDITOR", "REPORTER", "AD_MANAGER"];
+    const userRole = (token?.role as string) || "";
+
+    // 1. Check if user has a valid role
+    if (!token || !validRoles.includes(userRole)) {
+      const signInUrl = new URL("/auth/signin", req.url);
+      signInUrl.searchParams.set("callbackUrl", path);
+      return NextResponse.redirect(signInUrl);
     }
 
-    // ২. রাইটিং ও এডিটর প্যানেল নিরাপত্তা
+    // 2. Route-specific role checking
     if (path.startsWith("/admin/editor")) {
-      const allowedRoles = ["EDITOR", "SUPER_ADMIN"];
-      if (!token?.role || !allowedRoles.includes(token.role as string)) {
-        return NextResponse.redirect(new URL("/?error=unauthorized", req.url));
+      const editorAllowedRoles = ["SUPER_ADMIN", "EDITOR", "REPORTER"];
+      if (!editorAllowedRoles.includes(userRole)) {
+        return NextResponse.redirect(new URL("/admin/dashboard?error=restricted", req.url));
       }
     }
 
+    // 3. SUPER_ADMIN has unrestricted access to everything
     return NextResponse.next();
   },
   {

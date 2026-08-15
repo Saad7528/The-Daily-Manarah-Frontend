@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Header } from "@/components/Layout/Header";
-import { Footer } from "@/components/Layout/Footer";
 import { HeroGrid, NewsItem } from "@/components/News/HeroGrid";
 import { BangladeshMap } from "@/components/News/BangladeshMap";
 import { VideoReels } from "@/components/News/VideoReels";
@@ -152,10 +150,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
   const multimediaPosts = getCategoryPosts("multimedia");
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--bg-primary)] transition-colors duration-300">
-      <Header />
-
-      <main className="max-w-7xl mx-auto w-full px-4 md:px-0 py-8 flex flex-col gap-8 flex-grow">
+    <div className="max-w-7xl mx-auto w-full px-4 md:px-0 py-8 flex flex-col gap-8 flex-grow">
 
         {/* Home News section split: Main Grid (Left 8 Cols) + Sidebar (Right 4 Cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -612,9 +607,6 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
 
         </div>
 
-      </main>
-
-      <Footer />
     </div>
   );
 }

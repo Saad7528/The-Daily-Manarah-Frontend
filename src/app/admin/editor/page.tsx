@@ -176,56 +176,33 @@ export default function ContentEditor() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[var(--bg-primary)] p-4 md:p-8 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto flex flex-col gap-6">
-        
-        {/* Editor Page Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-[var(--accent-color)] text-white rounded-xl shadow-md">
-              <FileText size={24} />
-            </div>
-            <div>
-              <h1 className="font-serif font-black text-2xl md:text-3xl text-[var(--text-primary)]">
-                সিনিয়র এডিটর ও রাইটিং প্যানেল
-              </h1>
-              <p className="text-xs text-slate-500 dark:text-zinc-500 sepia:text-[#705e4c]">
-                সংবাদ তৈরি করুন • এআই বানান সংশোধক ও মেটাডাটা এমবেড সেটিংস
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {session?.user && (
-              <div className="flex items-center gap-3 bg-[var(--bg-card)] border border-[var(--border-color)] px-4 py-1.5 rounded-full shadow-sm">
-                <div className="flex flex-col text-right">
-                  <span className="text-xs font-bold text-[var(--text-primary)]">{session.user.name}</span>
-                  <span className="text-[9px] font-medium text-slate-400 uppercase tracking-wider">{(session.user as any).role || "এডিটর"}</span>
-                </div>
-                <button
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 font-bold px-3 py-1 rounded-full text-[10px] transition"
-                >
-                  লগ আউট
-                </button>
-              </div>
-            )}
-
-            <div className="flex items-center gap-3">
-              {/* Draft Saving Status Indicator */}
-              <span className="text-[11px] text-slate-400 font-medium">
-                {isSaving ? "ড্রাফট সংরক্ষণ হচ্ছে..." : lastSaved ? `স্বয়ংক্রিয়ভাবে সংরক্ষিত: ${lastSaved}` : "ড্রাফট সংরক্ষিত"}
-              </span>
-              
-              <button
-                onClick={handlePublish}
-                className="bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-white font-bold text-xs px-5 py-2 rounded-full shadow transition-all"
-              >
-                সংবাদ প্রকাশ করুন
-              </button>
-            </div>
-          </div>
+    <div className="flex flex-col gap-6">
+      
+      {/* Editor Page Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
+        <div>
+          <h2 className="font-serif font-black text-2xl md:text-3xl text-[var(--text-primary)]">
+            সংবাদ এডিটর ও এআই রাইটার
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-zinc-400 sepia:text-[#705e4c]">
+            নতুন সংবাদ রচনা, এআই বানান সংশোধন ও মেটাডাটা কনফিগারেশন
+          </p>
         </div>
+
+        <div className="flex items-center gap-3">
+          {/* Draft Saving Status Indicator */}
+          <span className="text-[11px] text-slate-400 font-medium hidden sm:inline">
+            {isSaving ? "ড্রাফট সংরক্ষণ হচ্ছে..." : lastSaved ? `স্বয়ংক্রিয় সংরক্ষিত: ${lastSaved}` : "ড্রাফট সংরক্ষিত"}
+          </span>
+          
+          <button
+            onClick={handlePublish}
+            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-xs px-5 py-2.5 rounded-full shadow-md shadow-emerald-700/20 transition-all hover:scale-105"
+          >
+            সংবাদ প্রকাশ করুন
+          </button>
+        </div>
+      </div>
 
         {/* 2-Column Split Workspace */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -465,7 +442,6 @@ export default function ContentEditor() {
 
         </div>
 
-      </div>
     </div>
   );
 }

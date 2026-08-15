@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Header } from "@/components/Layout/Header";
-import { Footer } from "@/components/Layout/Footer";
 import {
   Megaphone,
   HeartHandshake,
@@ -46,9 +44,7 @@ export default function ManarahFoundationPage() {
   ] as const;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300">
-      <Header />
-      
+    <div className="w-full">
       {/* Decorative Hero Header */}
       <div className="relative overflow-hidden bg-emerald-900 text-white py-16 px-4 text-center border-b border-amber-500/20">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-emerald-800 via-emerald-950 to-emerald-950 opacity-90"></div>
@@ -591,8 +587,6 @@ export default function ManarahFoundationPage() {
         </section>
 
       </main>
-      
-      <Footer />
     </div>
   );
 }

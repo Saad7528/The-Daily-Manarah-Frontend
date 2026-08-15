@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Header } from "@/components/Layout/Header";
-import { Footer } from "@/components/Layout/Footer";
 import { TTSPlayer } from "@/components/News/TTSPlayer";
 import { QuickSummary } from "@/components/News/QuickSummary";
 import { HotShare } from "@/components/News/HotShare";
@@ -176,16 +174,14 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
   const readMinutesBn = readMinutes.toLocaleString("bn-BD");
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--bg-primary)] transition-colors duration-300">
+    <>
       {/* Top Reading Progress Bar */}
       <div
         className="fixed top-0 left-0 h-1 bg-amber-500 z-50 transition-all duration-150"
         style={{ width: `${readingProgress}%` }}
       />
 
-      <Header />
-
-      <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 flex-grow">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 flex-grow">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-28 text-[var(--text-secondary)] gap-3">
             <Loader2 className="w-10 h-10 animate-spin text-[var(--accent-color)]" />
@@ -622,10 +618,8 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
             </div>
           </div>
         )}
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </>
   );
 }
 

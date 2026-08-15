@@ -2,8 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Header } from "@/components/Layout/Header";
-import { Footer } from "@/components/Layout/Footer";
 import { HeroGrid, NewsItem } from "@/components/News/HeroGrid";
 import { MapPin, Loader2 } from "lucide-react";
 import { BangladeshMap } from "@/components/News/BangladeshMap";
@@ -41,10 +39,7 @@ export function LocationLayout({ initialPosts, params }: { initialPosts: NewsIte
   }, [initialPosts]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--bg-primary)]">
-      <Header />
-
-      <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 flex-grow">
+    <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 flex-grow">
 
         {/* Location Header */}
         <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
@@ -123,9 +118,6 @@ export function LocationLayout({ initialPosts, params }: { initialPosts: NewsIte
           </div>
         )}
 
-      </main>
-
-      <Footer />
     </div>
   );
 }

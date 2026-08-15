@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Header } from "@/components/Layout/Header";
-import { Footer } from "@/components/Layout/Footer";
 import { Heart, Landmark, Smartphone, ClipboardCheck, Sparkles, ChevronRight } from "lucide-react";
 
 export default function DonatePage() {
@@ -57,10 +55,7 @@ export default function DonatePage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300">
-      <Header />
-      
-      <main className="max-w-6xl mx-auto px-4 py-12 flex flex-col gap-12">
+    <div className="max-w-6xl mx-auto px-4 py-12 flex flex-col gap-12">
         {/* Banner Section */}
         <div className="text-center max-w-2xl mx-auto space-y-4">
           <div className="inline-flex items-center space-x-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-4 py-1.5 rounded-full text-xs font-bold">
@@ -276,9 +271,6 @@ export default function DonatePage() {
           </div>
         </div>
 
-      </main>
-
-      <Footer />
     </div>
   );
 }

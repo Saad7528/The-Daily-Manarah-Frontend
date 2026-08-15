@@ -4,8 +4,6 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Header } from "@/components/Layout/Header";
-import { Footer } from "@/components/Layout/Footer";
 import { HeroGrid, NewsItem } from "@/components/News/HeroGrid";
 import { Award, Loader2 } from "lucide-react";
 
@@ -26,10 +24,7 @@ export function CategoryLayout({ initialPosts, slug }: { initialPosts: NewsItem[
               slug === "multimedia" ? "মাল্টিমিডিয়া" : "খবর";
 
   return (
-    <div className="flex flex-col min-h-screen bg-[var(--bg-primary)]">
-      <Header />
-
-      <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 flex-grow">
+    <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 flex-grow">
 
         {/* Category Header */}
         <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
@@ -103,9 +98,6 @@ export function CategoryLayout({ initialPosts, slug }: { initialPosts: NewsItem[
           </div>
         )}
 
-      </main>
-
-      <Footer />
     </div>
   );
 }

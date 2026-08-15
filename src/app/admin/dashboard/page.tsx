@@ -307,11 +307,41 @@ export default function AdminDashboard() {
         body: JSON.stringify({ isHidden: nextHidden }),
       });
       if (res.ok) {
-        alert(nextHidden ? "আর্টিকেলটি গোপন (Hidden) করা হয়েছে।" : "আর্টিকেলটি সফলভাবে প্রকাশিত হয়েছে।");
         fetchPosts();
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleTogglePinPost = async (id: string, currentlyPinned: boolean) => {
+    const nextPinned = !currentlyPinned;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/posts/${id}/pin`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isPinned: nextPinned }),
+      });
+      if (res.ok) {
+        fetchPosts();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeletePost = async (id: string, title: string) => {
+    if (confirm(`আপনি কি নিশ্চিতভাবে "${title}" সংবাদটি ডিলিট করতে চান?`)) {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/posts/${id}`, {
+          method: "DELETE",
+        });
+        if (res.ok) {
+          fetchPosts();
+        }
+      } catch (error) {
+        console.error("Failed to delete post:", error);
+      }
     }
   };
 
@@ -351,52 +381,31 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="w-full min-h-screen bg-[var(--bg-primary)] p-4 md:p-8 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto flex flex-col gap-6">
+    <div className="flex flex-col gap-6">
+      
+      {/* Page Title & Status */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
+        <div>
+          <h2 className="font-serif font-black text-2xl md:text-3xl text-[var(--text-primary)]">
+            অ্যাডমিন ড্যাশবোর্ড
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-zinc-400 sepia:text-[#705e4c]">
+            রিয়েল-টাইম ট্রাফিক অ্যানালিটিক্স, কন্টেন্ট মডারেশন ও রোল এক্সেস কন্ট্রোল (RBAC)
+          </p>
+        </div>
         
-        {/* Header Dashboard Title */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--border-color)] pb-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-emerald-600 text-white rounded-xl shadow-md">
-              <Settings size={24} />
-            </div>
-            <div>
-              <h1 className="font-serif font-black text-2xl md:text-3xl text-[var(--text-primary)]">
-                ডেইলি মানারাহ অ্যাডমিন প্যানেল
-              </h1>
-              <p className="text-xs text-slate-500 dark:text-zinc-500 sepia:text-[#705e4c]">
-                সুপার অ্যাডমিন ড্যাশবোর্ড • গ্লোবাল ফিচার সুইচবোর্ড ও ট্রাফিক অ্যানালিটিক্স
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-              </span>
-              <span className="text-xs font-bold text-red-500">
-                লাইভ ট্রাফিক মনিটরিং
-              </span>
-            </div>
-
-            {session?.user && (
-              <div className="flex items-center gap-3 bg-[var(--bg-card)] border border-[var(--border-color)] px-4 py-1.5 rounded-full shadow-sm">
-                <div className="flex flex-col text-right">
-                  <span className="text-xs font-bold text-[var(--text-primary)]">{session.user.name}</span>
-                  <span className="text-[9px] font-medium text-slate-400 uppercase tracking-wider">{(session.user as any).role || "অ্যাডমিন"}</span>
-                </div>
-                <button
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 font-bold px-3 py-1 rounded-full text-[10px] transition"
-                >
-                  লগ আউট
-                </button>
-              </div>
-            )}
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20">
+            <span className="flex h-2 w-2 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+            </span>
+            <span className="text-xs font-bold text-red-500">
+              লাইভ ট্রাফিক মনিটরিং
+            </span>
           </div>
         </div>
+      </div>
 
         {/* SUMMARY STATS GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -493,7 +502,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* SWITCHBOARD (lg:col-span-4) */}
-          <div className="lg:col-span-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+          <div id="settings" className="lg:col-span-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4 scroll-mt-20">
             <h3 className="font-serif font-black text-base text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3">
               গ্লোবাল ফিচার সুইচবোর্ড
             </h3>
@@ -561,7 +570,7 @@ export default function AdminDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           
           {/* Post Moderation: Hide/Unhide (lg:col-span-6) */}
-          <div className="lg:col-span-6 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+          <div id="moderation" className="lg:col-span-6 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4 scroll-mt-20">
             <h3 className="font-serif font-black text-base text-[var(--text-primary)] border-b border-[var(--border-color)] pb-3">
               সংবাদ মডারেশন ও গোপন করার প্যানেল (Super Admin)
             </h3>
@@ -581,7 +590,7 @@ export default function AdminDashboard() {
             <div className="flex flex-col gap-2">
               <h4 className="text-xs font-bold text-emerald-600 border-b border-[var(--border-color)] pb-1.5 flex items-center justify-between">
                 <span>প্রকাশিত সংবাদ (Published)</span>
-                <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full dark:bg-emerald-950/20">
+                <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full dark:bg-emerald-950/20 font-bold">
                   {posts.filter(p => !p.isHidden && (p.title.toLowerCase().includes(moderationSearchQuery.toLowerCase()) || p.author.toLowerCase().includes(moderationSearchQuery.toLowerCase()))).length} টি
                 </span>
               </h4>
@@ -592,9 +601,9 @@ export default function AdminDashboard() {
                     .map((post) => (
                       <div
                         key={post.id}
-                        className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-color)] bg-slate-50 dark:bg-zinc-950/20 sepia:bg-[#dfceab]/30"
+                        className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-color)] bg-slate-50 dark:bg-zinc-950/20"
                       >
-                        <div className="flex flex-col gap-1 w-2/3">
+                        <div className="flex flex-col gap-1 w-3/5">
                           <span className="text-xs font-semibold truncate text-[var(--text-primary)]">
                             {post.title}
                           </span>
@@ -602,12 +611,30 @@ export default function AdminDashboard() {
                             লেখক: {post.author} • ভিউ: {post.views}
                           </span>
                         </div>
-                        <button
-                          onClick={() => handleToggleHidePost(post.id, post.isHidden)}
-                          className="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-950/40 hover:bg-red-100 hover:text-red-600 dark:hover:bg-red-950/40 transition"
-                        >
-                          Hide (গোপন করুন)
-                        </button>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            onClick={() => handleTogglePinPost(post.id, post.isPinned)}
+                            title={post.isPinned ? "পিন করা রয়েছে" : "লিড সংবাদে পিন করুন"}
+                            className={`p-1.5 rounded-lg text-xs transition ${
+                              post.isPinned ? "bg-amber-100 text-amber-700 dark:bg-amber-950/50" : "text-slate-400 hover:bg-slate-200 dark:hover:bg-zinc-800"
+                            }`}
+                          >
+                            <Save size={13} className={post.isPinned ? "text-amber-600" : ""} />
+                          </button>
+                          <button
+                            onClick={() => handleToggleHidePost(post.id, post.isHidden)}
+                            className="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-amber-50 text-amber-700 dark:bg-amber-950/30 hover:bg-red-100 hover:text-red-600 transition"
+                          >
+                            Hide
+                          </button>
+                          <button
+                            onClick={() => handleDeletePost(post.id, post.title)}
+                            title="ডিলিট করুন"
+                            className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
                       </div>
                     ))
                 ) : (
@@ -620,7 +647,7 @@ export default function AdminDashboard() {
             <div className="flex flex-col gap-2 mt-2">
               <h4 className="text-xs font-bold text-red-500 border-b border-[var(--border-color)] pb-1.5 flex items-center justify-between">
                 <span>সংগুপ্ত/অপ্রকাশিত সংবাদ (Hidden)</span>
-                <span className="text-[10px] bg-red-50 text-red-700 px-2 py-0.5 rounded-full dark:bg-red-950/20">
+                <span className="text-[10px] bg-red-50 text-red-700 px-2 py-0.5 rounded-full dark:bg-red-950/20 font-bold">
                   {posts.filter(p => p.isHidden && (p.title.toLowerCase().includes(moderationSearchQuery.toLowerCase()) || p.author.toLowerCase().includes(moderationSearchQuery.toLowerCase()))).length} টি
                 </span>
               </h4>
@@ -631,9 +658,9 @@ export default function AdminDashboard() {
                     .map((post) => (
                       <div
                         key={post.id}
-                        className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-color)] bg-slate-100/50 dark:bg-zinc-900/40 sepia:bg-[#dfceab]/15"
+                        className="flex items-center justify-between p-3 rounded-lg border border-[var(--border-color)] bg-slate-100/50 dark:bg-zinc-900/40"
                       >
-                        <div className="flex flex-col gap-1 w-2/3">
+                        <div className="flex flex-col gap-1 w-3/5">
                           <span className="text-xs font-semibold truncate text-[var(--text-primary)]">
                             {post.title}
                           </span>
@@ -641,12 +668,21 @@ export default function AdminDashboard() {
                             লেখক: {post.author} • ভিউ: {post.views}
                           </span>
                         </div>
-                        <button
-                          onClick={() => handleToggleHidePost(post.id, post.isHidden)}
-                          className="text-xs font-bold px-3 py-1 rounded-full bg-red-100 text-red-600 dark:bg-red-950/40 hover:bg-emerald-100 hover:text-emerald-600 dark:hover:bg-emerald-950/40 transition"
-                        >
-                          Publish (প্রকাশ করুন)
-                        </button>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            onClick={() => handleToggleHidePost(post.id, post.isHidden)}
+                            className="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 hover:bg-emerald-200 transition"
+                          >
+                            Publish
+                          </button>
+                          <button
+                            onClick={() => handleDeletePost(post.id, post.title)}
+                            title="ডিলিট করুন"
+                            className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
                       </div>
                     ))
                 ) : (
@@ -657,7 +693,7 @@ export default function AdminDashboard() {
           </div>
 
           {/* Audit Logs / Revisions (lg:col-span-6) */}
-          <div className="lg:col-span-6 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+          <div id="revisions" className="lg:col-span-6 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4 scroll-mt-20">
             <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
               <History size={18} className="text-emerald-600" />
               <h3 className="font-serif font-black text-base text-[var(--text-primary)]">
@@ -733,7 +769,7 @@ export default function AdminDashboard() {
         )}
 
         {/* ROLE MANAGER PANEL */}
-        <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-6">
+        <div id="team" className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-6 scroll-mt-20">
           <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-1">
             <Lock size={18} className="text-amber-500" />
             <h3 className="font-serif font-black text-base text-[var(--text-primary)]">
@@ -863,7 +899,6 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-      </div>
     </div>
   );
 }

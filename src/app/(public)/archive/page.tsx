@@ -3,8 +3,6 @@
 import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Header } from "@/components/Layout/Header";
-import { Footer } from "@/components/Layout/Footer";
 import { Search, Filter, Calendar, Eye, ShieldCheck, X } from "lucide-react";
 
 interface Category {
@@ -114,10 +112,7 @@ function ArchiveContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
-      <Header />
-
-      <main className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-6">
+    <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-6">
 
         {/* Page Header Breadcrumb */}
         <div className="flex items-center gap-2 text-xs md:text-sm font-semibold text-[var(--text-secondary)]">
@@ -326,9 +321,6 @@ function ArchiveContent() {
 
         </div>
 
-      </main>
-
-      <Footer />
     </div>
   );
 }
