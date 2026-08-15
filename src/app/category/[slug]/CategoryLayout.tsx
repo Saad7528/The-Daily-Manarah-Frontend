@@ -17,20 +17,20 @@ export function CategoryLayout({ initialPosts, slug }: { initialPosts: NewsItem[
     setPosts(initialPosts);
   }, [initialPosts]);
 
-  const categoryName = 
+  const categoryName =
     slug === "politics" ? "জাতীয় ও রাজনীতি" :
-    slug === "fact-check-research" ? "ফ্যাক্ট-চেক ও গবেষণা" :
-    slug === "islamic-life" ? "দাওয়াহ ও ইসলামিক জীবন" :
-    slug === "humanity-society" ? "মানবসেবা ও সমাজ" :
-    slug === "opinion-editorial" ? "মতামত ও বিশ্লেষণ" :
-    slug === "multimedia" ? "মাল্টিমিডিয়া" : "খবর";
+      slug === "fact-check-research" ? "ফ্যাক্ট-চেক ও গবেষণা" :
+        slug === "islamic-life" ? "দাওয়াহ ও ইসলামিক জীবন" :
+          slug === "humanity-society" ? "মানবসেবা ও সমাজ" :
+            slug === "opinion-editorial" ? "মতামত ও বিশ্লেষণ" :
+              slug === "multimedia" ? "মাল্টিমিডিয়া" : "খবর";
 
   return (
     <div className="flex flex-col min-h-screen bg-[var(--bg-primary)]">
       <Header />
 
-      <main className="max-w-7xl mx-auto w-full px-4 py-8 flex flex-col gap-8 flex-grow">
-        
+      <main className="max-w-7xl mx-auto w-full px-4 md:px-0 py-8 flex flex-col gap-8 flex-grow">
+
         {/* Category Header */}
         <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
           <Award size={20} className="text-[var(--accent-color)]" />

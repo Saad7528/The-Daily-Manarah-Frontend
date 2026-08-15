@@ -90,9 +90,9 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
   const [posts, setPosts] = useState<NewsItem[]>(initialPosts || mockPosts);
 
   const getCategoryPosts = (catSlug: string) => {
-    return posts.filter(p => 
-      p.category.slug === catSlug || 
-      p.category.slug.startsWith(catSlug + "-") || 
+    return posts.filter(p =>
+      p.category.slug === catSlug ||
+      p.category.slug.startsWith(catSlug + "-") ||
       (p as any).categorySlug === catSlug
     );
   };
@@ -118,7 +118,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
     e.preventDefault();
     setErrorMsg("");
     setSubscribed(false);
-    
+
     if (!email.trim()) return;
     setLoading(true);
 
@@ -155,11 +155,11 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
     <div className="flex flex-col min-h-screen bg-[var(--bg-primary)] transition-colors duration-300">
       <Header />
 
-      <main className="max-w-7xl mx-auto w-full px-4 py-8 flex flex-col gap-8 flex-grow">
-        
+      <main className="max-w-7xl mx-auto w-full px-4 md:px-0 py-8 flex flex-col gap-8 flex-grow">
+
         {/* Home News section split: Main Grid (Left 8 Cols) + Sidebar (Right 4 Cols) */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          
+
           {/* Main Content Area (lg:col-span-8) */}
           <div className="lg:col-span-8 flex flex-col gap-8">
             <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
@@ -168,7 +168,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                 শীর্ষ সংবাদ ও বিশেষ প্রতিবেদন
               </h2>
             </div>
-            
+
             <HeroGrid posts={posts} />
 
             {/* ➔ Category Row 1: জাতীয় ও রাজনীতি (White Background) */}
@@ -495,27 +495,25 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
 
           {/* Sidebar Area (lg:col-span-4) */}
           <div className="lg:col-span-4 flex flex-col gap-8">
-            
+
             {/* Tab switch widget (Trending / Editors choice) */}
             <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
               <div className="flex bg-[var(--bg-input)] p-1 rounded-xl gap-1">
                 <button
                   onClick={() => setActiveTab("trending")}
-                  className={`w-1/2 py-2 text-xs font-bold rounded-lg transition-all ${
-                    activeTab === "trending"
-                      ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-sm"
-                      : "text-[var(--text-secondary)] hover:opacity-90"
-                  }`}
+                  className={`w-1/2 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === "trending"
+                    ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-sm"
+                    : "text-[var(--text-secondary)] hover:opacity-90"
+                    }`}
                 >
                   সর্বাধিক পঠিত (Trending)
                 </button>
                 <button
                   onClick={() => setActiveTab("editors")}
-                  className={`w-1/2 py-2 text-xs font-bold rounded-lg transition-all ${
-                    activeTab === "editors"
-                      ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-sm"
-                      : "text-[var(--text-secondary)] hover:opacity-90"
-                  }`}
+                  className={`w-1/2 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === "editors"
+                    ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-sm"
+                    : "text-[var(--text-secondary)] hover:opacity-90"
+                    }`}
                 >
                   সম্পাদকীয় কলাম (Opinion)
                 </button>
@@ -607,7 +605,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
               সাপ্তাহিক প্রধান খবর, গুরুত্বপূর্ণ ফ্যাক্ট-চেক রিপোর্ট এবং সত্য সংবাদগুলোর নোটিফিকেশন সরাসরি ইনবক্সে পেতে সাবস্ক্রাইব করুন।
             </p>
           </div>
-          
+
           <div className="w-full md:w-1/2 max-w-md">
             {subscribed ? (
               <div className="bg-white/95 text-emerald-750 font-bold p-4 rounded-2xl text-xs border border-emerald-250">
@@ -649,7 +647,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
               আমাদের অফিসিয়াল টেলিগ্রাম চ্যানেলে যুক্ত হয়ে তাৎক্ষণিক ব্রেকিং নিউজ, গুরুত্বপূর্ণ আপডেট এবং সরাসরি নোটিফিকেশন পান আপনার ফোনে।
             </p>
           </div>
-          
+
           <div className="w-full md:w-auto shrink-0 flex justify-end">
             <a
               href="https://t.me/dailymanarah"
@@ -674,9 +672,8 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
               নিচের ইন্টারেক্টিভ ম্যাপ থেকে বিভাগ সিলেক্ট করে নির্দিষ্ট অঞ্চলের সংবাদ ফিল্টার করুন।
             </p>
           </div>
-          <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-3xl p-6 md:p-10 shadow-sm">
-            <BangladeshMap />
-          </div>
+          <BangladeshMap />
+
         </div>
 
       </main>

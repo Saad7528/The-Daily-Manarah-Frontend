@@ -22,7 +22,7 @@ const divisionBnNames: Record<string, string> = {
 export function LocationLayout({ initialPosts, params }: { initialPosts: NewsItem[]; params: { slug?: string[] } }) {
   const locationPath = params.slug || [];
   const divisionId = locationPath[0] ? locationPath[0].toLowerCase() : "";
-  
+
   const [posts, setPosts] = useState<NewsItem[]>(initialPosts);
   const [loading, setLoading] = useState(false);
 
@@ -32,8 +32,8 @@ export function LocationLayout({ initialPosts, params }: { initialPosts: NewsIte
     ? locationPath[1].charAt(0).toUpperCase() + locationPath[1].slice(1)
     : "";
 
-  const formattedLocation = thanaName 
-    ? `${thanaName}, ${divisionNameBn}` 
+  const formattedLocation = thanaName
+    ? `${thanaName}, ${divisionNameBn}`
     : divisionNameBn;
 
   useEffect(() => {
@@ -44,8 +44,8 @@ export function LocationLayout({ initialPosts, params }: { initialPosts: NewsIte
     <div className="flex flex-col min-h-screen bg-[var(--bg-primary)]">
       <Header />
 
-      <main className="max-w-7xl mx-auto w-full px-4 py-8 flex flex-col gap-8 flex-grow">
-        
+      <main className="max-w-7xl mx-auto w-full px-4 md:px-0 py-8 flex flex-col gap-8 flex-grow">
+
         {/* Location Header */}
         <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
           <MapPin size={20} className="text-[var(--accent-color)]" />
@@ -116,7 +116,7 @@ export function LocationLayout({ initialPosts, params }: { initialPosts: NewsIte
               <span className="text-sm font-bold text-[var(--text-primary)]">দুঃখিত, {formattedLocation} এলাকায় এই মুহূর্তে কোনো প্রকাশিত সংবাদ নেই।</span>
               <span className="text-xs">শীঘ্রই রিপোর্টারদের পাঠানো সংবাদ এই পাতায় প্রদর্শন করা হবে।</span>
             </div>
-            
+
             <div className="max-w-3xl mx-auto w-full">
               <BangladeshMap />
             </div>

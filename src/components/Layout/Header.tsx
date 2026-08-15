@@ -54,7 +54,7 @@ export function Header() {
 
   // Date states
   const [dates, setDates] = useState({ bn: "", en: "" });
-  
+
   // Location states
   const [selectedDivision, setSelectedDivision] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
@@ -128,10 +128,10 @@ export function Header() {
 
   return (
     <header className="w-full flex flex-col border-b border-[var(--border-color)] bg-[var(--bg-card)] transition-colors duration-300 relative">
-      
+
       {/* ➔ SLIDING SIDEBAR THEME SELECTOR DRAWER (Floating on the right edge of screen, opens on click, hides default on mobile, doesn't block text reading) */}
       <div className={`fixed right-0 top-1/2 -translate-y-1/2 z-50 flex items-center transition-all duration-300 ${isThemeDrawerOpen ? "translate-x-0" : "translate-x-[calc(100%-12px)] md:translate-x-0"}`}>
-        
+
         {/* Toggle pull-out Tab (Hidden on desktop since desktop has enough space, or shown as clean pull-out on mobile) */}
         <button
           onClick={() => setIsThemeDrawerOpen(!isThemeDrawerOpen)}
@@ -151,22 +151,20 @@ export function Header() {
         <div className="bg-[var(--bg-card)] border-l border-y border-[var(--border-color)] rounded-l-xl p-2 shadow-2xl flex flex-col gap-2 w-11 border-2 border-r-0 border-amber-400">
           <button
             onClick={() => setTheme("light")}
-            className={`flex items-center justify-center w-7 h-7 rounded-lg transition ${
-              theme === "light"
-                ? "bg-amber-500 text-slate-950 shadow"
-                : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
-            }`}
+            className={`flex items-center justify-center w-7 h-7 rounded-lg transition ${theme === "light"
+              ? "bg-amber-500 text-slate-950 shadow"
+              : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
+              }`}
             title="লাইট মোড"
           >
             <Sun size={15} />
           </button>
           <button
             onClick={() => setTheme("dark")}
-            className={`flex items-center justify-center w-7 h-7 rounded-lg transition ${
-              theme === "dark"
-                ? "bg-zinc-950 text-amber-400 border border-zinc-800 shadow"
-                : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
-            }`}
+            className={`flex items-center justify-center w-7 h-7 rounded-lg transition ${theme === "dark"
+              ? "bg-zinc-950 text-amber-400 border border-zinc-800 shadow"
+              : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
+              }`}
             title="ডার্ক মোড"
           >
             <Moon size={15} />
@@ -282,8 +280,8 @@ export function Header() {
       </div>
 
       {/* 2. MAIN BRANDING BAR */}
-      <div className="w-full py-4 md:py-5 px-4 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        
+      <div className="w-full py-4 md:py-5 px-4 md:px-0 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+
         {/* ➔ Premium Datepicker Calendar Popover Toggle Button (Instead of standard search box) */}
         <div className="hidden md:block relative order-2 md:order-1">
           <button
@@ -366,8 +364,8 @@ export function Header() {
 
       {/* ➔ 3. STICKY MEGA NAVIGATION & HORIZONTAL MOBILE SWIPE BAR */}
       <nav className="w-full sticky top-0 z-45 bg-[var(--bg-card)]/95 backdrop-blur-md border-y border-[var(--border-color)] shadow-xs select-none">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-4">
-          
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-0">
+
           {/* Desktop Links (md:flex) */}
           <div className="hidden md:flex items-center gap-1">
             <Link
@@ -509,7 +507,7 @@ export function Header() {
           </div>
         )}
       </nav>
-      
+
       {/* Ticker marquee CSS style injected in header */}
       <style jsx global>{`
         @keyframes marquee {

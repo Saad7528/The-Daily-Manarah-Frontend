@@ -94,14 +94,14 @@ export function BangladeshMap() {
         if (res.ok) {
           const posts = await res.json();
           const counts: Record<string, number> = {};
-          
+
           posts.forEach((post: any) => {
             if (post.division) {
               const divId = post.division.toLowerCase();
               counts[divId] = (counts[divId] || 0) + 1;
             }
           });
-          
+
           setActiveDivisions(counts);
         }
       } catch (error) {
@@ -121,20 +121,11 @@ export function BangladeshMap() {
   return (
     <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
       {/* Title */}
-      <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
-        <Map size={18} className="text-[var(--accent-color)]" />
-        <h3 className="font-serif font-black text-base text-[var(--text-primary)]">
-          মানচিত্রে দেশজুড়ে সংবাদ
-        </h3>
-      </div>
 
-      <p className="text-xs text-slate-500 dark:text-zinc-500 sepia:text-[#705e4c]">
-        নিচের মানচিত্র থেকে আপনার কাঙ্ক্ষিত বিভাগে ক্লিক করে ওই এলাকার সর্বশেষ সব খবর এক নজরে দেখে নিন। (সবুজ চিহ্নিত বিভাগে খবর রয়েছে)
-      </p>
 
       {/* SVG Interactive Map Area */}
-      <div className="relative flex justify-center py-4 bg-slate-50/50 dark:bg-zinc-950/20 sepia:bg-[#dfceab]/30 rounded-xl border border-[var(--border-color)] overflow-hidden">
-        
+      <div className="relative flex justify-center py-4  overflow-hidden">
+
         {/* Tooltip Overlay */}
         {hoveredDiv && (
           <div className="absolute top-2 left-1/2 transform -translate-x-1/2 bg-slate-900 text-white text-xs font-bold py-1.5 px-4 rounded-full flex items-center gap-1.5 shadow-md z-10 transition-all duration-300">
@@ -155,7 +146,7 @@ export function BangladeshMap() {
           {divisions.map((div) => {
             const count = activeDivisions[div.id] || 0;
             const hasNews = count > 0;
-            
+
             const colorClass = hasNews
               ? "fill-emerald-500/20 hover:fill-emerald-500/45 stroke-emerald-600 dark:stroke-emerald-400 stroke-[3px]"
               : "fill-slate-500/5 dark:fill-zinc-800/10 hover:fill-slate-500/15 stroke-slate-400 dark:stroke-zinc-700 opacity-60 stroke-[2px]";
@@ -182,11 +173,10 @@ export function BangladeshMap() {
                 <text
                   x={div.x}
                   y={div.y}
-                  className={`font-sans font-bold text-[48px] text-anchor-middle text-center ${
-                    hasNews
-                      ? "fill-emerald-800 dark:fill-emerald-200 sepia:fill-[#2d502d]"
-                      : "fill-slate-400 dark:fill-zinc-600 sepia:fill-[#8f7e6c]"
-                  }`}
+                  className={`font-sans font-bold text-[48px] text-anchor-middle text-center ${hasNews
+                    ? "fill-emerald-800 dark:fill-emerald-200 sepia:fill-[#2d502d]"
+                    : "fill-slate-400 dark:fill-zinc-600 sepia:fill-[#8f7e6c]"
+                    }`}
                   textAnchor="middle"
                 >
                   {div.bnName}
