@@ -118,7 +118,7 @@ function ArchiveContent() {
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-6">
-        
+
         {/* Page Header Breadcrumb */}
         <div className="flex items-center gap-2 text-xs md:text-sm font-semibold text-[var(--text-secondary)]">
           <Link href="/" className="hover:text-[var(--accent-color)]">হোম</Link>
@@ -132,7 +132,7 @@ function ArchiveContent() {
             <Calendar size={18} />
             <span>তারিখ নির্বাচন করুন</span>
           </div>
-          
+
           <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3">
             <input
               type="date"
@@ -169,10 +169,10 @@ function ArchiveContent() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-2">
-          
+
           {/* Sidebar Filter Panel (lg:col-span-4) */}
           <div className="lg:col-span-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm space-y-6">
-            
+
             <div className="flex items-center space-x-2 border-b border-[var(--border-color)] pb-3 text-[var(--accent-color)]">
               <Filter size={18} />
               <h3 className="font-bold text-sm">ফিল্টার সমূহ</h3>
@@ -258,7 +258,7 @@ function ArchiveContent() {
 
           {/* Main Content Area (lg:col-span-8) */}
           <div className="lg:col-span-8 space-y-6">
-            
+
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20 text-xs text-slate-400 gap-2">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--accent-color)]"></div>

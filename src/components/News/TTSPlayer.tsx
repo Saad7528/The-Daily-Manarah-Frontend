@@ -224,45 +224,50 @@ export function TTSPlayer({ text }: TTSPlayerProps) {
   };
 
   return (
-    <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-all">
+    <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs my-2">
       {/* Player info */}
       <div className="flex items-center gap-3">
-        <div className="p-2.5 bg-emerald-100 dark:bg-zinc-800 sepia:bg-[#dfceab] text-emerald-600 dark:text-amber-400 sepia:text-amber-800 rounded-full shrink-0">
-          <Volume2 size={20} className={isPlaying ? "animate-bounce" : ""} />
-        </div>
+        <button
+          onClick={handlePlayPause}
+          className="w-10 h-10 rounded-full bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-slate-950 flex items-center justify-center transition shadow-xs shrink-0"
+          title={isPlaying ? "পজ করুন" : "শুনুন"}
+        >
+          {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-0.5" />}
+        </button>
         <div className="flex flex-col">
-          <span className="text-xs font-bold text-[var(--text-primary)]">
-            খবর শুনুন (AI অডিও রিডার)
+          <span className="text-xs font-bold text-[var(--text-primary)] flex items-center gap-1.5">
+            <Volume2 size={14} className="text-amber-500" />
+            <span>প্রতিবেদনটি শুনুন (অডিও সংস্করণ)</span>
           </span>
-          <span className="text-[10px] text-slate-500 dark:text-zinc-500 sepia:text-[#705e4c]">
-            {isPlaying ? "অডিও বাজছে..." : "সম্পূর্ণ প্রতিবেদন ভয়েস রিডিং শুনুন"}
+          <span className="text-[11px] text-[var(--text-secondary)]">
+            {isPlaying ? "অডিও প্লে হচ্ছে..." : "পড়ার সময় না থাকলে শুনে নিতে পারেন"}
           </span>
         </div>
       </div>
 
       {/* Waveform visual animation during play */}
       {isPlaying && (
-        <div className="flex items-end gap-1 h-6 px-4">
-          <span className="w-1 bg-[var(--accent-color)] rounded animate-pulse h-4" style={{ animationDelay: '0.1s' }} />
-          <span className="w-1 bg-[var(--accent-color)] rounded animate-pulse h-6" style={{ animationDelay: '0.3s' }} />
-          <span className="w-1 bg-[var(--accent-color)] rounded animate-pulse h-3" style={{ animationDelay: '0.2s' }} />
-          <span className="w-1 bg-[var(--accent-color)] rounded animate-pulse h-5" style={{ animationDelay: '0.5s' }} />
-          <span className="w-1 bg-[var(--accent-color)] rounded animate-pulse h-2" style={{ animationDelay: '0.4s' }} />
+        <div className="hidden md:flex items-end gap-1 h-5 px-3">
+          <span className="w-1 bg-[var(--accent-color)] rounded-full animate-pulse h-3" style={{ animationDelay: '0.1s' }} />
+          <span className="w-1 bg-[var(--accent-color)] rounded-full animate-pulse h-5" style={{ animationDelay: '0.3s' }} />
+          <span className="w-1 bg-[var(--accent-color)] rounded-full animate-pulse h-2" style={{ animationDelay: '0.2s' }} />
+          <span className="w-1 bg-[var(--accent-color)] rounded-full animate-pulse h-4" style={{ animationDelay: '0.5s' }} />
+          <span className="w-1 bg-[var(--accent-color)] rounded-full animate-pulse h-2" style={{ animationDelay: '0.4s' }} />
         </div>
       )}
 
-      {/* Player Actions */}
-      <div className="flex items-center gap-3">
+      {/* Player Controls */}
+      <div className="flex items-center gap-2.5 self-end sm:self-center">
         {/* Speed button selector */}
-        <div className="flex bg-slate-100 dark:bg-zinc-900 sepia:bg-[#dfceab] border border-[var(--border-color)] rounded-md p-0.5 text-[10px] font-bold">
+        <div className="flex bg-[var(--bg-input)] border border-[var(--border-color)] rounded-lg p-0.5 text-[10px] font-bold">
           {[0.8, 1.0, 1.25, 1.5].map((r) => (
             <button
               key={r}
               onClick={() => changeRate(r)}
               className={`px-2 py-1 rounded transition-colors ${
                 rate === r
-                  ? "bg-[var(--accent-color)] text-white"
-                  : "text-slate-500 dark:text-slate-400 sepia:text-amber-900"
+                  ? "bg-[var(--accent-color)] text-slate-950 font-black shadow-xs"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               }`}
             >
               {r}x
@@ -270,31 +275,13 @@ export function TTSPlayer({ text }: TTSPlayerProps) {
           ))}
         </div>
 
-        {/* Play control */}
-        <button
-          onClick={handlePlayPause}
-          className="flex items-center gap-1.5 bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-white font-bold py-1.5 px-4 rounded-full text-xs shadow transition-colors"
-        >
-          {isPlaying ? (
-            <>
-              <Pause size={14} fill="currentColor" />
-              <span>পজ করুন</span>
-            </>
-          ) : (
-            <>
-              <Play size={14} fill="currentColor" />
-              <span>শুনুন</span>
-            </>
-          )}
-        </button>
-
-        {/* Stop reset */}
+        {/* Reset / Stop */}
         <button
           onClick={handleStop}
-          className="p-1.5 bg-slate-100 dark:bg-zinc-800 sepia:bg-[#dfceab] border border-[var(--border-color)] hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-500 hover:text-red-500 rounded-full transition"
-          title="বন্ধ করুন"
+          className="p-2 bg-[var(--bg-input)] border border-[var(--border-color)] hover:bg-[var(--border-color)] text-[var(--text-secondary)] hover:text-red-500 rounded-lg transition"
+          title="পুনরায় শুরু করুন"
         >
-          <RotateCcw size={14} />
+          <RotateCcw size={13} />
         </button>
       </div>
     </div>
