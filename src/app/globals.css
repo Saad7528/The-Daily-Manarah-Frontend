@@ -30,14 +30,22 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   border-color: var(--border-color);
-  font-family: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: var(--font-hind), var(--font-outfit), system-ui, -apple-system, sans-serif;
+  line-height: 1.625;
   transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-noto-serif), var(--font-playfair), Georgia, serif;
+  letter-spacing: -0.01em;
 }
 
 /* Custom scrollbar matching logo brand style */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-track {
@@ -61,4 +69,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 8px;
 }
+

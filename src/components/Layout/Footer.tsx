@@ -80,7 +80,7 @@ export function Footer() {
   return (
     <footer className="w-full bg-slate-900 text-slate-300 dark:bg-black dark:text-zinc-400 sepia:bg-[#ebdcb9] sepia:text-[#433422] border-t border-[var(--border-color)] transition-colors duration-300">
       {/* Top Footer 4 Columns */}
-      <div className="max-w-7xl mx-auto px-4 md:px-0 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {/* Column 1: Logo & Contact */}
         <div className="flex flex-col gap-4">
           <Logo theme="dark" className="sepia:text-[#433422]" />

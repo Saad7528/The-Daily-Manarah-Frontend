@@ -9,6 +9,19 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-hind)", "var(--font-outfit)", "system-ui", "-apple-system", "sans-serif"],
+        serif: ["var(--font-noto-serif)", "var(--font-playfair)", "Georgia", "serif"],
+      },
+      borderRadius: {
+        DEFAULT: "0.25rem", // 4px
+        sm: "0.125rem",     // 2px
+        md: "0.375rem",     // 6px
+        lg: "0.5rem",       // 8px (MAX card rounded)
+        xl: "0.5rem",       // Clamped to 8px max
+        "2xl": "0.5rem",    // Clamped to 8px max
+        "3xl": "0.5rem",    // Clamped to 8px max
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -19,3 +32,4 @@ const config: Config = {
   plugins: [],
 };
 export default config;
+

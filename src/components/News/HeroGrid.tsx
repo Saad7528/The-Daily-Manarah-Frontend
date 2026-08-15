@@ -52,7 +52,7 @@ export function HeroGrid({ posts }: HeroGridProps) {
           {sidePosts.map((post) => (
             <div
               key={post.id}
-              className="flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition duration-350 group"
+              className="flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg overflow-hidden shadow-xs hover:shadow-md transition duration-300 group"
             >
               {/* Small Thumbnail Image */}
               <Link href={`/article/${post.slug}`} className="relative block overflow-hidden aspect-[16/9] border-b border-[var(--border-color)]">
@@ -83,7 +83,7 @@ export function HeroGrid({ posts }: HeroGridProps) {
         </div>
 
         {/* RIGHT COLUMN: The Big Spotlight Headline Story (md:col-span-8) */}
-        <div className="md:col-span-8 flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-350 group">
+        <div className="md:col-span-8 flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg overflow-hidden shadow-xs hover:shadow-md transition duration-300 group">
           
           {/* Main Large Image */}
           <Link href={`/article/${leadPost.slug}`} className="relative block overflow-hidden aspect-[16/10]">

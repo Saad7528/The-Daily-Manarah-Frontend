@@ -29,7 +29,7 @@ export function CategoryLayout({ initialPosts, slug }: { initialPosts: NewsItem[
     <div className="flex flex-col min-h-screen bg-[var(--bg-primary)]">
       <Header />
 
-      <main className="max-w-7xl mx-auto w-full px-4 md:px-0 py-8 flex flex-col gap-8 flex-grow">
+      <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8 flex-grow">
 
         {/* Category Header */}
         <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
@@ -66,7 +66,7 @@ export function CategoryLayout({ initialPosts, slug }: { initialPosts: NewsItem[
                       return views.toLocaleString("bn-BD");
                     };
                     return (
-                      <div key={post.id} className="flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 group">
+                      <div key={post.id} className="flex flex-col bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg overflow-hidden shadow-xs hover:shadow-md transition duration-300 group">
                         <Link href={`/article/${post.slug}`} className="relative block overflow-hidden aspect-[16/9] border-b border-[var(--border-color)]">
                           <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                           <span className="absolute bottom-2 left-2 bg-slate-900/80 text-white text-[9px] font-bold px-2 py-0.5 rounded">

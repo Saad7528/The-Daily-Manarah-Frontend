@@ -127,24 +127,24 @@ function ArchiveContent() {
         </div>
 
         {/* Outer Golden/Yellow Border Card for Date picker filter as requested */}
-        <div className="w-full max-w-xl mx-auto bg-[var(--bg-card)] border border-amber-400 rounded-3xl p-6 shadow-sm flex flex-col gap-4">
-          <div className="flex items-center gap-2 text-amber-600 font-bold text-sm">
-            <Calendar size={18} />
+        <div className="w-full max-w-xl mx-auto bg-[var(--bg-card)] border border-amber-400/80 rounded-lg p-5 flex flex-col gap-3">
+          <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-bold text-xs">
+            <Calendar size={16} />
             <span>তারিখ নির্বাচন করুন</span>
           </div>
 
-          <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-3">
+          <form onSubmit={handleSearchSubmit} className="flex flex-col sm:flex-row gap-2.5">
             <input
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-[var(--bg-primary)] border border-slate-350 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm font-medium outline-none text-[var(--text-primary)] focus:ring-2 focus:ring-amber-400"
+              className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-md px-3.5 py-2 text-xs font-medium outline-none text-[var(--text-primary)] focus:border-amber-400"
             />
             <button
               type="submit"
-              className="sm:w-40 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-3 px-6 rounded-xl text-sm flex items-center justify-center gap-2 shadow transition shrink-0"
+              className="sm:w-32 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2 px-4 rounded-md text-xs flex items-center justify-center gap-1.5 transition shrink-0"
             >
-              <Search size={16} />
+              <Search size={14} />
               <span>খুঁজুন</span>
             </button>
           </form>
@@ -160,7 +160,7 @@ function ArchiveContent() {
                 setDate("");
                 setSearch("");
               }}
-              className="text-xs text-red-500 hover:text-red-655 font-bold ml-auto flex items-center gap-1 border border-red-200 dark:border-zinc-850 px-3 py-1 rounded-full bg-[var(--bg-card)] transition shadow-xs"
+              className="text-xs text-red-500 hover:text-red-655 font-bold ml-auto flex items-center gap-1 border border-red-200 dark:border-zinc-850 px-3 py-1 rounded-full bg-[var(--bg-card)] transition"
             >
               <X size={12} />
               <span>ফিল্টার মুছুন</span>
@@ -171,7 +171,7 @@ function ArchiveContent() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mt-2">
 
           {/* Sidebar Filter Panel (lg:col-span-4) */}
-          <div className="lg:col-span-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm space-y-6">
+          <div className="lg:col-span-4 bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg p-5 space-y-5">
 
             <div className="flex items-center space-x-2 border-b border-[var(--border-color)] pb-3 text-[var(--accent-color)]">
               <Filter size={18} />

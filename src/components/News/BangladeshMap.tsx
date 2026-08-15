@@ -119,7 +119,7 @@ export function BangladeshMap() {
   };
 
   return (
-    <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+    <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg p-5 shadow-xs flex flex-col gap-4">
       {/* Title */}
 
 

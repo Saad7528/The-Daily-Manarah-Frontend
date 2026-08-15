@@ -318,14 +318,14 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
               </div>
 
               {/* 5. Cover Image with Watermark Overlay */}
-              <div className="w-full rounded-2xl overflow-hidden border border-[var(--border-color)] relative aspect-[16/10] bg-[var(--bg-input)] shadow-xs">
+              <div className="w-full rounded-lg overflow-hidden border border-[var(--border-color)] relative aspect-[16/10] bg-[var(--bg-input)] shadow-xs">
                 <img
                   src={post.coverImage}
                   alt={post.title}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-101"
                 />
                 {post.isWatermarkOn !== false && (
-                  <div className="absolute bottom-3 right-3 bg-slate-950/70 backdrop-blur-md px-3 py-1 rounded-md text-[9px] font-black tracking-widest text-amber-400 select-none border border-amber-500/30 uppercase">
+                  <div className="absolute bottom-3 right-3 bg-slate-950/70 backdrop-blur-md px-3 py-1 rounded text-[9px] font-black tracking-widest text-amber-400 select-none border border-amber-500/30 uppercase">
                     DAILY MANARAH VERIFIED
                   </div>
                 )}
@@ -368,7 +368,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
                 {/* Feedback message */}
                 {commentFeedback.status && (
                   <div
-                    className={`p-3.5 rounded-xl text-xs flex items-center gap-2 ${
+                    className={`p-3.5 rounded-lg text-xs flex items-center gap-2 ${
                       commentFeedback.status === "moderated"
                         ? "bg-red-50 text-red-700 dark:bg-red-950/30 dark:text-red-300 border border-red-200 dark:border-red-900"
                         : "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900"
@@ -386,7 +386,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
                 {/* Comment Form */}
                 <form
                   onSubmit={handleCommentSubmit}
-                  className="flex flex-col gap-3.5 bg-[var(--bg-card)] border border-[var(--border-color)] p-5 rounded-2xl shadow-xs"
+                  className="flex flex-col gap-3.5 bg-[var(--bg-card)] border border-[var(--border-color)] p-5 rounded-lg shadow-xs"
                 >
                   <div className="flex flex-col sm:flex-row gap-3">
                     <input
@@ -394,7 +394,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
                       placeholder="আপনার নাম বা পরিচয়..."
                       value={commentName}
                       onChange={(e) => setCommentName(e.target.value)}
-                      className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-xl px-3.5 py-2.5 text-xs w-full sm:w-1/2 outline-none text-[var(--text-primary)] font-medium focus:border-amber-500 transition"
+                      className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-md px-3.5 py-2 text-xs w-full sm:w-1/2 outline-none text-[var(--text-primary)] font-medium focus:border-amber-500 transition"
                       required
                     />
                   </div>
@@ -403,12 +403,12 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
                     value={commentContent}
                     onChange={(e) => setCommentContent(e.target.value)}
                     rows={3}
-                    className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-xl px-3.5 py-2.5 text-xs outline-none resize-none text-[var(--text-primary)] font-medium focus:border-amber-500 transition"
+                    className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-md px-3.5 py-2 text-xs outline-none resize-none text-[var(--text-primary)] font-medium focus:border-amber-500 transition"
                     required
                   />
                   <button
                     type="submit"
-                    className="bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-slate-950 font-bold text-xs px-5 py-2.5 rounded-xl self-end transition flex items-center gap-1.5 shadow-xs"
+                    className="bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-slate-950 font-bold text-xs px-5 py-2 rounded-md self-end transition flex items-center gap-1.5 shadow-xs"
                   >
                     <Send size={13} />
                     মন্তব্য প্রকাশ করুন
@@ -425,7 +425,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
                     comments.map((c, idx) => (
                       <div
                         key={idx}
-                        className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--bg-card)] flex flex-col gap-1.5 text-xs shadow-xs"
+                        className="p-4 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] flex flex-col gap-1.5 text-xs shadow-xs"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
@@ -459,7 +459,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
             <aside className="lg:col-span-4 flex flex-col gap-6 sticky top-20">
               
               {/* 1. Trending News Widget */}
-              <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 shadow-xs flex flex-col gap-4">
+              <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg p-5 shadow-xs flex flex-col gap-4">
                 <div className="flex items-center gap-2 border-b border-[var(--border-color)] pb-3">
                   <TrendingUp size={18} className="text-amber-500" />
                   <h3 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)]">
@@ -493,7 +493,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
 
               {/* 2. Related News in Category */}
               {relatedPosts.length > 0 && (
-                <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-5 shadow-xs flex flex-col gap-4">
+                <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg p-5 shadow-xs flex flex-col gap-4">
                   <div className="flex items-center justify-between border-b border-[var(--border-color)] pb-3">
                     <h3 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)]">
                       সম্পর্কিত খবর
@@ -513,7 +513,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
                         href={`/article/${relPost.slug}`}
                         className="flex gap-3 items-center group pb-3 border-b border-[var(--border-color)] last:border-0 last:pb-0"
                       >
-                        <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 border border-[var(--border-color)]">
+                        <div className="relative w-16 h-16 rounded-md overflow-hidden shrink-0 border border-[var(--border-color)]">
                           <img
                             src={relPost.coverImage}
                             alt={relPost.title}
@@ -538,7 +538,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
               )}
 
               {/* 3. Manarah Foundation Donation CTA */}
-              <div className="bg-gradient-to-br from-emerald-900 to-teal-950 text-white rounded-2xl p-6 shadow-md flex flex-col gap-3 border border-emerald-800/50">
+              <div className="bg-gradient-to-br from-emerald-900 to-teal-950 text-white rounded-lg p-5 shadow-md flex flex-col gap-3 border border-emerald-800/50">
                 <div className="flex items-center gap-2 text-emerald-400">
                   <Heart size={20} className="fill-emerald-400" />
                   <h4 className="font-serif font-black text-base">মানারাহ মানবসেবা তহবিল</h4>
@@ -548,7 +548,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
                 </p>
                 <Link
                   href="/donate"
-                  className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs py-2.5 px-4 rounded-xl text-center transition shadow mt-1 flex items-center justify-center gap-1.5"
+                  className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs py-2.5 px-4 rounded-md text-center transition shadow mt-1 flex items-center justify-center gap-1.5"
                 >
                   <span>অনুদান দিন</span>
                   <ArrowRight size={13} />
@@ -567,7 +567,7 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
             <span className="text-xs">এটি মুছে ফেলা হয়ে থাকতে পারে অথবা ইউআরএল ভুল রয়েছে।</span>
             <Link
               href="/"
-              className="mt-2 px-5 py-2 bg-[var(--accent-color)] text-slate-950 font-bold text-xs rounded-xl hover:bg-[var(--accent-hover)] transition"
+              className="mt-2 px-5 py-2 bg-[var(--accent-color)] text-slate-950 font-bold text-xs rounded-md hover:bg-[var(--accent-hover)] transition"
             >
               প্রচ্ছদে ফিরে যান
             </Link>
@@ -596,9 +596,9 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
                 <Link
                   key={relPost.id}
                   href={`/article/${relPost.slug}`}
-                  className="flex flex-col gap-3 group bg-[var(--bg-card)] border border-[var(--border-color)] p-3 rounded-2xl shadow-xs hover:shadow-md transition duration-300"
+                  className="flex flex-col gap-3 group bg-[var(--bg-card)] border border-[var(--border-color)] p-3 rounded-lg shadow-xs hover:shadow-md transition duration-300"
                 >
-                  <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-[var(--bg-input)]">
+                  <div className="relative aspect-[16/10] rounded-md overflow-hidden bg-[var(--bg-input)]">
                     <img
                       src={relPost.coverImage}
                       alt={relPost.title}
@@ -628,4 +628,5 @@ export function ArticleLayout({ initialPost }: { initialPost: any }) {
     </div>
   );
 }
+
 

@@ -184,7 +184,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                   <div className="md:col-span-7 flex flex-col gap-3 group">
-                    <Link href={`/article/${politicsPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
+                    <Link href={`/article/${politicsPosts[0].slug}`} className="relative block overflow-hidden rounded-lg aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
                       <img src={politicsPosts[0].coverImage} alt={politicsPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
                     </Link>
                     <div className="flex flex-col gap-1.5">
@@ -216,7 +216,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                             </h5>
                           </Link>
                         </div>
-                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-[var(--border-color)]">
+                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-md w-16 h-16 shrink-0 border border-[var(--border-color)]">
                           <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
                         </Link>
                       </div>
@@ -228,7 +228,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
 
             {/* ➔ Category Row 2: ফ্যাক্ট-চেক ও গবেষণা (Alternating Premium soft cream background) */}
             {factPosts.length > 0 && (
-              <div className="flex flex-col gap-4 bg-amber-50/10 dark:bg-zinc-950/20 p-6 rounded-2xl border border-[var(--border-color)] pb-8 mt-6">
+              <div className="flex flex-col gap-4 bg-amber-50/10 dark:bg-zinc-950/20 p-5 rounded-lg border border-[var(--border-color)] pb-8 mt-6">
                 <div className="flex items-center justify-between border-b-2 border-amber-500 dark:border-amber-600 pb-2">
                   <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide flex items-center gap-1.5">
                     <ShieldCheck size={18} className="text-[var(--accent-color)]" />
@@ -240,7 +240,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
                   <div className="md:col-span-7 flex flex-col gap-3 group">
-                    <Link href={`/article/${factPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
+                    <Link href={`/article/${factPosts[0].slug}`} className="relative block overflow-hidden rounded-lg aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
                       <img src={factPosts[0].coverImage} alt={factPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
                     </Link>
                     <div className="flex flex-col gap-1.5">
@@ -272,7 +272,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                             </h5>
                           </Link>
                         </div>
-                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-[var(--border-color)]">
+                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-md w-16 h-16 shrink-0 border border-[var(--border-color)]">
                           <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
                         </Link>
                       </div>
@@ -297,7 +297,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                 {dawahPosts.length > 0 ? (
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2 group">
-                      <Link href={`/article/${dawahPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
+                      <Link href={`/article/${dawahPosts[0].slug}`} className="relative block overflow-hidden rounded-lg aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
                         <img src={dawahPosts[0].coverImage} alt={dawahPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
                       </Link>
                       <Link href={`/article/${dawahPosts[0].slug}`}>
@@ -332,7 +332,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                 {humanityPosts.length > 0 ? (
                   <div className="flex flex-col gap-4">
                     <div className="flex flex-col gap-2 group">
-                      <Link href={`/article/${humanityPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
+                      <Link href={`/article/${humanityPosts[0].slug}`} className="relative block overflow-hidden rounded-lg aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
                         <img src={humanityPosts[0].coverImage} alt={humanityPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
                       </Link>
                       <Link href={`/article/${humanityPosts[0].slug}`}>
@@ -355,128 +355,64 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
               </div>
             </div>
 
-            {/* ➔ Category Row 4: ভিডিও ও মাল্টিমিডিয়া গ্যালারি */}
-            {multimediaPosts.length > 0 && (
-              <div className="flex flex-col gap-4 bg-slate-950 text-white p-6 rounded-2xl border border-zinc-800 pb-8 mt-6">
-                <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
-                  <h3 className="font-serif font-black text-base md:text-lg text-amber-400 tracking-wide flex items-center gap-1.5">
-                    <Play size={18} fill="currentColor" />
-                    <span>ভিডিও স্টোরি ও মাল্টিমিডিয়া</span>
-                  </h3>
-                  <Link href="/category/multimedia" className="text-xs font-bold text-zinc-400 hover:text-amber-400 transition-colors">
-                    সব ভিডিও →
-                  </Link>
-                </div>
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                  {/* Left: Large Video Card */}
-                  <div className="lg:col-span-7 flex flex-col gap-3 group relative justify-between">
-                    <Link href={`/article/${multimediaPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-zinc-800 w-full">
-                      <img src={multimediaPosts[0].coverImage} alt={multimediaPosts[0].title} className="w-full h-full object-cover" />
-                      <div className="absolute inset-0 bg-black/40 hover:bg-black/55 transition flex items-center justify-center">
-                        <span className="p-3 bg-red-650 rounded-full text-white shadow-lg animate-pulse hover:scale-105 transition">
-                          <Play size={24} fill="currentColor" />
-                        </span>
-                      </div>
-                    </Link>
-                    <Link href={`/article/${multimediaPosts[0].slug}`}>
-                      <h4 className="font-serif font-black text-sm md:text-base text-zinc-100 hover:text-amber-400 transition-colors leading-snug">
-                        {multimediaPosts[0].title}
-                      </h4>
-                    </Link>
-                  </div>
-
-                  {/* Right: 4 Smaller Video Grid (2x2) */}
-                  <div className="lg:col-span-5 grid grid-cols-2 gap-4">
-                    {multimediaPosts.slice(1, 5).map((post) => (
-                      <div key={post.id} className="flex flex-col gap-1.5 group relative justify-between">
-                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg aspect-[16/9] border border-zinc-850">
-                          <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover" />
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                            <span className="p-1.5 bg-red-650 rounded-full text-white shadow">
-                              <Play size={10} fill="currentColor" />
-                            </span>
-                          </div>
-                        </Link>
-                        <Link href={`/article/${post.slug}`}>
-                          <h5 className="font-serif font-bold text-[10px] text-zinc-200 hover:text-amber-400 transition line-clamp-2 leading-snug">
-                            {post.title}
-                          </h5>
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* ➔ Category Row 5: মতামত ও বিশ্লেষণ (White Background) */}
+            {/* ➔ Category Row 4: মতামত ও সম্পাদকীয় (White Background, Minimal Style) */}
             {opinionPosts.length > 0 && (
               <div className="flex flex-col gap-4 border-b border-[var(--border-color)] pb-8 mt-6">
                 <div className="flex items-center justify-between border-b-2 border-amber-500 dark:border-amber-600 pb-2">
-                  <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide">
-                    মতামত ও সম্পাদকীয় কলাম
+                  <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide flex items-center gap-1.5">
+                    <BookOpen size={18} className="text-[var(--accent-color)]" />
+                    <span>মতামত ও সম্পাদকীয়</span>
                   </h3>
                   <Link href="/category/opinion-editorial" className="text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-color)] transition-colors">
-                    সব খবর →
+                    সব কলাম →
                   </Link>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
-                  <div className="md:col-span-7 flex flex-col gap-3 group">
-                    <Link href={`/article/${opinionPosts[0].slug}`} className="relative block overflow-hidden rounded-xl aspect-[16/10] border border-[var(--border-color)] bg-[var(--bg-card)]">
-                      <img src={opinionPosts[0].coverImage} alt={opinionPosts[0].title} className="w-full h-full object-cover transition duration-500 group-hover:scale-102" />
-                    </Link>
-                    <div className="flex flex-col gap-1.5">
-                      <span className="text-[10px] font-bold text-[var(--text-secondary)]">
-                        {new Date(opinionPosts[0].createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
-                      </span>
-                      <Link href={`/article/${opinionPosts[0].slug}`}>
-                        <h4 className="font-serif font-black text-sm md:text-base text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug">
-                          {opinionPosts[0].title}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 items-start">
+                  {opinionPosts.slice(0, 3).map(post => (
+                    <div key={post.id} className="bg-[var(--bg-card)] border border-[var(--border-color)] p-4 rounded-lg flex flex-col gap-3 shadow-xs hover:shadow-md transition group">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-[var(--bg-input)] overflow-hidden shrink-0 border border-[var(--border-color)]">
+                          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop" alt="author" className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="font-serif font-bold text-xs text-[var(--text-primary)]">
+                            {post.author.name}
+                          </span>
+                          <span className="text-[10px] text-[var(--text-secondary)] font-medium">কলামিস্ট</span>
+                        </div>
+                      </div>
+                      <Link href={`/article/${post.slug}`}>
+                        <h4 className="font-serif font-black text-xs md:text-sm text-[var(--text-primary)] group-hover:text-[var(--accent-color)] transition-colors leading-snug line-clamp-2">
+                          {post.title}
                         </h4>
                       </Link>
-                      {opinionPosts[0].summary && (
-                        <p className="text-xs text-[var(--text-secondary)] line-clamp-2 leading-relaxed">
-                          {opinionPosts[0].summary}
-                        </p>
-                      )}
                     </div>
-                  </div>
-                  <div className="md:col-span-5 flex flex-col gap-4">
-                    {opinionPosts.slice(1, 4).map((post) => (
-                      <div key={post.id} className="flex gap-3 justify-between items-start pb-3 border-b border-[var(--border-color)] last:border-0 last:pb-0 group">
-                        <div className="flex flex-col gap-1 w-2/3">
-                          <span className="text-[9px] font-bold text-[var(--text-secondary)]">
-                            {new Date(post.createdAt).toLocaleDateString("bn-BD", { day: "numeric", month: "long", year: "numeric" })}
-                          </span>
-                          <Link href={`/article/${post.slug}`}>
-                            <h5 className="font-serif font-black text-xs text-[var(--text-primary)] hover:text-[var(--accent-color)] transition-colors leading-snug line-clamp-2">
-                              {post.title}
-                            </h5>
-                          </Link>
-                        </div>
-                        <Link href={`/article/${post.slug}`} className="relative block overflow-hidden rounded-lg w-16 h-16 shrink-0 border border-[var(--border-color)]">
-                          <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
+                  ))}
                 </div>
               </div>
             )}
 
-            {/* ➔ Row 6: Photo Gallery / Carousel Grid */}
-            <div className="flex flex-col gap-4 mt-6">
-              <div className="flex items-center justify-between border-b-2 border-emerald-600 pb-2">
-                <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide flex items-center gap-1.5">
-                  <Camera size={18} className="text-emerald-600" />
-                  <span>ফটো গ্যালারি (ছবিতে খবর)</span>
+            {/* ➔ Category Row 5: মাল্টিমিডিয়া (Video & Photo Gallery Grid) */}
+            <div className="flex flex-col gap-4 pt-4 mt-6">
+              <div className="flex items-center justify-between border-b-2 border-amber-500 dark:border-amber-600 pb-2">
+                <h3 className="font-serif font-black text-base md:text-lg text-[var(--text-primary)] tracking-wide flex items-center gap-2">
+                  <Camera size={18} className="text-[var(--accent-color)]" />
+                  <span>মাল্টিমিডিয়া ও ছবির গল্প</span>
                 </h3>
+                <Link href="/category/multimedia" className="text-xs font-bold text-[var(--text-secondary)] hover:text-[var(--accent-color)] transition-colors">
+                  সব দেখুন →
+                </Link>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {posts.slice(5, 9).map((post) => (
-                  <div key={post.id} className="flex flex-col bg-[var(--bg-card)] rounded-xl overflow-hidden border border-[var(--border-color)] group shadow-xs">
-                    <Link href={`/article/${post.slug}`} className="relative block overflow-hidden aspect-square">
-                      <img src={post.coverImage} alt={post.title} className="w-full h-full object-cover transition duration-500 group-hover:scale-105" />
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {multimediaPosts.slice(0, 3).map((post) => (
+                  <div key={post.id} className="relative group overflow-hidden rounded-lg aspect-[16/10] bg-slate-900 shadow-xs">
+                    <img
+                      src={post.coverImage}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-80"
+                    />
+                    <Link href={`/article/${post.slug}`}>
                       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent flex flex-col justify-end p-3">
                         <span className="text-[8px] bg-emerald-600 text-white font-bold px-1.5 py-0.5 rounded w-max mb-1">
                           {post.category.name}
@@ -497,12 +433,12 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
           <div className="lg:col-span-4 flex flex-col gap-8">
 
             {/* Tab switch widget (Trending / Editors choice) */}
-            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
-              <div className="flex bg-[var(--bg-input)] p-1 rounded-xl gap-1">
+            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg p-5 shadow-xs flex flex-col gap-4">
+              <div className="flex bg-[var(--bg-input)] p-1 rounded-md gap-1">
                 <button
                   onClick={() => setActiveTab("trending")}
-                  className={`w-1/2 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === "trending"
-                    ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-sm"
+                  className={`w-1/2 py-2 text-xs font-bold rounded-md transition-all ${activeTab === "trending"
+                    ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-xs"
                     : "text-[var(--text-secondary)] hover:opacity-90"
                     }`}
                 >
@@ -510,8 +446,8 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                 </button>
                 <button
                   onClick={() => setActiveTab("editors")}
-                  className={`w-1/2 py-2 text-xs font-bold rounded-lg transition-all ${activeTab === "editors"
-                    ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-sm"
+                  className={`w-1/2 py-2 text-xs font-bold rounded-md transition-all ${activeTab === "editors"
+                    ? "bg-[var(--bg-primary)] text-[var(--accent-color)] shadow-xs"
                     : "text-[var(--text-secondary)] hover:opacity-90"
                     }`}
                 >
@@ -525,7 +461,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
                   {trendingPosts.map((item, idx) => (
                     <div
                       key={item.id}
-                      className="flex items-start gap-3 p-2 rounded-lg hover:bg-[var(--bg-input)] transition"
+                      className="flex items-start gap-3 p-2 rounded-md hover:bg-[var(--bg-input)] transition"
                     >
                       <span className="shrink-0 flex items-center justify-center bg-[var(--bg-input)] text-[var(--accent-color)] font-black text-sm w-7 h-7 rounded-full">
                         {idx + 1}
@@ -572,7 +508,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
             </div>
 
             {/* Newsletter Subscription Card in Sidebar (Fallback) */}
-            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+            <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-lg p-5 shadow-xs flex flex-col gap-4">
               <h3 className="font-serif font-black text-sm text-[var(--text-primary)] border-b border-[var(--border-color)] pb-2 flex items-center space-x-2">
                 <Star size={16} className="text-amber-500 animate-pulse" />
                 <span>মানারাহ্ ফাউন্ডেশন</span>
@@ -580,7 +516,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
               <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
                 মানারাহ্ ফাউন্ডেশন (নিবন্ধন নং: ৩৩০৯/২০২৫) একটি নিবন্ধিত ট্রাস্টি প্রতিষ্ঠান। সমাজ সংস্কার, মানবসেবা ও দ্বীনি দাওয়াহর প্রসারে আমাদের সাথে যুক্ত থাকুন। আপনার অনুদান হোক পরকালের জন্য এক অফুরন্ত সাদাকাহ জারিয়া।
               </p>
-              <Link href="/donate" className="w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-2 rounded-xl text-xs transition">
+              <Link href="/donate" className="w-full text-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-2 rounded-md text-xs transition">
                 মানারাহ ফাউন্ডেশনে অনুদান দিন
               </Link>
             </div>
@@ -595,7 +531,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
         </div> {/* grid grid-cols-1 lg:grid-cols-12 gap-8 */}
 
         {/* ➔ Gold Newsletter Subscription Banner at the bottom */}
-        <div className="w-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 p-6 md:p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-md">
+        <div className="w-full bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 p-6 md:p-8 rounded-lg flex flex-col md:flex-row items-center justify-between gap-6 shadow-xs">
           <div className="flex flex-col gap-2 md:w-1/2">
             <h3 className="font-serif font-black text-base md:text-xl flex items-center gap-2">
               <Mail size={22} />
@@ -608,23 +544,23 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
 
           <div className="w-full md:w-1/2 max-w-md">
             {subscribed ? (
-              <div className="bg-white/95 text-emerald-750 font-bold p-4 rounded-2xl text-xs border border-emerald-250">
+              <div className="bg-white text-emerald-800 font-bold p-3.5 rounded-lg text-xs border border-emerald-300">
                 ✓ ধন্যবাদ! আপনার ইমেইলটি সফলভাবে নিউজলেটারে যুক্ত হয়েছে।
               </div>
             ) : (
-              <form onSubmit={handleSubscribe} className="flex gap-2 bg-white/95 p-2 rounded-2xl shadow-inner w-full">
+              <form onSubmit={handleSubscribe} className="flex gap-2 bg-white p-1.5 rounded-lg border border-amber-300 w-full">
                 <input
                   type="email"
                   required
                   placeholder="আপনার ইমেইল অ্যাড্রেস লিখুন..."
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-transparent border-0 rounded px-3 py-2 text-xs w-full outline-none text-slate-900 placeholder:text-slate-550"
+                  className="bg-transparent border-0 rounded px-3 py-1.5 text-xs w-full outline-none text-slate-900 placeholder:text-slate-500"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-5 py-2 rounded-xl text-xs transition shrink-0"
+                  className="bg-slate-900 hover:bg-slate-800 text-white font-bold px-4 py-2 rounded-md text-xs transition shrink-0"
                 >
                   {loading ? "..." : "সাবস্ক্রাইব"}
                 </button>
@@ -637,13 +573,13 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
         </div>
 
         {/* ➔ Telegram Channel Subscription Banner at the bottom (Responsive Light/Dark theme) */}
-        <div className="w-full bg-gradient-to-r from-sky-50 to-sky-100/70 dark:from-slate-900 dark:to-slate-950 text-slate-800 dark:text-white border border-sky-200 dark:border-amber-500/30 p-6 md:p-8 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-md mt-4 transition duration-300">
-          <div className="flex flex-col gap-2 md:w-2/3">
-            <h3 className="font-serif font-black text-base md:text-xl flex items-center gap-2 text-sky-600 dark:text-amber-400">
-              <Send size={22} className="fill-sky-100/50 dark:fill-none" />
+        <div className="w-full bg-sky-50/60 dark:bg-slate-900/60 text-slate-800 dark:text-white border border-sky-200 dark:border-sky-900/50 p-5 md:p-6 rounded-lg flex flex-col md:flex-row items-center justify-between gap-5 mt-4 transition duration-300">
+          <div className="flex flex-col gap-1.5 md:w-2/3">
+            <h3 className="font-serif font-black text-base md:text-lg flex items-center gap-2 text-sky-600 dark:text-amber-400">
+              <Send size={18} className="fill-sky-100/50 dark:fill-none" />
               <span>টেলিগ্রাম চ্যানেলে ডেইলি মানারাহ্</span>
             </h3>
-            <p className="text-xs md:text-sm text-slate-600 dark:text-slate-300 font-medium">
+            <p className="text-xs text-slate-600 dark:text-slate-300 font-normal">
               আমাদের অফিসিয়াল টেলিগ্রাম চ্যানেলে যুক্ত হয়ে তাৎক্ষণিক ব্রেকিং নিউজ, গুরুত্বপূর্ণ আপডেট এবং সরাসরি নোটিফিকেশন পান আপনার ফোনে।
             </p>
           </div>
@@ -653,7 +589,7 @@ export function HomeLayout({ initialPosts }: { initialPosts: NewsItem[] }) {
               href="https://t.me/dailymanarah"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full md:w-auto bg-sky-600 hover:bg-sky-500 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-black px-8 py-3.5 rounded-2xl text-xs flex items-center justify-center gap-2 shadow-md transition hover:scale-105"
+              className="w-full md:w-auto bg-sky-600 hover:bg-sky-500 dark:bg-amber-500 dark:hover:bg-amber-400 text-white dark:text-slate-950 font-bold px-5 py-2.5 rounded-lg text-xs flex items-center justify-center gap-2 transition"
             >
               <Send size={14} />
               <span>চ্যানেলে যুক্ত হোন</span>

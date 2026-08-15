@@ -529,7 +529,7 @@ export default function ManarahFoundationPage() {
             )}
           </div>
 
-          <div className="mt-8 border border-emerald-500/10 bg-emerald-500/5 dark:bg-emerald-950/20 p-5 rounded-2xl text-center shadow-xs">
+          <div className="mt-8 border border-emerald-500/10 bg-emerald-500/5 dark:bg-emerald-950/20 p-5 rounded-lg text-center">
             <p className="text-sm font-semibold tracking-wide text-emerald-700 dark:text-emerald-400">
               আমাদের সকল আয়-ব্যয়ের হিসাব সরকার নির্ধারিত নিয়ম এবং ট্রাস্ট আইন ১৮৮২ অনুযায়ী পরিচালিত হয়।
             </p>
@@ -537,7 +537,7 @@ export default function ManarahFoundationPage() {
         </section>
 
         {/* Contact Info and address */}
-        <section className="bg-slate-100 dark:bg-slate-900/40 border border-slate-200/50 dark:border-slate-800 rounded-3xl p-6 md:p-8 space-y-6">
+        <section className="bg-slate-100/70 dark:bg-slate-900/40 border border-slate-200/50 dark:border-slate-800 rounded-lg p-6 md:p-8 space-y-6">
           <h2 className="font-serif text-2xl font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-4">
             যোগাযোগের ঠিকানা
           </h2>
@@ -571,7 +571,7 @@ export default function ManarahFoundationPage() {
         </section>
 
         {/* Call to Action Banner */}
-        <section className="bg-emerald-900 text-white rounded-3xl p-8 text-center relative overflow-hidden border border-amber-500/20">
+        <section className="bg-emerald-900 text-white rounded-lg p-8 text-center relative overflow-hidden border border-amber-500/20">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-emerald-800 via-emerald-950 to-emerald-950 opacity-95"></div>
           <div className="relative z-10 max-w-2xl mx-auto space-y-6">
             <h2 className="font-serif text-2xl md:text-3xl font-extrabold text-amber-400">
@@ -582,9 +582,9 @@ export default function ManarahFoundationPage() {
             </p>
             <a
               href="/donate"
-              className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-8 py-3 rounded-full transition shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-6 py-2.5 rounded-lg transition"
             >
-              <HeartHandshake className="w-5 h-5 animate-pulse" />
+              <HeartHandshake className="w-5 h-5" />
               <span>অনুদানের মাধ্যমে পাশে দাঁড়ান</span>
             </a>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/components/Providers/ThemeProvider";
@@ -8,11 +8,8 @@ import { Logo } from "@/components/Branding/Logo";
 import {
   Sun,
   Moon,
-  Coffee,
   MapPin,
   Search,
-  ChevronDown,
-  Volume2,
   Menu,
   X,
   CloudSun,
@@ -20,7 +17,8 @@ import {
   XCircle,
   Award,
   Heart,
-  Calendar
+  Calendar,
+  ChevronDown
 } from "lucide-react";
 
 // Mock location data
@@ -55,7 +53,8 @@ export function Header() {
   // Date states
   const [dates, setDates] = useState({ bn: "", en: "" });
 
-  // Location states
+  // Location Popover states
+  const [isLocationOpen, setIsLocationOpen] = useState(false);
   const [selectedDivision, setSelectedDivision] = useState("");
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedThana, setSelectedThana] = useState("");
@@ -67,11 +66,31 @@ export function Header() {
     return today.toISOString().split("T")[0]; // YYYY-MM-DD
   });
 
+  // Quick Keyword Search Bar state
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
   // Breaking news banner state
   const [showBreaking, setShowBreaking] = useState(true);
   const [breakingNewsOn, setBreakingNewsOn] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isThemeDrawerOpen, setIsThemeDrawerOpen] = useState(false);
+
+  // Click outside listener for popovers
+  const locationRef = useRef<HTMLDivElement>(null);
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (locationRef.current && !locationRef.current.contains(event.target as Node)) {
+        setIsLocationOpen(false);
+      }
+      if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
+        setIsCalendarOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     // Generate dates on client to avoid hydration mismatch
@@ -93,18 +112,16 @@ export function Header() {
       en: date.toLocaleDateString("en-US", optionsEn)
     });
 
-    // Fetch global site settings to get breakingNewsOn status
+    // Fetch global site settings
     const fetchGlobalSettings = async () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:5000"}/api/settings`);
         if (res.ok) {
           const data = await res.json();
-          if (data && typeof data.breakingNewsOn === "boolean") {
-            setBreakingNewsOn(data.breakingNewsOn);
-          }
+          setBreakingNewsOn(data.breakingNewsOn || false);
         }
       } catch (err) {
-        console.error("Failed to fetch settings in Header:", err);
+        console.error("Failed to fetch settings:", err);
       }
     };
     fetchGlobalSettings();
@@ -118,96 +135,98 @@ export function Header() {
     }
   };
 
+  const handleKeywordSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/archive?search=${encodeURIComponent(searchQuery.trim())}`);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
+
   const handleLocationSearch = () => {
     if (selectedDivision && selectedDistrict && selectedThana) {
       router.push(`/location/${selectedDistrict.toLowerCase()}/${selectedThana.toLowerCase()}`);
+      setIsLocationOpen(false);
     } else if (selectedDivision && selectedDistrict) {
       router.push(`/location/${selectedDistrict.toLowerCase()}`);
+      setIsLocationOpen(false);
     }
   };
 
   return (
     <header className="w-full flex flex-col border-b border-[var(--border-color)] bg-[var(--bg-card)] transition-colors duration-300 relative">
 
-      {/* ➔ SLIDING SIDEBAR THEME SELECTOR DRAWER (Floating on the right edge of screen, opens on click, hides default on mobile, doesn't block text reading) */}
-      <div className={`fixed right-0 top-1/2 -translate-y-1/2 z-50 flex items-center transition-all duration-300 ${isThemeDrawerOpen ? "translate-x-0" : "translate-x-[calc(100%-12px)] md:translate-x-0"}`}>
-
-        {/* Toggle pull-out Tab (Hidden on desktop since desktop has enough space, or shown as clean pull-out on mobile) */}
-        <button
-          onClick={() => setIsThemeDrawerOpen(!isThemeDrawerOpen)}
-          className="md:hidden flex items-center justify-center bg-[var(--bg-card)] border-l border-y border-[var(--border-color)] rounded-l-lg p-2 shadow-lg text-[var(--accent-color)] hover:scale-105 transition duration-200 w-7 h-7"
-          title="থিম পরিবর্তন প্যানেল"
-        >
-          {isThemeDrawerOpen ? (
-            <X size={14} />
-          ) : theme === "light" ? (
-            <Sun size={14} className="text-amber-500 animate-spin-slow" />
-          ) : (
-            <Moon size={14} className="text-amber-400" />
-          )}
-        </button>
-
-        {/* Theme select Panel - Sleek vertical icon strip with gold border accents */}
-        <div className="bg-[var(--bg-card)] border-l border-y border-[var(--border-color)] rounded-l-xl p-2 shadow-2xl flex flex-col gap-2 w-11 border-2 border-r-0 border-amber-400">
-          <button
-            onClick={() => setTheme("light")}
-            className={`flex items-center justify-center w-7 h-7 rounded-lg transition ${theme === "light"
-              ? "bg-amber-500 text-slate-950 shadow"
-              : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
-              }`}
-            title="লাইট মোড"
-          >
-            <Sun size={15} />
-          </button>
-          <button
-            onClick={() => setTheme("dark")}
-            className={`flex items-center justify-center w-7 h-7 rounded-lg transition ${theme === "dark"
-              ? "bg-zinc-950 text-amber-400 border border-zinc-800 shadow"
-              : "text-[var(--text-primary)] hover:bg-[var(--bg-input)]"
-              }`}
-            title="ডার্ক মোড"
-          >
-            <Moon size={15} />
-          </button>
-        </div>
-      </div>
-
-      {/* 1. TOP BAR (Dates & Ticker) */}
-      <div className="w-full bg-[var(--bg-input)] border-b border-[var(--border-color)] text-xs py-2 px-4 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-3">
+      {/* ➔ 1. TOP BAR (Dates, Weather, Live Marquee Ticker & Theme Toggle) */}
+      <div className="w-full bg-[var(--bg-input)]/80 border-b border-[var(--border-color)] text-xs py-2 transition-colors duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          
           {/* Dates & Weather */}
-          <div className="flex flex-wrap items-center gap-3 text-[var(--text-secondary)]">
-            <span className="font-semibold">{dates.bn}</span>
-            <span className="hidden md:inline">|</span>
+          <div className="flex flex-wrap items-center gap-3 text-[var(--text-secondary)] text-[11px] font-medium">
+            <span className="font-semibold text-[var(--text-primary)]">{dates.bn}</span>
+            <span className="hidden md:inline text-[var(--border-color)]">|</span>
             <span>{dates.en}</span>
-            <span className="hidden md:inline">|</span>
-            <div className="hidden md:flex items-center gap-1 text-[var(--accent-color)]">
+            <span className="hidden md:inline text-[var(--border-color)]">|</span>
+            <div className="hidden md:flex items-center gap-1 text-[var(--accent-color)] font-medium">
               <CloudSun size={14} />
               <span>ঢাকা: ৩১°সে. (বজ্রবৃষ্টির সম্ভাবনা)</span>
             </div>
           </div>
 
-          {/* Scrolling Ticker (Live Ticker) */}
-          <div className="hidden md:flex items-center gap-2 overflow-hidden w-full md:w-1/3 bg-[var(--bg-card)]/50 px-2 py-0.5 rounded border border-[var(--border-color)]">
-            <span className="shrink-0 flex items-center gap-1 font-bold text-[10px] text-red-650 uppercase">
-              <TrendingUp size={12} className="animate-bounce" />
-              টিকার:
-            </span>
-            <div className="relative w-full overflow-hidden h-4">
-              <div className="absolute flex whitespace-nowrap animate-marquee text-[11px] font-bold text-[var(--text-primary)] gap-10">
-                <span>সোনার বাজার দর: ২২ ক্যারেট ১,১৮,০০০ টাকা (ভরি)</span>
-                <span>ইউএসডি এক্সচেঞ্জ রেট: ১২০.৫০ টাকা</span>
-                <span>ক্রিকেট স্কোর: বাংলাদেশ ২৮০/৫ (৪৫ ওভার) বনাম পাকিস্তান</span>
-                <span>জ্বালানি তেলের দাম আন্তর্জাতিক বাজারে হ্রাস পেয়েছে</span>
+          {/* Right Utility: Live Scrolling Ticker + Theme Toggle */}
+          <div className="flex items-center gap-3 justify-between md:justify-end">
+            
+            {/* Scrolling Live Ticker */}
+            <div className="hidden md:flex items-center gap-2 overflow-hidden w-64 bg-[var(--bg-card)] px-2.5 py-1 rounded-md border border-[var(--border-color)]">
+              <span className="shrink-0 flex items-center gap-1 font-bold text-[10px] text-red-600 uppercase">
+                <TrendingUp size={12} className="animate-pulse" />
+                টিকার:
+              </span>
+              <div className="relative w-full overflow-hidden h-4">
+                <div className="absolute flex whitespace-nowrap animate-marquee text-[11px] font-semibold text-[var(--text-primary)] gap-8">
+                  <span>সোনার বাজার দর: ২২ ক্যারেট ১,১৮,০০০ টাকা (ভরি)</span>
+                  <span>ইউএসডি এক্সচেঞ্জ রেট: ১২০.৫০ টাকা</span>
+                  <span>ক্রিকেট স্কোর: বাংলাদেশ ২৮০/৫ (৪৫ ওভার) বনাম পাকিস্তান</span>
+                  <span>জ্বালানি তেলের দাম আন্তর্জাতিক বাজারে হ্রাস পেয়েছে</span>
+                </div>
               </div>
             </div>
+
+            {/* Clean Theme Switcher */}
+            <div className="flex items-center bg-[var(--bg-card)] border border-[var(--border-color)] rounded-md p-0.5">
+              <button
+                onClick={() => setTheme("light")}
+                className={`p-1.5 rounded transition ${
+                  theme === "light"
+                    ? "bg-amber-500 text-slate-950 font-bold"
+                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }`}
+                title="লাইট মোড"
+              >
+                <Sun size={13} />
+              </button>
+              <button
+                onClick={() => setTheme("dark")}
+                className={`p-1.5 rounded transition ${
+                  theme === "dark"
+                    ? "bg-slate-900 text-amber-400 font-bold"
+                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }`}
+                title="ডার্ক মোড"
+              >
+                <Moon size={13} />
+              </button>
+            </div>
+
           </div>
+
         </div>
       </div>
 
-      {/* ➔ LOCATION BAR WIDGET (Hidden on Mobile View to save fixed screen height) */}
-      <div className="hidden md:block w-full py-2 px-4 border-b border-[var(--border-color)] text-xs bg-[var(--bg-card)]">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      {/* ➔ 2. LOCATION BAR WIDGET (সারাদেশের খবর) */}
+      <div className="hidden md:block w-full py-2 border-b border-[var(--border-color)] text-xs bg-[var(--bg-card)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          
           <div className="flex items-center gap-2 text-[var(--text-secondary)]">
             <MapPin size={14} className="text-[var(--accent-color)]" />
             <span className="font-semibold text-[var(--text-primary)]">সারাদেশের খবর:</span>
@@ -222,7 +241,7 @@ export function Header() {
                 setSelectedDistrict("");
                 setSelectedThana("");
               }}
-              className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-[var(--text-primary)]"
+              className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-md px-2.5 py-1 outline-none text-xs text-[var(--text-primary)]"
             >
               <option value="">বিভাগ নির্বাচন করুন</option>
               {Object.keys(locations).map((div) => (
@@ -240,7 +259,7 @@ export function Header() {
                 setSelectedThana("");
               }}
               disabled={!selectedDivision}
-              className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-[var(--text-primary)] disabled:opacity-50"
+              className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-md px-2.5 py-1 outline-none text-xs text-[var(--text-primary)] disabled:opacity-50"
             >
               <option value="">জেলা নির্বাচন করুন</option>
               {selectedDivision &&
@@ -256,7 +275,7 @@ export function Header() {
               value={selectedThana}
               onChange={(e) => setSelectedThana(e.target.value)}
               disabled={!selectedDistrict}
-              className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded px-2 py-1 outline-none text-xs text-[var(--text-primary)] disabled:opacity-50"
+              className="bg-[var(--bg-input)] border border-[var(--border-color)] rounded-md px-2.5 py-1 outline-none text-xs text-[var(--text-primary)] disabled:opacity-50"
             >
               <option value="">থানা নির্বাচন করুন</option>
               {selectedDivision &&
@@ -271,88 +290,92 @@ export function Header() {
             <button
               onClick={handleLocationSearch}
               disabled={!selectedDistrict}
-              className="bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-white font-semibold px-3 py-1 rounded transition disabled:opacity-50 text-xs"
+              className="bg-[var(--accent-color)] hover:bg-[var(--accent-hover)] text-slate-950 font-bold px-3.5 py-1 rounded-md transition disabled:opacity-50 text-xs"
             >
               খুঁজুন
             </button>
           </div>
+
         </div>
       </div>
 
-      {/* 2. MAIN BRANDING BAR */}
-      <div className="w-full py-4 md:py-5 px-4 md:px-0 max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* ➔ 3. MAIN BRANDING MASTHEAD */}
+      <div className="w-full py-4 md:py-6 border-b border-[var(--border-color)]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
 
-        {/* ➔ Premium Datepicker Calendar Popover Toggle Button (Instead of standard search box) */}
-        <div className="hidden md:block relative order-2 md:order-1">
-          <button
-            onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-            className="flex items-center gap-2 bg-[var(--bg-input)] hover:bg-[var(--border-color)] border border-[var(--border-color)] rounded-full px-5 py-2.5 text-xs font-bold text-[var(--text-primary)] transition"
-          >
-            <Calendar size={14} className="text-amber-500" />
-            <span>তারিখ অনুযায়ী আর্কাইভ খবর</span>
-          </button>
+          {/* Left: Datepicker Calendar Popover Toggle Button */}
+          <div className="hidden md:block relative order-2 md:order-1" ref={calendarRef}>
+            <button
+              onClick={() => setIsCalendarOpen(!isCalendarOpen)}
+              className="flex items-center gap-2 bg-[var(--bg-input)] hover:bg-[var(--border-color)] border border-[var(--border-color)] rounded-md px-4 py-2 text-xs font-bold text-[var(--text-primary)] transition"
+            >
+              <Calendar size={14} className="text-amber-500" />
+              <span>তারিখ অনুযায়ী আর্কাইভ খবর</span>
+            </button>
 
-          {/* Date Selector Popover (Designed exactly like the User Mockup) */}
-          {isCalendarOpen && (
-            <div className="absolute left-0 mt-2 z-50 bg-[var(--bg-card)] border-2 border-amber-500 rounded-2xl p-6 shadow-2xl w-72 flex flex-col gap-4">
-              <div className="flex items-center gap-2 text-amber-600 font-bold text-xs">
-                <Calendar size={14} />
-                <span>তারিখ নির্বাচন করুন</span>
+            {/* Date Selector Popover */}
+            {isCalendarOpen && (
+              <div className="absolute left-0 mt-2 z-50 bg-[var(--bg-card)] border border-amber-400 rounded-lg p-4 w-72 flex flex-col gap-3 shadow-md">
+                <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-bold text-xs">
+                  <Calendar size={14} />
+                  <span>তারিখ নির্বাচন করুন</span>
+                </div>
+                <input
+                  type="date"
+                  value={selectedDate}
+                  onChange={(e) => setSelectedDate(e.target.value)}
+                  className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-md px-3 py-2 text-xs font-medium outline-none text-[var(--text-primary)] focus:border-amber-400"
+                />
+                <button
+                  type="button"
+                  onClick={handleDateSearch}
+                  className="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2 rounded-md text-xs flex items-center justify-center gap-1.5 transition"
+                >
+                  <Search size={14} />
+                  <span>খুঁজুন</span>
+                </button>
               </div>
-              <input
-                type="date"
-                value={selectedDate}
-                onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-xl px-3 py-2 text-xs font-semibold outline-none text-[var(--text-primary)] focus:ring-2 focus:ring-amber-400"
-              />
-              <button
-                type="button"
-                onClick={handleDateSearch}
-                className="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition"
-              >
-                <Search size={14} />
-                <span>খুঁজুন</span>
-              </button>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
 
-        {/* Center Logo */}
-        <div className="order-1 md:order-2 flex justify-center">
-          <Link href="/">
-            <Logo />
-          </Link>
-        </div>
+          {/* Center: Brand Logo */}
+          <div className="order-1 md:order-2 flex justify-center">
+            <Link href="/" className="inline-block">
+              <Logo />
+            </Link>
+          </div>
 
-        {/* Action badges/epaper (Hidden on Mobile) */}
-        <div className="hidden md:flex items-center gap-2.5 order-3">
-          <Link
-            href="/donate"
-            className="flex items-center gap-1.5 bg-[#e6f4f0] dark:bg-[#0f2d36] text-[#0e3e4d] dark:text-white text-[11px] font-bold px-3.5 py-2 rounded-full border border-[#bcdad1] dark:border-[#1a4450] transition shadow-sm hover:scale-105"
-          >
-            <Heart size={13} className="shrink-0 text-red-500 fill-red-500 animate-pulse" />
-            <span>মানারাহ ফাউন্ডেশনে অনুদান দিন</span>
-          </Link>
-          <Link
-            href="/e-paper"
-            className="flex items-center gap-1.5 bg-[var(--bg-input)] hover:bg-[var(--border-color)] text-[var(--text-primary)] text-[11px] font-bold px-3.5 py-2 rounded-full border border-[var(--border-color)] transition"
-          >
-            <Award size={14} className="text-amber-500" />
-            ই-পেপার সংস্করণ
-          </Link>
+          {/* Right: Action Badges (Donate & E-Paper) */}
+          <div className="hidden md:flex items-center gap-2.5 order-3">
+            <Link
+              href="/donate"
+              className="flex items-center gap-1.5 bg-[#e6f4f0] dark:bg-[#0f2d36] text-[#0e3e4d] dark:text-white text-xs font-bold px-4 py-2 rounded-md border border-[#bcdad1] dark:border-[#1a4450] transition hover:bg-[#d6ece6]"
+            >
+              <Heart size={13} className="shrink-0 text-red-500 fill-red-500" />
+              <span>মানারাহ ফাউন্ডেশনে অনুদান দিন</span>
+            </Link>
+            <Link
+              href="/e-paper"
+              className="flex items-center gap-1.5 bg-[var(--bg-input)] hover:bg-[var(--border-color)] text-[var(--text-primary)] text-xs font-bold px-4 py-2 rounded-md border border-[var(--border-color)] transition"
+            >
+              <Award size={14} className="text-amber-500" />
+              <span>ই-পেপার সংস্করণ</span>
+            </Link>
+          </div>
+
         </div>
       </div>
 
-      {/* Breaking News Flash */}
+      {/* ➔ 4. BREAKING NEWS FLASH (When Active) */}
       {breakingNewsOn && showBreaking && (
-        <div className="hidden md:block w-full bg-red-50 dark:bg-red-950/20 border-y border-red-100 dark:border-red-900/30 py-2.5 px-4 text-xs">
-          <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+        <div className="hidden md:block w-full bg-red-50 dark:bg-red-950/20 border-b border-red-100 dark:border-red-900/30 py-2.5 text-xs">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2 overflow-hidden">
               <span className="shrink-0 bg-red-600 text-white font-black px-2 py-0.5 rounded text-[10px] uppercase animate-pulse">
                 ব্রেকিং নিউজ:
               </span>
               <span className="font-bold text-red-900 dark:text-red-300 truncate">
-                আজ সারাদেশে বজ্রসহ ভারী বৃষ্টিপাতের পূর্বাভাস দিয়েছে আবহাওয়া অধিদপ্তর। সবাইকে নিরাপদ আশ্রয়ে থাকতে বলা হয়েছে।
+                আজ সারাদেশে বজ্রসহ ভারী বৃষ্টিপাতের পূর্বাভাস দিয়েছে আবহাওয়া অধিদপ্তর। সবাইকে সতর্ক থাকার অনুরোধ করা হয়েছে।
               </span>
             </div>
             <button onClick={() => setShowBreaking(false)} className="text-slate-400 hover:text-red-600 transition shrink-0">
@@ -362,15 +385,15 @@ export function Header() {
         </div>
       )}
 
-      {/* ➔ 3. STICKY MEGA NAVIGATION & HORIZONTAL MOBILE SWIPE BAR */}
-      <nav className="w-full sticky top-0 z-45 bg-[var(--bg-card)]/95 backdrop-blur-md border-y border-[var(--border-color)] shadow-xs select-none">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-0">
+      {/* ➔ 5. STICKY EDITORIAL NAVIGATION BAR */}
+      <nav className="w-full sticky top-0 z-45 bg-[var(--bg-card)]/95 backdrop-blur-md border-b border-[var(--border-color)] select-none">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
 
-          {/* Desktop Links (md:flex) */}
-          <div className="hidden md:flex items-center gap-1">
+          {/* Desktop Categories (Left-aligned & Flush with body grid) */}
+          <div className="hidden md:flex items-center gap-1 -ml-3">
             <Link
               href="/"
-              className="px-4 py-3.5 text-sm font-bold text-[var(--accent-color)] hover:bg-[var(--bg-primary)] border-b-2 border-[var(--accent-color)]"
+              className="px-3.5 py-3 text-sm font-bold text-[var(--accent-color)] hover:bg-[var(--bg-primary)] border-b-2 border-[var(--accent-color)]"
             >
               প্রচ্ছদ
             </Link>
@@ -378,25 +401,55 @@ export function Header() {
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
-                className="px-4 py-3.5 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-primary)] transition"
+                className="px-3.5 py-3 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-primary)] transition"
               >
                 {cat.name}
               </Link>
             ))}
             <Link
               href="/manarah-foundation"
-              className="px-4 py-3.5 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-primary)] transition"
+              className="px-3.5 py-3 text-sm font-semibold text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-primary)] transition"
             >
               মানারাহ ফাউন্ডেশন
             </Link>
           </div>
 
-          {/* ➔ Mobile Horizontally Scrollable Category Bar (md:hidden - Allows smooth swiping) */}
+          {/* Desktop Right: Quick Search Input */}
+          <div className="hidden md:flex items-center">
+            {isSearchOpen ? (
+              <form onSubmit={handleKeywordSearch} className="flex items-center bg-[var(--bg-input)] border border-[var(--border-color)] rounded-md px-2.5 py-1 text-xs w-60 transition-all">
+                <input
+                  type="text"
+                  placeholder="খবরের শিরোনাম খুঁজুন..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                  className="bg-transparent outline-none w-full text-[var(--text-primary)] text-xs"
+                />
+                <button type="submit" className="text-slate-400 hover:text-[var(--accent-color)]">
+                  <Search size={14} />
+                </button>
+                <button type="button" onClick={() => setIsSearchOpen(false)} className="ml-1 text-slate-400 hover:text-red-500">
+                  <X size={14} />
+                </button>
+              </form>
+            ) : (
+              <button
+                onClick={() => setIsSearchOpen(true)}
+                className="flex items-center gap-1.5 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)] px-2.5 py-1.5 rounded-md hover:bg-[var(--bg-input)] transition"
+              >
+                <Search size={14} />
+                <span className="font-medium">অনুসন্ধান</span>
+              </button>
+            )}
+          </div>
+
+          {/* ➔ Mobile Swiper Category Bar & Actions */}
           <div className="flex md:hidden items-center justify-between py-2 w-full">
             <div className="flex items-center gap-1 overflow-x-auto scrollbar-none py-1.5 w-full text-xs font-bold mr-2 select-none">
               <Link
                 href="/"
-                className="shrink-0 px-3.5 py-1.5 bg-amber-500 text-slate-950 rounded-full"
+                className="shrink-0 px-3 py-1 bg-amber-500 text-slate-950 rounded-md"
               >
                 প্রচ্ছদ
               </Link>
@@ -404,43 +457,44 @@ export function Header() {
                 <Link
                   key={cat.slug}
                   href={`/category/${cat.slug}`}
-                  className="shrink-0 px-3.5 py-1.5 text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-input)] rounded-full transition"
+                  className="shrink-0 px-3 py-1 text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-input)] rounded-md transition"
                 >
                   {cat.name}
                 </Link>
               ))}
               <Link
                 href="/manarah-foundation"
-                className="shrink-0 px-3.5 py-1.5 text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-input)] rounded-full transition"
+                className="shrink-0 px-3 py-1 text-[var(--text-primary)] hover:text-[var(--accent-color)] hover:bg-[var(--bg-input)] rounded-md transition"
               >
                 মানারাহ ফাউন্ডেশন
               </Link>
             </div>
 
-            {/* Mobile Actions: Calendar Selector Trigger & Hamburger Menu */}
-            <div className="flex items-center gap-1">
+            {/* Mobile Actions: Calendar, Menu */}
+            <div className="flex items-center gap-1 shrink-0">
               <button
                 onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-                className="p-1.5 rounded-lg border border-[var(--border-color)] hover:bg-[var(--bg-input)] transition text-[var(--text-primary)] shrink-0 animate-pulse"
+                className="p-1.5 rounded-md border border-[var(--border-color)] hover:bg-[var(--bg-input)] transition text-[var(--text-primary)]"
                 title="তারিখ অনুযায়ী সংবাদ"
               >
                 {isCalendarOpen ? <X size={16} /> : <Calendar size={16} className="text-amber-500" />}
               </button>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-1.5 rounded-lg border border-[var(--border-color)] hover:bg-[var(--bg-input)] transition text-[var(--text-primary)] shrink-0"
+                className="p-1.5 rounded-md border border-[var(--border-color)] hover:bg-[var(--bg-input)] transition text-[var(--text-primary)]"
               >
                 {isMenuOpen ? <X size={16} /> : <Menu size={16} />}
               </button>
             </div>
           </div>
+
         </div>
 
         {/* ➔ Mobile Date selector dropdown panel */}
         {isCalendarOpen && (
-          <div className="md:hidden w-full bg-[var(--bg-card)] border-t border-[var(--border-color)] p-4 shadow-md flex justify-center">
-            <div className="w-full max-w-sm border-2 border-amber-500 rounded-2xl p-5 bg-[var(--bg-card)] flex flex-col gap-4">
-              <div className="flex items-center gap-2 text-amber-600 font-bold text-xs">
+          <div className="md:hidden w-full bg-[var(--bg-card)] border-t border-[var(--border-color)] p-4 flex justify-center">
+            <div className="w-full max-w-sm border border-amber-400 rounded-lg p-4 bg-[var(--bg-card)] flex flex-col gap-3">
+              <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-bold text-xs">
                 <Calendar size={14} />
                 <span>তারিখ নির্বাচন করুন</span>
               </div>
@@ -448,11 +502,11 @@ export function Header() {
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="w-full bg-[var(--bg-primary)] border border-slate-300 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-xs font-semibold outline-none text-[var(--text-primary)] focus:ring-1 focus:ring-amber-500"
+                className="w-full bg-[var(--bg-primary)] border border-[var(--border-color)] rounded-md px-3.5 py-2 text-xs font-medium outline-none text-[var(--text-primary)] focus:border-amber-500"
               />
               <button
                 onClick={handleDateSearch}
-                className="w-full bg-amber-500 hover:bg-amber-600 text-slate-955 font-black py-2.5 rounded-xl text-xs flex items-center justify-center gap-1.5 shadow"
+                className="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-2 rounded-md text-xs flex items-center justify-center gap-1.5 transition"
               >
                 <Search size={14} />
                 <span>খুঁজুন</span>
@@ -463,11 +517,25 @@ export function Header() {
 
         {/* Mobile menu dropdown drawer */}
         {isMenuOpen && (
-          <div className="md:hidden w-full bg-[var(--bg-card)] border-t border-[var(--border-color)] px-4 py-4 flex flex-col gap-2.5 z-50 shadow-lg">
+          <div className="md:hidden w-full bg-[var(--bg-card)] border-t border-[var(--border-color)] px-4 py-4 flex flex-col gap-2.5 z-50">
+            {/* Mobile Keyword Search */}
+            <form onSubmit={handleKeywordSearch} className="flex items-center bg-[var(--bg-input)] border border-[var(--border-color)] rounded-md px-3 py-2 text-xs w-full mb-1">
+              <input
+                type="text"
+                placeholder="খবরের শিরোনাম লিখুন..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-transparent outline-none w-full text-[var(--text-primary)] text-xs"
+              />
+              <button type="submit" className="text-[var(--accent-color)]">
+                <Search size={14} />
+              </button>
+            </form>
+
             <Link
               href="/"
               onClick={() => setIsMenuOpen(false)}
-              className="px-3 py-2 text-sm font-bold text-[var(--accent-color)] hover:bg-[var(--bg-input)] rounded transition"
+              className="px-3 py-2 text-sm font-bold text-[var(--accent-color)] hover:bg-[var(--bg-input)] rounded-md transition"
             >
               প্রচ্ছদ
             </Link>
@@ -476,7 +544,7 @@ export function Header() {
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
                 onClick={() => setIsMenuOpen(false)}
-                className="px-3 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--bg-input)] rounded transition"
+                className="px-3 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--bg-input)] rounded-md transition"
               >
                 {cat.name}
               </Link>
@@ -484,14 +552,14 @@ export function Header() {
             <Link
               href="/manarah-foundation"
               onClick={() => setIsMenuOpen(false)}
-              className="px-3 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--bg-input)] rounded transition"
+              className="px-3 py-2 text-sm font-medium text-[var(--text-primary)] hover:bg-[var(--bg-input)] rounded-md transition"
             >
               মানারাহ ফাউন্ডেশন
             </Link>
             <Link
               href="/donate"
               onClick={() => setIsMenuOpen(false)}
-              className="px-3 py-2 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/20 rounded transition flex items-center gap-1.5"
+              className="px-3 py-2 text-sm font-bold text-emerald-700 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/20 rounded-md transition flex items-center gap-1.5"
             >
               <Heart size={14} />
               <span>মানারাহ ফাউন্ডেশনে অনুদান দিন</span>
@@ -499,16 +567,43 @@ export function Header() {
             <Link
               href="/e-paper"
               onClick={() => setIsMenuOpen(false)}
-              className="px-3 py-2 text-sm font-bold text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/20 rounded transition flex items-center gap-1.5"
+              className="px-3 py-2 text-sm font-bold text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/20 rounded-md transition flex items-center gap-1.5"
             >
               <Award size={14} />
               ই-পেপার সংস্করণ
             </Link>
+
+            {/* Mobile Theme Toggle */}
+            <div className="flex items-center justify-between pt-2 border-t border-[var(--border-color)] mt-1">
+              <span className="text-xs font-semibold text-[var(--text-secondary)]">থিম নির্বাচন:</span>
+              <div className="flex items-center bg-[var(--bg-input)] border border-[var(--border-color)] rounded-md p-0.5">
+                <button
+                  onClick={() => setTheme("light")}
+                  className={`px-3 py-1 text-xs rounded transition ${
+                    theme === "light"
+                      ? "bg-amber-500 text-slate-950 font-bold"
+                      : "text-[var(--text-secondary)]"
+                  }`}
+                >
+                  লাইট
+                </button>
+                <button
+                  onClick={() => setTheme("dark")}
+                  className={`px-3 py-1 text-xs rounded transition ${
+                    theme === "dark"
+                      ? "bg-slate-900 text-amber-400 font-bold"
+                      : "text-[var(--text-secondary)]"
+                  }`}
+                >
+                  ডার্ক
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </nav>
 
-      {/* Ticker marquee CSS style injected in header */}
+      {/* Ticker marquee CSS */}
       <style jsx global>{`
         @keyframes marquee {
           0% { transform: translateX(100%); }
@@ -521,8 +616,8 @@ export function Header() {
           display: none;
         }
         .scrollbar-none {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
+          -ms-overflow-style: none;
+          scrollbar-width: none;
         }
       `}</style>
     </header>
